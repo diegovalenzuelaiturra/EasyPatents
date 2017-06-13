@@ -22,18 +22,25 @@ def main():
 
     text = "son barcos de papel creados a partir de vibraciones de las hojas. Los barcos de papel tienen la resistencia del acero."
     #input('ingresa el texto, loco! ')
-    text = translateText('es','en', text)
-    text = deletePunt(text)
-    text = deleteStop('spanish', text)
-    text = deleteWord('PRP',text)
-    text = deleteWord('PRP$',text)
-    text = deleteWord('IN',text)
-    text = deleteWord('DT',text)
+    #text = translateText('es','en', text)
+    #text = deletePunt(text)
+    #text = deleteStop('spanish', text)
+    #text = deleteWord('PRP',text)
+    #text = deleteWord('PRP$',text)
+    #text = deleteWord('IN',text)
+    #text = deleteWord('DT',text)
 
     #print(text)
-    text = stemmingLemmatizer(text)
-    print(text)
-    aux = collocationFinder(2,5,text)
-    print(aux)
+    #text = stemmingLemmatizer(text)
+    #print(text)
+    #aux = collocationFinder(2,5,text)
+
+    word = "dog"
+    print(get_synonymous(word))
+    #print(get_antonyms(word))
+
+    print(similaridad("dog","frump"))
+
+
 if __name__ == "__main__":
     main()

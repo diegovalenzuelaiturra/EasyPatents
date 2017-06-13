@@ -1,6 +1,7 @@
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import *
+from nltk.corpus import wordnet
 #from nltk.stem import SnowballStemmer
 #from nltk.stem import WordNetLemmatizer
 from nltk.collocations import *
@@ -35,18 +36,15 @@ def deleteStop(leng, text):
 
 def stemmingPorter(text):
     ps = PorterStemmer()
-    sent = pos_tag(text)
-    aux = list()
-    for i in sent:
-        if i[1]=='NN':
-            aux.append(i[0])
+    aux1 = text
+    for i in range(len(text)):
+        aux2 = ps.stem(aux1[i])
+        if aux2 != aux1[i]:
+            aux1[i] = aux2 + '*'
         else:
-            aux2 = ps.stem(i[0])
-            if aux2 != i[0]:
-                aux.append(aux2 + '*')
-            else:
-                aux.append(aux2)
-    return aux
+            aux1[i] = aux2
+    return aux1
+
 
 
 def stemmingSnowball(leng,text):
@@ -93,3 +91,37 @@ def deleteWord(type,words):
         else:
             aux.append(i[0])
     return aux
+
+def getType(type,word):
+    sent = pos_tag(word)
+    if sent[1]==type:
+        return True
+    else:
+        return False
+
+
+def minimizar(text):
+    return  text.lower()
+
+
+def get_synonymous(word):
+    synonyms = []
+    for syn in wordnet.synsets(word):
+        for l in syn.lemmas():
+            synonyms.append(l.name())
+    return synonyms
+
+
+def get_antonyms(word):
+    antonyms = []
+    for syn in wordnet.synsets(word):
+        for l in syn.lemmas():
+            if l.antonyms():
+                antonyms.append(l.antonyms()[0].name())
+    return antonyms
+
+
+def similaridad(word1,word2):
+    w1 = wordnet.synsets(word1)[0]
+    w2 = wordnet.synsets(word2)[0]
+    return w1.wup_similarity(w2)
