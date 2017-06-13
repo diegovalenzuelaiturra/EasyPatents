@@ -1,6 +1,6 @@
 from EPmail import EPmail
 from Busquedas import*
-
+import epo_ops
 
 def main():
 
@@ -40,6 +40,13 @@ def main():
     #print(get_antonyms(word))
 
     print(similaridad("dog","frump"))
+    client = epo_ops.Client(key='abc', secret='xyz')  # Instantiate client
+    response = client.published_data(  # Retrieve bibliography data
+        reference_type='publication',  # publication, application, priority
+        input=epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # original, docdb, epodoc
+        endpoint='biblio',  # optional, defaults to biblio in case of published_data
+        constituents=[]  # optional, list of constituents
+    )
 
 
 if __name__ == "__main__":

@@ -2,8 +2,6 @@ from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import *
 from nltk.corpus import wordnet
-#from nltk.stem import SnowballStemmer
-#from nltk.stem import WordNetLemmatizer
 from nltk.collocations import *
 from nltk import pos_tag
 import nltk
@@ -46,7 +44,6 @@ def stemmingPorter(text):
     return aux1
 
 
-
 def stemmingSnowball(leng,text):
     ps = SnowballStemmer(leng)
     aux1 = text
@@ -82,6 +79,7 @@ def collocationFinder(nmin,nmax,words):
 
     return lista
 
+
 def deleteWord(type,words):
     aux = list()
     sent = pos_tag(words)
@@ -91,6 +89,7 @@ def deleteWord(type,words):
         else:
             aux.append(i[0])
     return aux
+
 
 def getType(type,word):
     sent = pos_tag(word)
