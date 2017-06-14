@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <title>EasyPatents</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,8 +9,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+
 body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
-.w3-bar,h1,button {font-family: "Source Sans Pro", sans-serif}
+.w3-bar,h1,button{font-family: "Source Sans Pro", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
 </style>
 <body>
@@ -19,7 +20,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card-2 w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-blue" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">EasyPatents</a>
+    <a href="#top" class="w3-bar-item w3-button w3-padding-large w3-hover-white"> <i class="fa fa-home" style="font-size:36px;color:deepskyblue;"></i> </a>
     <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 1</a> -->
     <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 2</a> -->
     <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 3</a> -->
@@ -36,15 +37,19 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
 </div>
 
 <!-- Header -->
+<div id="#top">
 <header class="w3-container w3-white w3-center" style="padding:128px 16px">
     <img src="img/easypatents_wb.png" alt="Lights" style="width:35%">
   <!-- <h1 class="w3-margin w3-jumbo">Easy Patents</h1> -->
-  <h5 class="w3-padding-32">En EasyPatents te permitimos realizar búsquedas semánticas de patentes y análisis de texto de reivindicaciones de forma automática, utilizando algoritmos de Inteligencia Artificial que imitan el procesamiento del lenguaje humano. </h5>
+  <h5 class="w3-padding-32" style="margin-right:15%;margin-left:15%;">En EasyPatents te permitimos realizar búsquedas semánticas de patentes y análisis de texto de reivindicaciones de forma automática, utilizando algoritmos de Inteligencia Artificial que imitan el procesamiento del lenguaje humano. </h5>
   <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top"> PRUEBANOS </button> -->
     <a class="typeform-share button" href="https://easypatents.typeform.com/to/BdzCUz" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#00b5e2;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:0px 33px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" target="_blank">¡Pruébanos! </a> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
 </header>
+</div>
+
 
 <!-- First Grid -->
+<div id="#FirstGrid">
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-twothird">
@@ -57,16 +62,18 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
     </div>
 
     <div class="w3-third w3-center">
-      <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+      <i class="fa fa-anchor w3-padding-64 w3-text-cyan"></i>
     </div>
   </div>
 </div>
+</div>
 
 <!-- Second Grid -->
+<div id="#SecondGrid">
 <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-third w3-center">
-      <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
+      <i class="fa fa-coffee w3-padding-64 w3-text-cyan w3-margin-right"></i>
     </div>
 
     <div class="w3-twothird">
@@ -78,6 +85,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
         laboris nisi ut aliquip ex ea commodo consequat.</p>
     </div>
   </div>
+</div>
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
@@ -98,6 +106,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
 </footer>
 
 <script>
+
 // Used to toggle the menu on small screens when clicking on the menu button
 function myFunction() {
     var x = document.getElementById("navDemo");
