@@ -1,7 +1,7 @@
 from EPmail import EPmail
-from Busquedas import*
+from BusquedasEPO import*
+from BusquedasSem import*
 import epo_ops
-from bs4 import BeautifulSoup
 
 
 def main():
