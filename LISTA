@@ -7,7 +7,7 @@ instalar pycharm
 
 instalar typeform python
 
-https://pypi.python.org/pypi/typeform/0.1.0
+https://pypi.python.org/pypi/typeform/0.1.1
 
 sudo -H pip install typeform --upgrade
 
@@ -76,6 +76,9 @@ sudo python3 setup.py install
 
 
 sudo -H pip3 install urllib3 --upgrade
+
+
+
 
 
 
