@@ -1,28 +1,50 @@
 from EPmail import EPmail
 from BusquedasEPO import*
 from BusquedasSem import*
-import epo_ops
+from linkTypeform import*
 
 
 def main():
+    form = initType()
+    #responses = form.get_responses()#since=timestamp1)
+    responses = form.get_responses(since=None)
+    #print(responses.get_response())
 
-    apiurl = 'https://api.mailgun.net/v3/mail.easypatents.cl/messages'
-    apikey = 'key-a4953915dffa936b1e83070c0de3c3ef'
+    name_id = 'xtfield_52850379'
+    palabras_id = 'list_52851018_choice_66651303'
+    mail_id = 'email_52850524'
+    text_id = 'textarea_52850750'
+    term_id = 'terms_52851375'
 
-    mtext = 'Hola! soy Ro, y te adjunto mi auxiliar 12'
-    msubject = 'Auxiliar 12'
-    mfrom = 'ribanez@easypatents.cl'
-    mto = '@gmail.com'
-
-    #archivos adjuntos
-    fname = '/home/ribanez/Descargas/Auxiliar12.pdf'
-    fformat = 'Auxiliar12.pdf'
-    epm = EPmail(apiurl, apikey)
+    n = 0
+    for response in responses:
+        #for answer in response.answers:
+            #print(answer)
+        if response.answers == []:
+            pass
+        else:
+            print(getResponseList(response,name_id,mail_id,text_id))
+            n+=1
+        #print(busquedaEPO(response,elemento='',type='html'))
+    print(n)
+    # apiurl = 'https://api.mailgun.net/v3/mail.easypatents.cl/messages'
+    # apikey = 'key-a4953915dffa936b1e83070c0de3c3ef'
+    #
+    # mtext = 'Hola! soy Ro, y te adjunto mi auxiliar 12'
+    # msubject = 'Auxiliar 12'
+    # mfrom = 'ribanez@easypatents.cl'
+    # mto = '@gmail.com'
+    #
+    # #archivos adjuntos
+    # fname = '/home/ribanez/Descargas/Auxiliar12.pdf'
+    # fformat = 'Auxiliar12.pdf'
+    # epm = EPmail(apiurl, apikey)
     #aux = epm.send_simple_message(mto, mfrom, msubject, mtext)
     #aux = epm.send_complex_message(mto,mfrom,msubject,mtext,fformat,fname)
     #print(aux)
 
-    text = "son barcos de papel creados a partir de vibraciones de las hojas. Los barcos de papel tienen la resistencia del acero."
+
+    #text = "son barcos de papel creados a partir de vibraciones de las hojas. Los barcos de papel tienen la resistencia del acero."
     #input('ingresa el texto, loco! ')
     #text = translateText('es','en', text)
     #text = deletePunt(text)
@@ -43,14 +65,14 @@ def main():
 
     #print(similaridad("dog","frump"))
 
-    consumer_key = 'a66G2Ox2G6JYLlp9VTQnZ6Dqb7GGtmdn'
-    consumer_secret_key = '6EAoLMWT7gHZBGqy'
-
-    client = epo_ops.Client(key=consumer_key, secret=consumer_secret_key)  # Instantiate client
-
-    response = client.published_data_search(cql='ab=explosive',range_begin=1,range_end=25,constituents=None)
+    #consumer_key = 'a66G2Ox2G6JYLlp9VTQnZ6Dqb7GGtmdn'
+    #consumer_secret_key = '6EAoLMWT7gHZBGqy'
+    #client = initEPO()
+    #client = epo_ops.Client(key=consumer_key, secret=consumer_secret_key)  # Instantiate client
     #
-    # response = client.published_data(  # Retrieve bibliography data
+    #response = client.published_data_search(cql='ab=explosive',range_begin=1,range_end=25,constituents=None)
+    #
+    #response = client.published_data(  # Retrieve bibliography data
     #     reference_type='publication',  # publication, application, priority
     #     input = epo_ops.models.Docdb('1000000', 'EP','A1'),  # original, docdb, epodoc
     #     #query='ti%3Dplastic' ,
@@ -68,26 +90,26 @@ def main():
     #        break
     #    count+=1
 
-    country = busquedaEPO(response,'country',type='html')
-    number = busquedaEPO(response,'doc-number',type='html')
-    kind = busquedaEPO(response, 'kind',type='html')
+    # country = busquedaEPO(response,'country',type='html')
+    # number = busquedaEPO(response,'doc-number',type='html')
+    # kind = busquedaEPO(response, 'kind',type='html')
     #import epo_opsanonymous_client = epo_ops.Client()  # Instantiate a default client
 
 
-    for i in range(len(country)):
-        response = client.published_data(  # Retrieve bibliography data
-            reference_type='publication',  # publication, application, priority
-            input=epo_ops.models.Docdb(str(number[i]), country[i], kind[i]),  # original, docdb, epodoc
-            endpoint='abstract',
-            # optional, defaults to biblio in case of published_data
-        )
-        #aux = busquedaEPO(response,elemento='abstract',type='xml')
-        #print(getSoup(response,'html.parser').find(lang='en').p.string)
-        print(busquedaLang(response,idioma='en',type='html.parser'))
-        #if len(aux)<=1:
-        #    print(aux[0])
-        #else:
-        #    print(aux[1])
+    # for i in range(len(country)):
+    #     response = client.published_data(  # Retrieve bibliography data
+    #         reference_type='publication',  # publication, application, priority
+    #         input=epo_ops.models.Docdb(str(number[i]), country[i], kind[i]),  # original, docdb, epodoc
+    #         endpoint='abstract',
+    #         #optional, defaults to biblio in case of published_data
+    #     )
+    #     aux = busquedaEPO(response,elemento='abstract',type='xml')
+    #     print(getSoup(response,'html.parser').find(lang='en').p.string)
+    #     print(busquedaLang(response,idioma='en',type='html.parser'))
+    #     if len(aux)<=1:
+    #         print(aux[0])
+    #     else:
+    #       print(aux[1])
 
 
 
@@ -97,8 +119,8 @@ def main():
     #     #fin = list()
     #     for i in aux2:
     #         print(i.p.string)
-        #print(response.text)
-        #print(busquedaEPO(BeautifulSoup(response.text,'html.parser'),'abstract'))
+    #     print(response.text)
+    #     print(busquedaEPO(BeautifulSoup(response.text,'html.parser'),'abstract'))
 
 if __name__ == "__main__":
     main()

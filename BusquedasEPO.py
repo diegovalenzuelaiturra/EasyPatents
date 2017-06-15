@@ -1,4 +1,6 @@
 from bs4 import BeautifulSoup
+import epo_ops
+
 
 def busquedaEPO(response, elemento='abstract', type='html'):
     fin = list()
@@ -36,3 +38,7 @@ def publicNumber(country,number):
 def getSoup(response,type='html.parser'):
     return BeautifulSoup(response.text,type)
 
+
+def initEPO(consumer_key = 'a66G2Ox2G6JYLlp9VTQnZ6Dqb7GGtmdn',
+                consumer_secret_key='6EAoLMWT7gHZBGqy'):
+    return epo_ops.Client(key=consumer_key, secret=consumer_secret_key)
