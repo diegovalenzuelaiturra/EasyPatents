@@ -1,0 +1,90 @@
+instalar pycharm
+
+
+
+
+
+
+instalar typeform python
+
+https://pypi.python.org/pypi/typeform/0.1.1
+
+sudo -H pip install typeform --upgrade
+
+
+
+instalar bitbucket / sincronizar y clonar repositorio
+
+https://bitbucket.org/
+https://help.ubuntu.com/lts/serverguide/git.html
+
+
+sudo apt install git --upgrade
+
+git config --global user.email "tachuelaz@gmail.com"
+git config --global user.name "Diego Valenzuela"
+
+
+cd ~
+mkdir repos
+cd repos/
+git clone https://busquedas1@bitbucket.org/easy-patents/busquedas1.git
+
+
+Para descargar ultima versión en repositorio
+
+cd repos
+git init
+git remote add origin https://busquedas1@bitbucket.org/easy-patents/busquedas1.git
+git pull origin master
+
+
+
+Instalar beautiful soup
+sudo -H pip3 install beautifulsoup4 --upgrade
+
+Instalar bs4
+sudo -H pip3 install bs4 --upgrade
+
+Instalar html5lib
+sudo -H pip3 install html5lib --upgrade
+
+Instalar lxml
+sudo -H pip3 install lxml --upgrade
+
+Instalar nltk
+sudo -H pip3 install nltk --upgrade
+
+Abrir python e instalar nltk - data
+sudo -H python3
+import nltk
+nltk.download('all')
+
+##
+sudo -H pip3 install dogpile.cache
+
+
+Instalar Python EPO OPS CLIENT
+
+sudo -H pip3 install python-epo-ops-client --upgrade
+
+git clone https://github.com/55minutes/python-epo-ops-client
+
+cd python-epo-ops-client
+
+sudo python3 setup.py install
+
+
+sudo -H pip3 install urllib3 --upgrade
+
+
+
+
+
+
+
+
+
+
+
+
