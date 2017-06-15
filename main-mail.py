@@ -5,28 +5,18 @@ from linkTypeform import*
 
 
 def main():
-    form = initType()
     #responses = form.get_responses()#since=timestamp1)
-    responses = form.get_responses(since=None)
     #print(responses.get_response())
 
-    name_id = 'xtfield_52850379'
-    palabras_id = 'list_52851018_choice_66651303'
+    name_id = 'textfield_52850379'
     mail_id = 'email_52850524'
     text_id = 'textarea_52850750'
-    term_id = 'terms_52851375'
+    content = getFormComplete()
 
-    n = 0
-    for response in responses:
-        #for answer in response.answers:
-            #print(answer)
-        if response.answers == []:
-            pass
-        else:
-            print(getResponseList(response,name_id,mail_id,text_id))
-            n+=1
-        #print(busquedaEPO(response,elemento='',type='html'))
-    print(n)
+    response = getResponseList(content=content,name_id=name_id,mail_id=mail_id,text_id=text_id)
+    print(response)
+
+
     # apiurl = 'https://api.mailgun.net/v3/mail.easypatents.cl/messages'
     # apikey = 'key-a4953915dffa936b1e83070c0de3c3ef'
     #
