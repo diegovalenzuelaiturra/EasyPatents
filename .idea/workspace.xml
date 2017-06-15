@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2bcfa674-c23b-48e6-aee9-99220db7924e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/webpage/EN/main.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/webpage/ES/main.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/linkMailgun.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/linkTypeform.py" afterPath="$PROJECT_DIR$/linkTypeform.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main-mail.py" afterPath="$PROJECT_DIR$/main-mail.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webpage/main.html" afterPath="$PROJECT_DIR$/webpage/main.html" />
-    </list>
+    <list default="true" id="2bcfa674-c23b-48e6-aee9-99220db7924e" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
