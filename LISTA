@@ -56,7 +56,8 @@ Instalar nltk
 sudo -H pip3 install nltk --upgrade
 
 Abrir python e instalar nltk - data
-sudo -H python3
+
+sudo python3
 import nltk
 nltk.download('all')
 
@@ -76,6 +77,11 @@ sudo python3 setup.py install
 
 
 sudo -H pip3 install urllib3 --upgrade
+
+
+Installar translate
+sudo -H pip3 install translate --upgrade
+
 
 
 
