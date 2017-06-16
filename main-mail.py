@@ -11,9 +11,9 @@ def main():
     name_id = 'textfield_52850379'
     mail_id = 'email_52850524'
     text_id = 'textarea_52850750'
-    content = getFormComplete(offset=20,limit=5)
+    content = getFormComplete(offset=5,limit=5)
 
-    response = getResponseList(content=content,name_id=name_id,mail_id=mail_id,text_id=text_id)
+    response = getResponses(content=content,id=mail_id)
     print(response)
 
 

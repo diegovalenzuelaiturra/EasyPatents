@@ -40,7 +40,7 @@ def getResponseList(content, name_id, mail_id, text_id):
     return aux
 
 
-def getResponse(content, id):
+def getResponses(content, id):
     obj = json.loads(content)
     showing = obj['stats']['responses']['showing']
     aux = list()

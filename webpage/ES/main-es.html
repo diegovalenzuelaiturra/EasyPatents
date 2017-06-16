@@ -22,51 +22,50 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
 
 <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-white w3-card-2 w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-blue" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="#top" class="w3-bar-item w3-button w3-padding-large w3-hover-white"> <i class="fa fa-home" style="font-size:36px;color:deepskyblue;"></i> </a>
-    <div align="right">
-    <li class="w3-bar-item w3-right"><a href="http://localhost:63342/EasyPatents/webpage/EN/main.html" rel="home"></a><a hreflang="en" href="http://localhost:63342/EasyPatents/webpage/EN/main.html" lang="en">EN</a></li>
-	<li class="w3-bar-item w3-right"><a hreflang="es" href="http://localhost:63342/EasyPatents/webpage/ES/main.html" lang="es">ES</a></li>
-    </div>
-    <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 1</a> -->
-    <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 2</a> -->
-    <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 3</a> -->
+  <div class="w3-bar w3-white w3-large w3-light-grey w3-border">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-grey w3-large w3-blue" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#top" class="w3-bar-item w3-button w3-padding-large w3-hover-grey"> <i class="fa fa-home" style="font-size:24px;color:black;"></i> </a>
+
+    <a hreflang="en" href="http://localhost:63342/EasyPatents/webpage/EN/main-en.html" lang="en" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-grey w3-right">EN</a>
+    <a hreflang="es" href="http://localhost:63342/EasyPatents/webpage/ES/main-es.html" lang="es" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-grey w3-right">ES</a>
+
+    <a href="#FirstGrid" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-grey">Link 1</a>
+    <a href="#SecondGrid" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-grey">Link 2</a>
+    <a href="#Footer" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-grey">Link 3</a>
     <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 4</a> -->
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a> -->
-    <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a> -->
-    <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a> -->
+    <a href="#FirstGrid" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+    <a href="#SecondGrid" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+    <a href="#Footer" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
     <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a> -->
   </div>
 </div>
 
+
 <!-- Header -->
-<div id="#top">
-<header class="w3-container w3-white w3-center" style="padding:128px 16px">
+<div id="top">
+<header class="w3-container w3-center w3-white w3-border" style="padding:128px 16px">
     <img src="http://localhost:63342/EasyPatents/webpage/img/easypatents_wb.png" alt="Lights" style="width:35%">
   <!-- <h1 class="w3-margin w3-jumbo">Easy Patents</h1> -->
-  <h5 class="w3-padding-32" style="margin-right:15%;margin-left:15%; lang="es">En EasyPatents te permitimos realizar búsquedas semánticas de patentes y análisis de texto de reivindicaciones de forma automática, utilizando algoritmos de Inteligencia Artificial que imitan el procesamiento del lenguaje humano. </h5>
+  <h5 class="w3-padding-32" style="margin-right:15%;margin-left:15%">En EasyPatents te permitimos realizar búsquedas semánticas de patentes y análisis de texto de reivindicaciones de forma automática, utilizando algoritmos de Inteligencia Artificial que imitan el procesamiento del lenguaje humano. </h5>
   <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top"> PRUEBANOS </button> -->
-    <a class="typeform-share button" href="https://easypatents.typeform.com/to/BdzCUz" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#00b5e2;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:0px 33px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" target="_blank">¡Pruébanos! </a> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
+    <a class="typeform-share button" href="https://easypatents.typeform.com/to/BdzCUz" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#00b5e2;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:1px 33px;border-radius:1px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" target="_blank">¡Pruébanos! </a> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
 </header>
 </div>
 
 
 <!-- First Grid -->
-<div id="#FirstGrid">
-<div class="w3-row-padding w3-padding-64 w3-container">
+<div id="FirstGrid">
+<div class="w3-row-padding w3-padding-64 w3-container w3-border-grey">
   <div class="w3-content">
     <div class="w3-twothird">
       <h1>NLP & MACHINE LEARNING</h1>
-      <h5 class="w3-padding-32">Nuestro servicios de busquedas usan tecnología de procesamiento de lenguaje natural (NLP) y aprendizaje automático (machine learning) para proporcionar los mejores resultados a nuestros usuario. Nuestra plataforma se adapta a tus necesidades y no al revés. </h5>
+      <h5 class="w3-padding-32">Nuestro servicios de busquedas usan tecnología de procesamiento de lenguaje natural (NLP) y aprendizaje automático (machine learning) para proporcionar los mejores resultados a nuestros usuario.</h5>
 
-      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p class="w3-text-grey">Nuestros servicios de busquedas te permitirán realizar busquedas de patentes, vigilancias tecnológicas para cada uno de los proyectos que te encuentres desarrollando. Queremos que tomes las mejores decisiones comerciales, con la mayor cantidad de información y lo antes posible. Nuestra plataforma se adapta a tus necesidades y no al revés. </p>
     </div>
 
     <div class="w3-third w3-center">
@@ -76,8 +75,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
 </div>
 </div>
 
+
 <!-- Second Grid -->
-<div id="#SecondGrid">
+<div id="SecondGrid">
 <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-third w3-center">
@@ -96,25 +96,25 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Source Sans Pro", sans-serif}
 </div>
 </div>
 
+
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
     <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
 </div>
 
 <!-- Footer -->
+<div id="Footer">
 <footer class="w3-container w3-padding-64 w3-center w3-opacity">
   <div class="w3-xlarge w3-padding-32">
     <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <i class="fa fa-instagram w3-hover-opacity"></i>
-    <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
  </div>
- <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+ <p>©2017 EasyPatents Technologies, Inc.</p>
 </footer>
+</div>
+
 
 <script>
-
 // Used to toggle the menu on small screens when clicking on the menu button
 function myFunction() {
     var x = document.getElementById("navDemo");
