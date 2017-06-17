@@ -2,90 +2,53 @@ from EPmail import EPmail
 from BusquedasEPO import*
 from BusquedasSem import*
 from linkTypeform import*
+from datetime import datetime
+import calendar
+import time
+
 
 
 def main():
-# Obtener resultados desde Typeform #
+    # Obtener resultados desde Typeform #
+    name_id, mail_id, text_id = 'textfield_52850379',\
+                                'email_52850524',\
+                                'textarea_52850750'
 
-    # name_id, mail_id, text_id = 'textfield_52850379', 'email_52850524', 'textarea_52850750'
-    # content = getFormComplete(offset=5, limit=5)
-    #
-    # status = json.loads(content)["http_status"]
-    # HTTPstatus(status=status)
-    #
-    #
-    # nombre, mail, respuesta = getResponses(content=content, id=name_id),\
-    #                           getResponses(content=content, id=mail_id),\
-    #                           getResponses(content=content, id=text_id)
-    #print(nombre[0]), print(mail[0]), print(respuesta[0])
+    content = getFormComplete(offset=0, limit=5)
 
-
-# Extraer palabras claves de la "respuesta"
-
-#    for i in range(len(respuesta)):
-#        text = respuesta[i]
-#        text = limpiarRespuesta(text=text)
-#        print(text)
-
-# Buscar "respuesta" en la EPO      #
-
-    #cql = 'ti=' + 'gun' + ' prox ' + 'ti=' + 'machine'
-    aux = 'paneles fotovoltaicos con estructuras modulares; autos electricos de carton'
-
-    cql = preProcessing(aux)
-    print(cql)
-    #cql = 'ab=explosive'
-
-
-    client = initEPO()
-    response = client.published_data_search(cql= cql,
+    nombre, mail, respuesta = getResponses(content=content, id=name_id),\
+                              getResponses(content=content, id=mail_id), \
+                              getResponses(content=content, id=text_id)
+    #bus = list()
+    for text in respuesta:
+        cql = preProcessing(text,'WO','and')
+        print(cql)
+        client = initEPO()
+        response = client.published_data_search(cql=cql,
                                             range_begin=1,
                                             range_end=10,
                                             constituents=None)
-    #print(getSoup(response).prettify())
-
-
-    country, number, kind = busquedaEPO(response, 'country', type='html'),\
+        country, number, kind = busquedaEPO(response, 'country', type='html'),\
                             busquedaEPO(response, 'doc-number', type='html'),\
                             busquedaEPO(response, 'kind', type='html')
-    #print(country), print(number), print(kind)
-
-
-    for i in range(len(country)):
-        #response = abstract_helper(client=client,
-        #                           number=number[i],
-        #                           country=country[i],
-        #                           kind=kind[i])
-        #print(getSoup(response, type='xml').prettify())
-
-        abstract = Abstract(client=client,
-                            number=number[i],
-                            country=country[i],
-                            kind=kind[i])
-        if abstract==None:
-            pass
-        else:
-            print(abstract)
-
-
-def limpiarRespuesta(text):
-    text = translateText('es', 'en', text)
-    text = deletePunt(text)
-    text = deleteStop('spanish', text)
-    text = deleteWord('PRP', text)
-    text = deleteWord('PRP$', text)
-    text = deleteWord('IN', text)
-    text = deleteWord('DT', text)
-    return stemmingLemmatizer(text=text)
+        for i in range(len(country)):
+            abstract = Abstract(client=client,
+                                number=number[i],
+                                country=country[i],
+                                kind=kind[i])
+            if abstract==None:
+                pass
+            else:
+                print(abstract)
 
 
 def Abstract(client, number, country, kind):
     response = abstract_helper(client, number, country, kind)
     abstract = busquedaLang(response, idioma='en', type='xml')
-    if abstract == None:
-        aux = busquedaLang(response, idioma='ol', type='xml')
-        #abstract = translateTextAuto(lengout='en',text=str(aux))
-        abstract = gotranslate(aux)
+    # if abstract == None:
+    #     aux = busquedaLang(response, idioma='ol', type='xml')
+    #     #abstract = translateTextAuto(lengout='en',text=str(aux))
+    #     abstract = translateText(aux)
     return abstract
 
 def abstract_helper(client, number, country, kind):

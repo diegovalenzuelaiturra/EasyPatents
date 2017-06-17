@@ -134,19 +134,35 @@ def similaridad(word1,word2):
     return w1.wup_similarity(w2)
 
 
-def preProcessing(text):
+def preProcessing(text, pn, option):
     sentences = text.split(';')
     senEn = []
     for sentence in sentences:
         aux = translateText(lengin='es',lengout='en', text=sentence)
+        aux = minimizar(aux)
         aux = deletePunt(text=aux)
-        #aux = deleteStop(text=aux, leng='english')
+        aux = deleteStop(text=aux, leng='english')
         aux = stemmingLemmatizer(aux)
         senEn.append(aux)
-    cql = countryEPO()+' and '
+    if pn!=None:
+        cql = countryEPO(country=pn)
+    else:
+        cql = ''
     for i in range(len(senEn)):
         if i == 0:
-            cql += allEPO('ta',senEn[i])
+            if option=='and':
+                aux = andEPO(allEPO('ti',senEn[i]),'('+allEPO('ab',senEn[i]))
+                cql = andEPO(cql,'('+aux+')')
+            else:
+                aux = orEPO(allEPO('ti',senEn[i]),'('+allEPO('ab',senEn[i]))
+                cql = andEPO(cql,'('+aux+')')
         else:
-            cql = orEPO(cql,allEPO('ta',senEn[i]))
-    return cql
+            if option=='and':
+                aux = andEPO(allEPO('ti',senEn[i]),allEPO('ab',senEn[i]))
+                cql = orEPO(cql,'('+aux+')')
+            else:
+                aux = orEPO(allEPO('ti',senEn[i]),allEPO('ab',senEn[i]))
+                cql = orEPO(cql,'('+aux+')')
+        if i>5:
+            return cql+')'
+    return cql+')'
