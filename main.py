@@ -5,20 +5,18 @@ from linkTypeform import*
 
 
 def main():
-
-#####################################
 # Obtener resultados desde Typeform #
 
-    name_id, mail_id, text_id = 'textfield_52850379', 'email_52850524', 'textarea_52850750'
-    content = getFormComplete(offset=5, limit=5)
-
-    status = json.loads(content)["http_status"]
-    HTTPstatus(status=status)
-
-
-    nombre, mail, respuesta = getResponses(content=content, id=name_id),\
-                              getResponses(content=content, id=mail_id),\
-                              getResponses(content=content, id=text_id)
+    # name_id, mail_id, text_id = 'textfield_52850379', 'email_52850524', 'textarea_52850750'
+    # content = getFormComplete(offset=5, limit=5)
+    #
+    # status = json.loads(content)["http_status"]
+    # HTTPstatus(status=status)
+    #
+    #
+    # nombre, mail, respuesta = getResponses(content=content, id=name_id),\
+    #                           getResponses(content=content, id=mail_id),\
+    #                           getResponses(content=content, id=text_id)
     #print(nombre[0]), print(mail[0]), print(respuesta[0])
 
 
@@ -32,7 +30,10 @@ def main():
 # Buscar "respuesta" en la EPO      #
 
     #cql = 'ti=' + 'gun' + ' prox ' + 'ti=' + 'machine'
-    cql = 'ta all "solar photovoltaic panel modular structures"'
+    aux = 'paneles fotovoltaicos con estructuras modulares; autos electricos de carton'
+
+    cql = preProcessing(aux)
+    print(cql)
     #cql = 'ab=explosive'
 
 
