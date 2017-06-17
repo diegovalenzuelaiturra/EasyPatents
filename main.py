@@ -13,7 +13,7 @@ def main():
     content = getFormComplete(offset=5, limit=5)
 
     status = json.loads(content)["http_status"]
-    #HTTPstatus(status=status)
+    HTTPstatus(status=status)
 
 
     nombre, mail, respuesta = getResponses(content=content, id=name_id),\
@@ -31,14 +31,15 @@ def main():
 
 # Buscar "respuesta" en la EPO      #
 
-    cql = 'ti=' + 'gun' + ' prox ' + 'ti=' + 'machine'
+    #cql = 'ti=' + 'gun' + ' prox ' + 'ti=' + 'machine'
+    cql = 'ta all "solar photovoltaic panel modular structures"'
     #cql = 'ab=explosive'
 
 
     client = initEPO()
     response = client.published_data_search(cql= cql,
                                             range_begin=1,
-                                            range_end=25,
+                                            range_end=10,
                                             constituents=None)
     #print(getSoup(response).prettify())
 
@@ -60,7 +61,10 @@ def main():
                             number=number[i],
                             country=country[i],
                             kind=kind[i])
-        print(abstract)
+        if abstract==None:
+            pass
+        else:
+            print(abstract)
 
 
 def limpiarRespuesta(text):
@@ -77,6 +81,10 @@ def limpiarRespuesta(text):
 def Abstract(client, number, country, kind):
     response = abstract_helper(client, number, country, kind)
     abstract = busquedaLang(response, idioma='en', type='xml')
+    if abstract == None:
+        aux = busquedaLang(response, idioma='ol', type='xml')
+        #abstract = translateTextAuto(lengout='en',text=str(aux))
+        abstract = gotranslate(aux)
     return abstract
 
 def abstract_helper(client, number, country, kind):

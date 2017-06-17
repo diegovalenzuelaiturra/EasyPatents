@@ -24,8 +24,10 @@ def busquedaLang(response, idioma='en',type='xml'):
     #fin = list()
     soup = getSoup(response, type)
     aux = soup.find(lang=idioma)
-    #for i in aux:
-    return aux.p.string
+    if aux != None:
+        return aux.p.string
+    else:
+        return None
 
 
 def publicNumber(country,number):

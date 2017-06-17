@@ -6,10 +6,24 @@ from nltk.collocations import *
 from nltk import pos_tag
 import nltk
 from translate import Translator
+import goslate
+
+def gotranslate(text, to_lang='en'):
+    try:
+        gs = goslate.Goslate()
+        lang_out = gs.detect(text)
+        return gs.translate(text,to_lang, lang_out)
+    except:
+        #print('Oops!  That was no valid number.  Try again...')
+        return
 
 
-def translateText(lengin,lengout,text):
+def translateText(lengin,lengout, text):
     return Translator(from_lang=lengin, to_lang=lengout).translate(text)
+
+
+def translateTextAuto(lengout, text):
+    return Translator(from_lang='auto', to_lang=lengout).translate(text)
 
 
 def translateWord(lengin,lengout,text):
