@@ -12,7 +12,6 @@ def getFormComplete(typeform_UID = 'BdzCUz',
                     orden_by='data_sumit'): #orden_by data especifica el orden
     url = "https://api.typeform.com/v1/form/" + typeform_UID + "?" + "key=" + apikey +\
           "&" + "completed=true" + "&" + "order_by[]="+orden_by
-
     if since!=None:
         url = url+'&since='+str(since)
     if until!=None:
@@ -26,6 +25,7 @@ def getFormComplete(typeform_UID = 'BdzCUz',
 
     page = urllib.request.urlopen(url)
     return page.read().decode('utf8')
+
 
 def getResponseList(content, name_id, mail_id, text_id):
     obj = json.loads(content)
