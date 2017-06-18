@@ -7,6 +7,9 @@ from nltk import pos_tag
 import nltk
 from translate import Translator
 from BusquedasEPO import *
+import csv
+import pandas as pd
+
 
 def translateText(lengin,lengout, text):
     return Translator(from_lang=lengin, to_lang=lengout).translate(text)
@@ -134,7 +137,7 @@ def similaridad(word1,word2):
     return w1.wup_similarity(w2)
 
 
-def preProcessing(text, pn, option):
+def sentenceProcessing(text):
     sentences = text.split(';')
     senEn = []
     for sentence in sentences:
@@ -144,25 +147,71 @@ def preProcessing(text, pn, option):
         aux = deleteStop(text=aux, leng='english')
         aux = stemmingLemmatizer(aux)
         senEn.append(aux)
+    return senEn
+
+
+def getWordsText(text):
+    sentences = text.split(';')
+    words = []
+    for sentence in sentences:
+        aux = translateText(lengin='es',lengout='en', text=sentence)
+        aux = minimizar(aux)
+        aux = deletePunt(text=aux)
+        aux = deleteStop(text=aux, leng='english')
+        aux = stemmingLemmatizer(aux)
+        for i in aux:
+            words.append(i)
+
+    return words
+
+
+
+def preProcessing(senEn, pn):
     if pn!=None:
-        cql = countryEPO(country=pn)
-    else:
-        cql = ''
+        cql1 = countryEPO(country=pn)
+        cql2 = ''
     for i in range(len(senEn)):
         if i == 0:
-            if option=='and':
-                aux = andEPO(allEPO('ti',senEn[i]),'('+allEPO('ab',senEn[i]))
-                cql = andEPO(cql,'('+aux+')')
+            aux = allEPO('ta',senEn[i])
+            if pn==None:
+                cql1 = aux
             else:
-                aux = orEPO(allEPO('ti',senEn[i]),'('+allEPO('ab',senEn[i]))
-                cql = andEPO(cql,'('+aux+')')
+                cql1 = andEPO(cql1,aux)
+        elif i == 1:
+            cql2 = allEPO('ta',senEn[i])
         else:
-            if option=='and':
-                aux = andEPO(allEPO('ti',senEn[i]),allEPO('ab',senEn[i]))
-                cql = orEPO(cql,'('+aux+')')
-            else:
-                aux = orEPO(allEPO('ti',senEn[i]),allEPO('ab',senEn[i]))
-                cql = orEPO(cql,'('+aux+')')
-        if i>5:
-            return cql+')'
-    return cql+')'
+            aux = allEPO('ta',senEn[i])
+            cql2 = orEPO(cql2,aux)
+    if len(senEn)>1:
+        return cql1+' and ('+cql2+')'
+    else:
+        return cql1
+
+
+def getConcordance(words,abstract):
+    text = nltk.tokenize.word_tokenize(str(abstract))
+    freq = 0
+    for i in range(len(words)):
+        freq += (text.count(words[i])*100.0)/len(text)
+    return freq
+
+
+def createCSV(text):
+    name= './'+text+'.csv'
+    outfile = open(name, 'w')
+    #writer = csv.writer(outfile)
+    #writer.writerow(["Frequency", "Pnumber", "Abstract"])
+
+def writeCSV(text,freq,number,abstract):
+    name= './'+text+'.csv'
+    outfile = open(name, 'a')
+    writer = csv.writer(outfile)
+    writer.writerow([str(freq),number,abstract])
+
+
+def sortCSV(path,name):
+    df = pd.read_csv(path, names=["Frequency", "Pnumber", "Abstract"],dtype={'Frequency':'float64'})
+    #df["Frequency"].convert_objects(convert_numeric=True)
+    df = df.sort_values(["Frequency"],ascending=False)
+    df.to_csv(name)
+    #print(df.head())
