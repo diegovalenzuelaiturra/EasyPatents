@@ -1,7 +1,7 @@
 from EPmail import EPmail
-from BusquedasEPO import*
+#from BusquedasEPO import*
 from BusquedasSem import*
-import threading
+#import threading
 from linkTypeform import*
 from datetime import datetime
 import calendar
@@ -11,15 +11,10 @@ import time
 
 def main():
     ###Obtener resultados desde Typeform
-    # name_id, mail_id, text_id = 'textfield_52850379',\
-    #                             'email_52850524',\
-    #                             'textarea_52850750'
+    name_id, mail_id, text_id = 'textfield_QClJ','email_i7FN','textarea_LyO0'
+                                #'textfield_52850379','email_52850524','textarea_52850750'
     #
-    # content = getFormComplete(offset=0, limit=5)
-    #
-    # nombre, mail, respuesta = getResponses(content=content, id=name_id),\
-    #                           getResponses(content=content, id=mail_id), \
-    #                           getResponses(content=content, id=text_id)
+
     #bus = list()
 
     ##enaex
@@ -33,42 +28,62 @@ def main():
     #pn = None
 
     ##Timer cronos
-    text = 'cronometraje deportivo; sensores RFID; sensores activos; sensores ultrasonicos'
-    data = 'client3'
+    #text = 'cronometraje deportivo; sensores RFID; sensores activos; sensores ultrasonicos'
+
+    itext = "Hola! soy Ro, y respondo a lo que solicitaste usando las palabras ["
+    ftext =  """           
+Cualquier duda por favor contacta a uno de nuestros humanos
+dvalenzuela@easypatents.cl es uno de los mejores que conozco.
+            
+Que tengas un buen dia!"""
+    ferror = "Lo siento, pero tus criterios no arrojan resultados."
+
+    msubject = 'Busqueda EasyPatents'
+    mfrom = 'ribanez@easypatents.cl'
+    data = 'client'
     pn = None
 
-    words = getWordsText(text)
-    sent = sentenceProcessing(text)
-    cql = preProcessing(sent,pn)
-    createCSV(data)
+    d = datetime.utcnow()
+    timestamp1 = str(calendar.timegm(d.utctimetuple()))
+    count = 0
+    while (True):
+        d = datetime.utcnow()
+        timestamp2 = str(calendar.timegm(d.utctimetuple()))
+        if timestamp1 == '':
+            content = getFormComplete(typeform_UID='RWKyVl', until=timestamp1)
+        else:
+            content = getFormComplete(typeform_UID='RWKyVl', since=timestamp1)
+        timestamp1 = timestamp2
+        # Hay que hacer la subrutina para responder los correos
+        # content = getFormComplete(typeform_UID='RWKyVl',offset=0, limit=5)
+        #
+        #print(content)
+        nombre, mail, respuesta = getResponses(content=content, id=name_id),\
+                                  getResponses(content=content, id=mail_id), \
+                                  getResponses(content=content, id=text_id)
+        for k in range(len(respuesta)):
+            path = data+str(count)
+            words = getWordsText(respuesta[k])
+            sent = sentenceProcessing(respuesta[k])
+            cql = preProcessing(sent, pn)
+            try:
+                searchResponse(path, cql, words)
+                epm = EPmail()
+                fname = './'+path+'-sort.csv'
+                fformat = 'resp.csv'
+                mmessage = itext + respuesta[k]+' ] '+ftext
+                aux = epm.send_complex_message(mail[k],mfrom,msubject,mmessage,fformat,fname)
+                print(mail[k])
+                print(aux)
+                count+=1
+            except:
+                epm = EPmail()
+                mmessage = itext + respuesta[k]+' ] '+ferror+ftext
+                aux = epm.send_simple_message(mail[k],mfrom, msubject,mmessage)
+                print(mail[k])
+                print(aux)
+        time.sleep(60)
 
-    a = int(100.0/25.0)
-    for k in range(a):
-        client = initEPO()
-        rbegin = (k)*40+1
-        rend = (k+1)*40
-        response = client.published_data_search(cql=cql,
-                                            range_begin=rbegin,
-                                            range_end=rend,
-                                            constituents=None)
-        #print(getSoup(response).prettify())
-        country, number, kind = busquedaEPO(response, 'country', type='html'),\
-                            busquedaEPO(response, 'doc-number', type='html'),\
-                            busquedaEPO(response, 'kind', type='html')
-        for i in range(len(country)):
-            abstract = Abstract(client=client,
-                                number=number[i],
-                                country=country[i],
-                                kind=kind[i])
-            aux = country[i] + number[i] + kind[i]
-            if abstract==None:
-                pass
-            else:
-                writeCSV(data,getConcordance(words,abstract),aux,abstract)
-
-    path = './'+data+'.csv'
-    name = './'+data+'-sort.csv'
-    sortCSV(path,name)
 
 def Abstract(client, number, country, kind):
     response = abstract_helper(client, number, country, kind)
@@ -102,17 +117,35 @@ def HTTPstatus(status):
     return print("http_status = " + s)
 
 
-def multiSearch(client,country,number,kind,path,words):
-    for i in range(len(country)):
-        abstract = Abstract(client=client,
-                            number=number[i],
-                            country=country[i],
-                            kind=kind[i])
-        aux = country[i] + number[i] + kind[i]
-        if abstract == None:
-            pass
-        else:
-            writeCSV(path, getConcordance(words, abstract), aux, abstract)
+def searchResponse(data,cql,words):
+    createCSV(data)
+    a = int(100.0/25.0)
+    for k in range(a):
+        client = initEPO()
+        rbegin = (k)*40+1
+        rend = (k+1)*40
+        response = client.published_data_search(cql=cql,
+                                            range_begin=rbegin,
+                                            range_end=rend,
+                                            constituents=None)
+        #print(getSoup(response).prettify())
+        country, number, kind = busquedaEPO(response, 'country', type='html'),\
+                            busquedaEPO(response, 'doc-number', type='html'),\
+                            busquedaEPO(response, 'kind', type='html')
+        for i in range(len(country)):
+            abstract = Abstract(client=client,
+                                number=number[i],
+                                country=country[i],
+                                kind=kind[i])
+            aux = country[i] + number[i] + kind[i]
+            if abstract==None:
+                pass
+            else:
+                writeCSV(data,getConcordance(words,abstract),aux,abstract)
+
+    path = './'+data+'.csv'
+    name = './'+data+'-sort.csv'
+    sortCSV(path,name)
 
 
 if __name__ == "__main__":

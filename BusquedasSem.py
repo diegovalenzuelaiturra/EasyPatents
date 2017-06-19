@@ -183,7 +183,7 @@ def preProcessing(senEn, pn):
             aux = allEPO('ta',senEn[i])
             cql2 = orEPO(cql2,aux)
     if len(senEn)>1:
-        return cql1+' and ('+cql2+')'
+        return cql1+' or ('+cql2+')'
     else:
         return cql1
 
