@@ -41,7 +41,7 @@ Que tengas un buen dia!"""
     msubject = 'Busqueda EasyPatents'
     mfrom = 'ribanez@easypatents.cl'
     data = 'client'
-    pn = None
+    pn = 'WO'
 
     d = datetime.utcnow()
     timestamp1 = str(calendar.timegm(d.utctimetuple()))
@@ -61,27 +61,31 @@ Que tengas un buen dia!"""
         nombre, mail, respuesta = getResponses(content=content, id=name_id),\
                                   getResponses(content=content, id=mail_id), \
                                   getResponses(content=content, id=text_id)
+
+        where = 'ab'
         for k in range(len(respuesta)):
             path = data+str(count)
             words = getWordsText(respuesta[k])
             sent = sentenceProcessing(respuesta[k])
-            cql = preProcessing(sent, pn)
-            try:
-                searchResponse(path, cql, words)
-                epm = EPmail()
-                fname = './'+path+'-sort.csv'
-                fformat = 'resp.csv'
-                mmessage = itext + respuesta[k]+' ] '+ftext
-                aux = epm.send_complex_message(mail[k],mfrom,msubject,mmessage,fformat,fname)
-                print(mail[k])
-                print(aux)
-                count+=1
-            except:
-                epm = EPmail()
-                mmessage = itext + respuesta[k]+' ] '+ferror+ftext
-                aux = epm.send_simple_message(mail[k],mfrom, msubject,mmessage)
-                print(mail[k])
-                print(aux)
+            cql = preProcessing(where, sent, pn)
+            print(cql)
+
+            gamma = 0.1
+            searchResponse(path, cql, words, gamma)
+            epm = EPmail()
+            fname = './'+path+'-sort.csv'
+            fformat = 'resp.csv'
+            mmessage = itext + respuesta[k]+' ] '+ftext
+            aux = epm.send_complex_message(mail[k],mfrom,msubject,mmessage,fformat,fname)
+            print(mail[k])
+            print(aux)
+            count+=1
+
+                # epm = EPmail()
+                # mmessage = itext + respuesta[k]+' ] '+ferror+ftext
+                # aux = epm.send_simple_message(mail[k],mfrom, msubject,mmessage)
+                # print(mail[k])
+                # print(aux)
         time.sleep(60)
 
 
@@ -117,21 +121,27 @@ def HTTPstatus(status):
     return print("http_status = " + s)
 
 
-def searchResponse(data,cql,words):
+def searchResponse(data,cql,words,gamma):
     createCSV(data)
-    a = int(100.0/25.0)
+    a = int(200/25.0)
     for k in range(a):
         client = initEPO()
-        rbegin = (k)*40+1
-        rend = (k+1)*40
+        rbegin = (k)*25+1
+        rend = (k+1)*25
+        #try:
         response = client.published_data_search(cql=cql,
                                             range_begin=rbegin,
                                             range_end=rend,
                                             constituents=None)
+        #except:
+        #print("error en la respuesta epo cql incorrecta")
         #print(getSoup(response).prettify())
+        #try:
         country, number, kind = busquedaEPO(response, 'country', type='html'),\
                             busquedaEPO(response, 'doc-number', type='html'),\
                             busquedaEPO(response, 'kind', type='html')
+        #except:
+        #print("error en la respuesta epo numero de publicacion incorrecta")
         for i in range(len(country)):
             abstract = Abstract(client=client,
                                 number=number[i],
@@ -141,7 +151,7 @@ def searchResponse(data,cql,words):
             if abstract==None:
                 pass
             else:
-                writeCSV(data,getConcordance(words,abstract),aux,abstract)
+                writeCSV(data,Score(words,abstract,gamma),aux,abstract)
 
     path = './'+data+'.csv'
     name = './'+data+'-sort.csv'

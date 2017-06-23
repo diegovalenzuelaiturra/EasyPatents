@@ -9,11 +9,14 @@ from translate import Translator
 from BusquedasEPO import *
 import csv
 import pandas as pd
+from numpy import prod
 
 
 def translateText(lengin,lengout, text):
-    return Translator(from_lang=lengin, to_lang=lengout).translate(text)
-
+    try:
+        return Translator(from_lang=lengin, to_lang=lengout).translate(text)
+    except:
+        print("Error en la traducción")
 
 def translateTextAuto(lengout, text):
     return Translator(from_lang='auto', to_lang=lengout).translate(text)
@@ -138,7 +141,8 @@ def similaridad(word1,word2):
 
 
 def sentenceProcessing(text):
-    sentences = text.split(';')
+    sentences = text.split(';',1)
+    print(sentences)
     senEn = []
     for sentence in sentences:
         aux = translateText(lengin='es',lengout='en', text=sentence)
@@ -166,24 +170,24 @@ def getWordsText(text):
 
 
 
-def preProcessing(senEn, pn):
+def preProcessing(where, senEn, pn):
     if pn!=None:
         cql1 = countryEPO(country=pn)
         cql2 = ''
     for i in range(len(senEn)):
         if i == 0:
-            aux = allEPO('ta',senEn[i])
+            aux = allEPO(where,senEn[i])
             if pn==None:
                 cql1 = aux
             else:
                 cql1 = andEPO(cql1,aux)
         elif i == 1:
-            cql2 = allEPO('ta',senEn[i])
+            cql2 = anyEPO(where,senEn[i])
         else:
-            aux = allEPO('ta',senEn[i])
-            cql2 = orEPO(cql2,aux)
+            aux = anyEPO(where,senEn[i])
+            cql2 = andEPO(cql2,aux)
     if len(senEn)>1:
-        return cql1+' or ('+cql2+')'
+        return cql1+' and '+cql2
     else:
         return cql1
 
@@ -196,11 +200,47 @@ def getConcordance(words,abstract):
     return freq
 
 
+def getConcordancev2(words,abstract):
+    text = nltk.tokenize.word_tokenize(str(abstract))
+    freq = 0
+    for i in words:
+        for j in text:
+            freq += similaridad(stemmingLemmatizer(i),stemmingLemmatizer(j))
+    return freq
+
+
+def Score(words, abstract,gamma):
+    text = minimizar(abstract)
+    text = deletePunt(text=text)
+    text = deleteStop(text=text, leng='english')
+    #text = nltk.tokenize.word_tokenize(text)
+    text = deleteWord('CD',text)
+    text = stemmingLemmatizer(text)
+
+    freq = list()
+    freq_acum = 0
+    score = 1
+    for i in range(len(words)):
+        freq_i = text.count(words[i])
+        freq.append(freq_i)
+        freq_acum += freq_i
+        #print(freq_acum)
+    for n in freq:
+        if freq_acum==0:
+            score = 0
+            return score
+        else:
+            aux = (gamma+(n**(3/4))/(freq_acum**(3/4)))
+            score *= aux
+    return score
+
+
 def createCSV(text):
     name= './'+text+'.csv'
     outfile = open(name, 'w')
     #writer = csv.writer(outfile)
     #writer.writerow(["Frequency", "Pnumber", "Abstract"])
+
 
 def writeCSV(text,freq,number,abstract):
     name= './'+text+'.csv'
