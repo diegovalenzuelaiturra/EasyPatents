@@ -67,10 +67,11 @@ Que tengas un buen dia!"""
             path = data+str(count)
             words = getWordsText(respuesta[k])
             sent = sentenceProcessing(respuesta[k])
+            print(sent)
             cql = preProcessing(where, sent, pn)
             print(cql)
 
-            gamma = 0.1
+            gamma = 0.01
             searchResponse(path, cql, words, gamma)
             epm = EPmail()
             fname = './'+path+'-sort.csv'
@@ -80,7 +81,6 @@ Que tengas un buen dia!"""
             print(mail[k])
             print(aux)
             count+=1
-
                 # epm = EPmail()
                 # mmessage = itext + respuesta[k]+' ] '+ferror+ftext
                 # aux = epm.send_simple_message(mail[k],mfrom, msubject,mmessage)
@@ -97,6 +97,7 @@ def Abstract(client, number, country, kind):
     #      #abstract = translateTextAuto(lengout='en',text=str(aux))
     #      abstract = translateText(aux)
     return abstract
+
 
 def abstract_helper(client, number, country, kind):
     response = client.published_data(reference_type='publication',

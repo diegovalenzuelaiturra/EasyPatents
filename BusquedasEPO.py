@@ -53,6 +53,9 @@ def allEPO(where="ta", list=[]):
     for i in range(len(list)):
         if i == 0:
             aux += list[i]
+        elif i>=5:
+            aux +=', '+list[i]
+            break
         else:
             aux += ', '+list[i]
     return aux+'"'
@@ -61,12 +64,16 @@ def allEPO(where="ta", list=[]):
 def anyEPO(where="ta", list=[]):
     #Criterio de busqueda, todos los documentos que contengas alguna de las palabras de list en where
     ## ej. where="ta" list=["green", "energy"] busca todos los documentos que contengas green o energy en sus titulos o abstract.
+    ## maximo de 5 palabras.
     aux = where+' any  "'
     for i in range(len(list)):
         if i == 0:
             aux += list[i]
+        elif i>=5:
+            aux += ', '+list[i]
+            break
         else:
-            aux += ', '
+            aux += ', '+list[i]
     return aux+'"'
 
 

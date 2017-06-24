@@ -5,12 +5,19 @@ from nltk.corpus import wordnet
 from nltk.collocations import *
 from nltk import pos_tag
 import nltk
-from translate import Translator
+#from translate import Translator
 from BusquedasEPO import *
 import csv
 import pandas as pd
-from numpy import prod
+from googletrans import Translator
 
+def gosTranslateText(langin,langout, text):
+    #try:
+        translator = Translator()
+        aux = translator.translate(text, dest=langout)#, src=langin)
+        return aux.text
+    #except:
+    #    print("Error en la traducción")
 
 def translateText(lengin,lengout, text):
     try:
@@ -145,8 +152,13 @@ def sentenceProcessing(text):
     print(sentences)
     senEn = []
     for sentence in sentences:
-        aux = translateText(lengin='es',lengout='en', text=sentence)
-        aux = minimizar(aux)
+        #aux = translateText(lengin='es',lengout='en', text=sentence)
+        #...... Probando otro traductor ............
+        #aux = gosTranslateText(langin='es',langout='en', text=sentence)
+        #print(aux)
+        #print(sentence)
+        #-------------------------------------------
+        aux = minimizar(sentence)
         aux = deletePunt(text=aux)
         aux = deleteStop(text=aux, leng='english')
         aux = stemmingLemmatizer(aux)
@@ -158,14 +170,18 @@ def getWordsText(text):
     sentences = text.split(';')
     words = []
     for sentence in sentences:
-        aux = translateText(lengin='es',lengout='en', text=sentence)
-        aux = minimizar(aux)
+        #aux = translateText(lengin='es',lengout='en', text=sentence)
+
+        # ...... Probando otro traductor ............
+        #aux = gosTranslateText(langin='es', langout='en', text=sentence)
+        # -------------------------------------------
+
+        aux = minimizar(sentence)
         aux = deletePunt(text=aux)
         aux = deleteStop(text=aux, leng='english')
         aux = stemmingLemmatizer(aux)
         for i in aux:
             words.append(i)
-
     return words
 
 
