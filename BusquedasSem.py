@@ -10,6 +10,7 @@ from BusquedasEPO import *
 import csv
 import pandas as pd
 from googletrans import Translator
+import numpy as np
 
 def gosTranslateText(langin,langout, text):
     #try:
@@ -246,8 +247,8 @@ def Score(words, abstract,gamma):
             score = 0
             return score
         else:
-            aux = (gamma+(n**(3/4))/(freq_acum**(3/4)))
-            score *= aux
+            aux = np.log(gamma+(n**(3/4))/(freq_acum**(3/4)))
+            score += aux
     return score
 
 
