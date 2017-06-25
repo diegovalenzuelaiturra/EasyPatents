@@ -5,12 +5,20 @@ from nltk.corpus import wordnet
 from nltk.collocations import *
 from nltk import pos_tag
 import nltk
-#from translate import Translator
+from translate import Translator
 from BusquedasEPO import *
 import csv
 import pandas as pd
-from googletrans import Translator
+#from googletrans import Translator
 import numpy as np
+import math
+import scipy
+import gensim, logging
+
+
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+model = gensim.models.KeyedVectors.load_word2vec_format('./GoogleNews-vectors-negative300.bin.gz', binary=True)
+
 
 def gosTranslateText(langin,langout, text):
     #try:
@@ -234,6 +242,19 @@ def Score(words, abstract,gamma):
     text = deleteWord('CD',text)
     text = stemmingLemmatizer(text)
 
+    v_usr =  np.zeros(len(model[words[1]]))
+    for i in words:
+        v_usr += model[i]
+    v_usr = (1/len(words))*v_usr
+
+    v_abs = np.zeros(len(model[words[1]]))
+    for i in text:
+         v_abs += model[i]
+    v_abs = (1 / len(words))*v_abs
+
+    similarity = 1 - scipy.spatial.distance.cosine(v_usr, v_abs)
+
+
     freq = list()
     freq_acum = 0
     score = 1
@@ -244,12 +265,12 @@ def Score(words, abstract,gamma):
         #print(freq_acum)
     for n in freq:
         if freq_acum==0:
-            score = 0
-            return score
+            score = -math.inf
+            return similarity*score
         else:
             aux = np.log(gamma+(n**(3/4))/(freq_acum**(3/4)))
             score += aux
-    return score
+    return similarity*score
 
 
 def createCSV(text):
