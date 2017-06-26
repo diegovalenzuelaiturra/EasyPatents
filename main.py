@@ -74,8 +74,8 @@ Que tengas un buen dia!"""
             gamma = 0.01
             searchResponse(path, cql, words, gamma)
             epm = EPmail()
-            fname = './'+path+'-sort.csv'
-            fformat = 'resp.csv'
+            fname = './'+path+'-sort_prueba.csv'
+            fformat = 'resp_prueba.csv'
             mmessage = itext + respuesta[k]+' ] '+ftext
             aux = epm.send_complex_message(mail[k],mfrom,msubject,mmessage,fformat,fname)
             print(mail[k])
