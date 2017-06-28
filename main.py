@@ -11,7 +11,7 @@ import time
 
 def main():
     ###Obtener resultados desde Typeform
-    name_id, mail_id, text_id = 'textfield_QClJ','email_i7FN','textarea_LyO0'
+    name_id, mail_id, text_id = 'textfield_CGua','email_SLgj','textarea_pOCT'
                                 #'textfield_52850379','email_52850524','textarea_52850750'
     #
 
@@ -50,14 +50,14 @@ Que tengas un buen dia!"""
         d = datetime.utcnow()
         timestamp2 = str(calendar.timegm(d.utctimetuple()))
         if timestamp1 == '':
-            content = getFormComplete(typeform_UID='RWKyVl', until=timestamp1)
+            content = getFormComplete(typeform_UID='Ea4LIG', until=timestamp1)
         else:
-            content = getFormComplete(typeform_UID='RWKyVl', since=timestamp1)
+            content = getFormComplete(typeform_UID='Ea4LIG', since=timestamp1)
         timestamp1 = timestamp2
         # Hay que hacer la subrutina para responder los correos
-        # content = getFormComplete(typeform_UID='RWKyVl',offset=0, limit=5)
+        content = getFormComplete(typeform_UID='Ea4LIG', offset=0, limit=5)
         #
-        #print(content)
+        print(content)
         nombre, mail, respuesta = getResponses(content=content, id=name_id),\
                                   getResponses(content=content, id=mail_id), \
                                   getResponses(content=content, id=text_id)
