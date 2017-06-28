@@ -242,18 +242,30 @@ def Score(words, abstract,gamma):
     text = deleteWord('CD',text)
     text = stemmingLemmatizer(text)
 
+    #######################################################
+    ##Pasar palabras de usuario y de abstract a vectores de modelo entrenado
+    ######################################################
+
     v_usr =  np.zeros(len(model[words[1]]))
     for i in words:
-        v_usr += model[i]
+        try:
+            v_usr += model[i]
+        except:
+            print("%s -> en texto de usuario no es una palabra del vocabulario",i)
+
     v_usr = (1/len(words))*v_usr
 
     v_abs = np.zeros(len(model[words[1]]))
     for i in text:
-         v_abs += model[i]
+        try:
+            v_abs += model[i]
+        except:
+            print("%s -> en texto de abstract no es una palabra del vocabulario", i)
     v_abs = (1 / len(words))*v_abs
 
     similarity = 1 - scipy.spatial.distance.cosine(v_usr, v_abs)
 
+    ##################################
 
     freq = list()
     freq_acum = 0
