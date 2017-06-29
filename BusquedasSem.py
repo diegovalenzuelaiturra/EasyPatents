@@ -88,7 +88,8 @@ def stemmingLemmatizer(text):
     for i in range(len(text)):
         aux2 = ps.lemmatize(aux1[i])
         if aux2 != aux1[i]:
-            aux1[i] = aux2 + '*'
+        #    aux1[i] = aux2 + '*'
+            aux1[i] = aux2
         else:
             aux1[i] = aux2
     return aux1
