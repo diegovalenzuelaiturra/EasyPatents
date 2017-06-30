@@ -81,6 +81,10 @@ Instalar translate
 sudo pip3 install translate --upgrade
 
 
+Instalar gensim
+sudo pip3 install gensim --upgrade
+
+
 ### para descargar modelo de google en gensim descargar de
 
 https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit
