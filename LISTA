@@ -4,14 +4,6 @@ https://www.jetbrains.com/pycharm/download/#section=linux
 https://www.jetbrains.com/pycharm-edu/quickstart/installation.html#linux
 
 
-instalar typeform python
-
-https://pypi.python.org/pypi/typeform/0.1.1
-
-sudo pip3 install typeform --upgrade
-
-
-
 instalar Bitbucket / sincronizar y clonar repositorio
 
 https://bitbucket.org/
@@ -20,21 +12,39 @@ https://help.ubuntu.com/lts/serverguide/git.html
 sudo apt install git --upgrade
 
 
+instalar pip3
+sudo apt-get install python3-pip --upgrade
+
+
+actualizar pip3
+sudo pip3 install pip --upgrade
+
+
+instalar typeform python
+https://pypi.python.org/pypi/typeform/0.1.1
+
+sudo pip3 install typeform --upgrade
+
 
 Instalar beautiful soup
 sudo pip3 install beautifulsoup4 --upgrade
 
+
 Instalar bs4
 sudo pip3 install bs4 --upgrade
+
 
 Instalar html5lib
 sudo pip3 install html5lib --upgrade
 
+
 Instalar lxml
 sudo pip3 install lxml --upgrade
 
+
 Instalar nltk
 sudo pip3 install nltk --upgrade
+
 
 Abrir python e instalar nltk - data
 
@@ -42,7 +52,9 @@ sudo python3
 import nltk
 nltk.download('all')
 
+
 ##
+
 
 sudo pip3 install dogpile.cache
 
@@ -51,11 +63,14 @@ Instalar Python EPO OPS CLIENT
 
 sudo pip3 install python-epo-ops-client --upgrade
 
+
 git clone https://github.com/55minutes/python-epo-ops-client
 
 cd python-epo-ops-client
 
 sudo python3 setup.py install
+
+cd
 
 
 sudo pip3 install urllib3 --upgrade
@@ -71,6 +86,7 @@ sudo pip3 install translate --upgrade
 https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit
 
 sacado de: http://mccormickml.com/2016/04/12/googles-pretrained-word2vec-model-in-python/
+
 ####################################################3
 
 
