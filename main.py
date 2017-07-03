@@ -152,7 +152,7 @@ def searchResponse(data,cql,words,gamma):
             if abstract==None:
                 pass
             else:
-                writeCSV(data,Score(words,abstract,gamma),aux,abstract)
+                writeCSV(data,PCAScore(words,abstract,gamma),aux,abstract)
 
     path = './'+data+'.csv'
     name = './'+data+'-sort.csv'

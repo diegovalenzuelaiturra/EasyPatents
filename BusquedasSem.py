@@ -246,7 +246,8 @@ def Score(words, abstract,gamma):
     #######################################################
     ##Pasar palabras de usuario y de abstract a vectores de modelo entrenado
     ######################################################
-
+    words = list(set(words))
+    text = list(set(text))
     v_usr =  np.zeros(len(model[words[1]]))
     for i in words:
         try:
@@ -279,11 +280,53 @@ def Score(words, abstract,gamma):
     for n in freq:
         if freq_acum==0:
             score = -math.inf
+            score = 1
             return similarity*score
         else:
             aux = np.log(gamma+(n**(3/4))/(freq_acum**(3/4)))
             score += aux
+
+    score = 1
     return similarity*score
+
+
+def PCAScore(words, abstract,gamma):
+    text = minimizar(abstract)
+    text = deletePunt(text=text)
+    text = deleteStop(text=text, leng='english')
+    #text = nltk.tokenize.word_tokenize(text)
+    text = deleteWord('CD',text)
+    text = stemmingLemmatizer(text)
+
+    #######################################################
+    ##Pasar palabras de usuario y de abstract a vectores de modelo entrenado
+    ######################################################
+
+    alpha = 0.001
+    v_usr =  np.zeros(len(model[words[1]]))
+    for i in words:
+        try:
+            p = words.count(i)/len(words)
+            k1 = (1/words.count(i))*alpha / (alpha + p)
+            v_usr += k1*model[i]
+        except:
+            print(" En texto de usuario no es una palabra del vocabulario ->",i)
+
+    v_usr = (1/len(words))*v_usr
+
+    v_abs = np.zeros(len(model[words[1]]))
+    for i in text:
+        try:
+            p = text.count(i)/len(text)
+            k2 = (1 / text.count(i)) * alpha / (alpha + p)
+            v_abs += k2*model[i]
+        except:
+            print(" En texto de abstract no es una palabra del vocabulario ->", i)
+    v_abs = (1 / len(words))*v_abs
+
+    similarity = 1 - scipy.spatial.distance.cosine(v_usr, v_abs)
+    return similarity
+    ##################################
 
 
 def createCSV(text):
