@@ -14,10 +14,11 @@ import numpy as np
 import math
 import scipy
 import gensim, logging
+from sklearn.decomposition import PCA
 
 
-#logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-#model = gensim.models.KeyedVectors.load_word2vec_format('./GoogleNews-vectors-negative300.bin.gz', binary=True)
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+model = gensim.models.KeyedVectors.load_word2vec_format('./GoogleNews-vectors-negative300.bin.gz', binary=True)
 
 
 def gosTranslateText(langin,langout, text):
@@ -324,9 +325,66 @@ def PCAScore(words, abstract,gamma):
             print(" En texto de abstract no es una palabra del vocabulario ->", i)
     v_abs = (1 / len(words))*v_abs
 
+
+
     similarity = 1 - scipy.spatial.distance.cosine(v_usr, v_abs)
     return similarity
     ##################################
+
+def doPCA(X):
+    pca = PCA(n_components=1)
+    pca.fit(X)
+    return pca
+
+def thoughtobeat(words,abstracts):
+    #Basado en artículo: though to beat baseline for sentence embeddings
+    #Words debe ser array de palabras que componen palabras que ingresó usuario
+    #Abstracts debe ser un array donde cada elemento es un abstract. Cada abstract debe ser un array de palabras del abstract
+    # output: matriz que contiene vectores de usuario y abstracts sin la componente principal
+    X_vec = []
+    alpha = 0.001
+    v_usr = np.zeros(len(model[words[1]]))
+    for i in words:
+        try:
+            p = words.count(i) / len(words)
+            k1 = (1 / words.count(i)) * alpha / (alpha + p)
+            v_usr += k1 * model[i]
+        except:
+            print(" En texto de usuario no es una palabra del vocabulario ->", i)
+
+    v_usr = (1 / len(words)) * v_usr
+    X_vec.append(v_usr)
+
+    for abstract in abstracts:
+        text = minimizar(abstract)
+        text = deletePunt(text=text)
+        text = deleteStop(text=text, leng='english')
+        # text = nltk.tokenize.word_tokenize(text)
+        text = deleteWord('CD', text)
+        text = stemmingLemmatizer(text)
+
+
+        v_abs = np.zeros(len(model[words[1]]))
+        for i in text:
+            try:
+                p = text.count(i) / len(text)
+                k2 = (1 / text.count(i)) * alpha / (alpha + p)
+                v_abs += k2 * model[i]
+            except:
+                print(" En texto de abstract no es una palabra del vocabulario ->", i)
+
+
+        v_abs = (1 / len(words)) * v_abs
+        X_vec.append(v_abs)
+
+
+        pca = doPCA(X_vec)
+        TX_vec = []
+        for vec in X_vec:
+            TX_vec.append(vec-pca.components_[0]*np.dot(vec,pca.components_[0]))
+
+        return TX_vec
+
 
 
 def createCSV(text):
