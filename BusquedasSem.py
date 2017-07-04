@@ -341,6 +341,7 @@ def thoughtobeat(words,abstracts):
     #Words debe ser array de palabras que componen palabras que ingresó usuario
     #Abstracts debe ser un array donde cada elemento es un abstract. Cada abstract debe ser un array de palabras del abstract
     # output: matriz que contiene vectores de usuario y abstracts sin la componente principal
+
     X_vec = []
     alpha = 0.001
     v_usr = np.zeros(len(model[words[1]]))
@@ -350,7 +351,8 @@ def thoughtobeat(words,abstracts):
             k1 = (1 / words.count(i)) * alpha / (alpha + p)
             v_usr += k1 * model[i]
         except:
-            print(" En texto de usuario no es una palabra del vocabulario ->", i)
+            pass
+#            print(" En texto de usuario no es una palabra del vocabulario ->", i)
 
     v_usr = (1 / len(words)) * v_usr
     X_vec.append(v_usr)
@@ -371,12 +373,11 @@ def thoughtobeat(words,abstracts):
                 k2 = (1 / text.count(i)) * alpha / (alpha + p)
                 v_abs += k2 * model[i]
             except:
-                print(" En texto de abstract no es una palabra del vocabulario ->", i)
-
+                pass
+#                print(" En texto de abstract no es una palabra del vocabulario ->", i)
 
         v_abs = (1 / len(words)) * v_abs
         X_vec.append(v_abs)
-
 
         pca = doPCA(X_vec)
         TX_vec = []
@@ -386,14 +387,13 @@ def thoughtobeat(words,abstracts):
         return TX_vec
 
 def PCAscore2(TX_vec):
-
-    v_usr = TX_vec[0]
+    v_usr = TX_vec[0][:]
     puntajes=[]
 
     for vec in TX_vec:
         puntaje = 1 - scipy.spatial.distance.cosine(v_usr, vec)
         puntajes.append(puntaje)
-
+    puntajes.pop(0)
     return puntajes
 
 

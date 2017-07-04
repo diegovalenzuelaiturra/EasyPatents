@@ -11,7 +11,7 @@ import time
 
 def main():
     ###Obtener resultados desde Typeform
-    name_id, mail_id, text_id = 'textfield_CGua','email_SLgj','textarea_pOCT'
+    name_id, mail_id, text_id = 'textfield_D85lzVq29NwK','email_Zqrl80iApgim','textarea_BiFS9A3GtmUs'
                                 #'textfield_52850379','email_52850524','textarea_52850750'
     #
 
@@ -50,12 +50,12 @@ Que tengas un buen dia!"""
         d = datetime.utcnow()
         timestamp2 = str(calendar.timegm(d.utctimetuple()))
         if timestamp1 == '':
-            content = getFormComplete(typeform_UID='Ea4LIG', until=timestamp1)
+            content = getFormComplete(typeform_UID='ZD0bjr', until=timestamp1)
         else:
-            content = getFormComplete(typeform_UID='Ea4LIG', since=timestamp1)
+            content = getFormComplete(typeform_UID='ZD0bjr', since=timestamp1)
         timestamp1 = timestamp2
         # Hay que hacer la subrutina para responder los correos
-        content = getFormComplete(typeform_UID='Ea4LIG', offset=0, limit=5)
+        content = getFormComplete(typeform_UID='ZD0bjr', offset=0, limit=5)
         #
         print(content)
         nombre, mail, respuesta = getResponses(content=content, id=name_id),\
@@ -77,9 +77,9 @@ Que tengas un buen dia!"""
             fname = './'+path+'-sort.csv'
             fformat = 'resp.csv'
             mmessage = itext + respuesta[k]+' ] '+ftext
-            aux = epm.send_complex_message(mail[k],mfrom,msubject,mmessage,fformat,fname)
-            print(mail[k])
-            print(aux)
+#            aux = epm.send_complex_message(mail[k],mfrom,msubject,mmessage,fformat,fname)
+#            print(mail[k])
+#            print(aux)
             count+=1
                 # epm = EPmail()
                 # mmessage = itext + respuesta[k]+' ] '+ferror+ftext
@@ -143,20 +143,32 @@ def searchResponse(data,cql,words,gamma):
                             busquedaEPO(response, 'kind', type='html')
         #except:
         #print("error en la respuesta epo numero de publicacion incorrecta")
+        abstracts = []
+        auxes = []
         for i in range(len(country)):
             abstract = Abstract(client=client,
                                 number=number[i],
                                 country=country[i],
                                 kind=kind[i])
             aux = country[i] + number[i] + kind[i]
-            if abstract==None:
+            if abstract==None or len(abstract)<=1:
                 pass
             else:
-                writeCSV(data,PCAScore(words,abstract,gamma),aux,abstract)
+                #print(abstract)
+                abstracts.append(abstract)
+                auxes.append(aux)
+                #writeCSV(data,PCAScore(words,abstract,gamma),aux,abstract)
 
-    path = './'+data+'.csv'
-    name = './'+data+'-sort.csv'
-    sortCSV(path,name)
+        print(abstracts)
+        X = thoughtobeat(words, abstracts)
+        #print(X)
+#        puntajes = PCAscore2(X)
+#        for i in range(len(puntajes)):
+#            writeCSV(data, puntajes[i], auxes[i], abstracts[i])
+
+#    path = './'+data+'.csv'
+#    name = './'+data+'-sort.csv'
+#    sortCSV(path,name)
 
 
 if __name__ == "__main__":
