@@ -385,6 +385,21 @@ def thoughtobeat(words,abstracts):
 
         return TX_vec
 
+def PCAscore2(TX_vec):
+
+    v_usr = TX_vec[0]
+    puntajes=[]
+
+    for vec in TX_vec:
+        puntaje = 1 - scipy.spatial.distance.cosine(v_usr, vec)
+        puntajes.append(puntaje)
+
+    return puntajes
+
+
+
+
+
 
 
 def createCSV(text):
