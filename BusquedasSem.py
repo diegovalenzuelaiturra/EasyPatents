@@ -338,12 +338,25 @@ def doPCA(X):
 
 def thoughtobeat(words, abstracts):
     #Basado en artículo: though to beat baseline for sentence embeddings
-    #Words debe ser array de palabras que componen palabras que ingresó usuario
+    #Input: Words debe ser array de palabras que componen palabras que ingresó usuario
     #Abstracts debe ser un array donde cada elemento es un abstract. Cada abstract debe ser un array de palabras del abstract
-    # output: matriz que contiene vectores de usuario y abstracts sin la componente principal
+    #Output: matriz que contiene vectores de usuario y abstracts sin la componente principal
 
     X_vec = []
     alpha = 0.001
+
+    v_usr = Crearvectores(words, alpha)
+    X_vec.append(v_usr)
+
+    for abstract in abstracts:
+        text = abstract
+        v_abs = Crearvectores(text, alpha)
+        X_vec.append(v_usr)
+
+    TX_vec = Restarcomponente(X_vec)
+    return TX_vec
+    if False: """
+    
     v_usr = np.zeros(len(model[words[1]]))
     for i in words:
         try:
@@ -384,6 +397,35 @@ def thoughtobeat(words, abstracts):
     for vec in X_vec:
         TX_vec.append(vec-pca.components_[0]*np.dot(vec, pca.components_[0]))
     return TX_vec
+    """
+
+
+def Crearvectores(palabras,alpha):
+    #Input: array de oración cuyos elementos son palabras
+    #Output: vector de word2vec creado en base a artículo "Though to beat baseline for sentence embeddings"
+
+    v_usr = np.zeros(len(model[palabras[1]]))
+    for i in palabras:
+        try:
+            p = palabras.count(i) / len(palabras)
+            k1 = (1 / palabras.count(i)) * alpha / (alpha + p)
+            v_usr += k1 * model[i]
+        except:
+            pass
+            #            print(" En texto de usuario no es una palabra del vocabulario ->", i)
+
+    v_usr = (1 / len(palabras)) * v_usr
+    return v_usr
+
+def Restarcomponente(X):
+    #Función que toma una matriz cuyas filas son vectores de oraciones, se le aplica transformación de "Though to beat baseline..."
+    #Input: Array cuyos elementos son arrays.
+    #Output: Matriz a la que se le ha aplicado transformación
+    pca = doPCA(X)
+    TX = []
+    for vec in X:
+        TX.append(vec - pca.components_[0] * np.dot(vec, pca.components_[0]))
+    return TX
 
 
 def PCAscore2(TX_vec):
