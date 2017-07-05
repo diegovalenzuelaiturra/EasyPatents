@@ -355,6 +355,7 @@ def thoughtobeat(words, abstracts):
 
     TX_vec = Restarcomponente(X_vec)
     return TX_vec
+
     if False: """
     
     v_usr = np.zeros(len(model[words[1]]))
