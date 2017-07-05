@@ -75,7 +75,7 @@ def Score_abstract_preprocessing(abstract):
     text = deleteStop(text=text, leng='english')
     text = deleteWord('CD', text)
     text = stemmingLemmatizer(text)
-    return text
+    return text.split()
 
 
 if __name__ == '__main__':

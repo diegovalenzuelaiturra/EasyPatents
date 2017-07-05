@@ -155,11 +155,17 @@ def searchResponse(data,cql,words,gamma):
                 pass
             else:
                 #print(abstract)
+                #print(type(abstract))
                 abstracts.append(abstract)
                 auxes.append(aux)
                 #writeCSV(data,PCAScore(words,abstract,gamma),aux,abstract)
-
-        print(abstracts)
+        abstracts2 = []
+        for e in abstracts:
+            if len(e)>2:
+                abstracts2.append(e)
+        #print(type(abstracts))
+        #print(type(abstracts2))
+        #print(abstracts2)
         X = thoughtobeat(words, abstracts)
         #print(X)
 #        puntajes = PCAscore2(X)

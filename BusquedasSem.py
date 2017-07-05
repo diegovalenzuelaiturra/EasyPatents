@@ -336,7 +336,7 @@ def doPCA(X):
     pca.fit(X)
     return pca
 
-def thoughtobeat(words,abstracts):
+def thoughtobeat(words, abstracts):
     #Basado en artículo: though to beat baseline for sentence embeddings
     #Words debe ser array de palabras que componen palabras que ingresó usuario
     #Abstracts debe ser un array donde cada elemento es un abstract. Cada abstract debe ser un array de palabras del abstract
@@ -356,16 +356,16 @@ def thoughtobeat(words,abstracts):
 
     v_usr = (1 / len(words)) * v_usr
     X_vec.append(v_usr)
-
+    print(X_vec)
     for abstract in abstracts:
-        text = minimizar(abstract)
-        text = deletePunt(text=text)
-        text = deleteStop(text=text, leng='english')
+#        text = minimizar(abstract)
+#        text = deletePunt(text=text)
+#        text = deleteStop(text=text, leng='english')
         # text = nltk.tokenize.word_tokenize(text)
-        text = deleteWord('CD', text)
-        text = stemmingLemmatizer(text)
+#        text = deleteWord('CD', text)
+#        text = stemmingLemmatizer(text)
 
-
+        text = abstract
         v_abs = np.zeros(len(model[words[1]]))
         for i in text:
             try:
@@ -379,21 +379,24 @@ def thoughtobeat(words,abstracts):
         v_abs = (1 / len(words)) * v_abs
         X_vec.append(v_abs)
 
-        pca = doPCA(X_vec)
-        TX_vec = []
-        for vec in X_vec:
-            TX_vec.append(vec-pca.components_[0]*np.dot(vec,pca.components_[0]))
+    pca = doPCA(X_vec)
+    TX_vec = []
+    for vec in X_vec:
+        TX_vec.append(vec-pca.components_[0]*np.dot(vec, pca.components_[0]))
+    return TX_vec
 
-        return TX_vec
 
 def PCAscore2(TX_vec):
     v_usr = TX_vec[0][:]
+    print(v_usr)
     puntajes=[]
 
     for vec in TX_vec:
         puntaje = 1 - scipy.spatial.distance.cosine(v_usr, vec)
         puntajes.append(puntaje)
+    #print(puntajes)
     puntajes.pop(0)
+    #print(puntajes)
     return puntajes
 
 
