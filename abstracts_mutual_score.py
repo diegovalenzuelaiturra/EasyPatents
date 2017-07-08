@@ -15,10 +15,16 @@ def main():
         for j in range(l):
             score[i][j] = 1 - scipy.spatial.distance.cosine(TX_vec[i][:], TX_vec[j][:])
 
+    # eventualmente comentar el plot, y plotear abriendo el csv en/con otro script
     sns.set()
     sns.heatmap(score)
     sns.plt.show()
 
+    # Matriz que contiene los vectores (transformados) que representan los abstracts
+    df_TX_vec = pd.DataFrame(TX_vec)
+    df_TX_vec.to_csv('TX_vec.csv')
+
+    # Matriz que contiene los scores mutuos
     df_mutual_pca_score = pd.DataFrame(score)
     df_mutual_pca_score.to_csv('SORTED_Abstracts_Mutual_PCA_Score1.csv')
 
