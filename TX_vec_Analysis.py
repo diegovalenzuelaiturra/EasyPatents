@@ -15,6 +15,12 @@ def main():
     # La i-ésima fila de TX_vec (i.e. TX_vec[i]) corresponde a un vector transformado que representa a un abstract
     TX_vec = [ df.values[i][1:] for i in range(df.shape[0]) ]
 
+    f = open('TX_vec.tsv', 'w')
+    for i in range(len(TX_vec)):
+        for j in range(len(TX_vec[1])):
+            f.write(str(TX_vec[i][j]) + '\t')
+        f.write('\n')
+
 #   SVD
 #   https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.svd.html
 

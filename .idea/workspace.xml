@@ -14,7 +14,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/busquedas1$abstracts_mutual_score.coverage" NAME="abstracts_mutual_score Coverage Results" MODIFIED="1499490073797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/busquedas1$TX_vec_Analysis.coverage" NAME="TX_vec_Analysis Coverage Results" MODIFIED="1499498887817" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/busquedas1$TX_vec_Analysis.coverage" NAME="TX_vec_Analysis Coverage Results" MODIFIED="1499500664221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/EasyPatents$main.coverage" NAME="main Coverage Results" MODIFIED="1498329359777" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/busquedas1$PCA_test.coverage" NAME="PCA_test Coverage Results" MODIFIED="1499488012418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/EasyPatents$main_test.coverage" NAME="main-test Coverage Results" MODIFIED="1498005319740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -53,8 +53,8 @@
       <file leaf-file-name="abstracts_mutual_score.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/abstracts_mutual_score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="73" column="10" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="73" selection-end-column="10" />
+            <state relative-caret-position="1420">
+              <caret line="73" column="10" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="73" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -63,9 +63,11 @@
       <file leaf-file-name="TX_vec_Analysis.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TX_vec_Analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-120">
-              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="440">
+              <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,7 +85,7 @@
       <file leaf-file-name="PCA_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PCA_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
+            <state relative-caret-position="100">
               <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="8" selection-end-column="37" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -95,7 +97,7 @@
       <file leaf-file-name="BusquedasSem.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
+            <state relative-caret-position="8560">
               <caret line="444" column="42" lean-forward="false" selection-start-line="444" selection-start-column="27" selection-end-line="444" selection-end-column="42" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
@@ -653,7 +655,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499496665501</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Ploteando algunas cositas (sin utilidad por ahora)">
+      <created>1499499099899</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1499499099899</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TodoView">
@@ -728,7 +737,8 @@
     <MESSAGE value="edit" />
     <MESSAGE value="Agrego guardar matriz de vectores transformados de los abstracts, para procesar a posteriori" />
     <MESSAGE value="Abre la matriz TX_vec.csv que contiene los vectores que representan los abstracts y aplica SVD (por ahora sin ningún propósito particular). A futuro, clusterizar." />
-    <option name="LAST_COMMIT_MESSAGE" value="Abre la matriz TX_vec.csv que contiene los vectores que representan los abstracts y aplica SVD (por ahora sin ningún propósito particular). A futuro, clusterizar." />
+    <MESSAGE value="Ploteando algunas cositas (sin utilidad por ahora)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ploteando algunas cositas (sin utilidad por ahora)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -868,9 +878,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1180">
           <caret line="60" column="18" lean-forward="false" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#29#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -912,7 +919,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -920,29 +926,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1480">
           <caret line="74" column="50" lean-forward="false" selection-start-line="74" selection-start-column="50" selection-end-line="74" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TX_vec.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/abstracts_mutual_score.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="73" column="10" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="73" selection-end-column="10" />
+        <state relative-caret-position="1420">
+          <caret line="73" column="10" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="73" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PCA_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
+        <state relative-caret-position="100">
           <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="8" selection-end-column="37" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
@@ -952,7 +949,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
+        <state relative-caret-position="8560">
           <caret line="444" column="42" lean-forward="false" selection-start-line="444" selection-start-column="27" selection-end-line="444" selection-end-column="42" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
@@ -964,15 +961,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="3641" column="8" lean-forward="false" selection-start-line="3641" selection-start-column="8" selection-end-line="3641" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TX_vec.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TX_vec_Analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-120">
-          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="440">
+          <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
