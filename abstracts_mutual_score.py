@@ -1,45 +1,31 @@
 from BusquedasSem import *
 import seaborn as sns
-
+import pandas as pd
 
 def main():
 
-    df = pd.read_csv('./client0-sort.csv')
-    abstracts = df['Abstract']
-
-    #l = abstracts.size
-    l = 32 # quiero plotear algunos pocos no más
+    df = pd.read_csv('./PCA_Sorted_Abstracts.csv')
+    abstracts = df['Abstract'].values
+    l = df['Abstract'].size
     score = np.zeros((l, l))
-    simple_score = np.zeros((l, l))
 
-    for i in range(score.shape[0]):
-        for j in range(score.shape[1]):
+    TX_vec = thoughtobeat2(abstracts=abstracts)
 
-            # score usando word2vec
-            #score[i][j] = Score(words=Score_abstract_preprocessing(abstracts[i]),
-            #                    abstract=Score_abstract_preprocessing(abstracts[j]),
-            #                    gamma=0.1)
-
-            # score sin usar word2vec
-            simple_score[i][j] = simpleScore(abstract_i=Score_abstract_preprocessing(abstracts[i]),
-                                             abstract_j=Score_abstract_preprocessing(abstracts[j]),
-                                             gamma=0.1)
-
-    #simple_score = sigmoid(simple_score)
-
+    for i in range(l):
+        for j in range(l):
+            score[i][j] = 1 - scipy.spatial.distance.cosine(TX_vec[i][:], TX_vec[j][:])
 
     sns.set()
-
-    # score usando word2vec
-    # sns.heatmap(score)
-    # sns.plt.show()
-
-    # score sin usar word2vec
-    sns.heatmap(simple_score)
+    sns.heatmap(score)
     sns.plt.show()
+
+    df_mutual_pca_score = pd.DataFrame(score)
+    df_mutual_pca_score.to_csv('SORTED_Abstracts_Mutual_PCA_Score1.csv')
+
 
 def sigmoid(x):
     return 1/(1 + np.exp(-x))
+
 
 def simpleScore(abstract_i, abstract_j, gamma):
 

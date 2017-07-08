@@ -18,7 +18,7 @@ from sklearn.decomposition import PCA
 
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-model = gensim.models.KeyedVectors.load_word2vec_format('./GoogleNews-vectors-negative300.bin.gz', binary=True)
+model = gensim.models.KeyedVectors.load_word2vec_format('../GoogleNews-vectors-negative300.bin.gz', binary=True)
 
 
 def gosTranslateText(langin,langout, text):
@@ -331,10 +331,28 @@ def PCAScore(words, abstract,gamma):
     return similarity
     ##################################
 
+
 def doPCA(X):
     pca = PCA(n_components=1)
     pca.fit(X)
     return pca
+
+
+def thoughtobeat2(abstracts):
+    #Basado en artículo: though to beat baseline for sentence embeddings
+    #Input: Abstracts debe ser un array donde cada elemento es un abstract. Cada abstract debe ser un array de palabras del abstract
+    #Output: matriz que contiene vectores de abstracts sin la componente principal
+
+    X_vec = []
+    alpha = 0.001
+
+    for abstract in abstracts:
+        v_abs = Crearvectores(abstract, alpha)
+        X_vec.append(v_abs)
+
+    TX_vec = Restarcomponente(X_vec)
+    return TX_vec
+
 
 def thoughtobeat(words, abstracts):
     #Basado en artículo: though to beat baseline for sentence embeddings
@@ -405,7 +423,7 @@ def Crearvectores(palabras,alpha):
     #Input: array de oración cuyos elementos son palabras
     #Output: vector de word2vec creado en base a artículo "Though to beat baseline for sentence embeddings"
 
-    v_usr = np.zeros(len(model[palabras[1]]))
+    v_usr = np.zeros(len(model['man']))
     for i in palabras:
         try:
             p = palabras.count(i) / len(palabras)
