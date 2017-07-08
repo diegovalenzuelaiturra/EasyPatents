@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2bcfa674-c23b-48e6-aee9-99220db7924e" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/mutual_pca_results" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -51,14 +52,14 @@
       <file leaf-file-name="abstracts_mutual_score.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/abstracts_mutual_score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="68" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+            <state relative-caret-position="800">
+              <caret line="42" column="44" lean-forward="true" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PCA_test.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PCA_test.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PCA_test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="540">
@@ -70,10 +71,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BusquedasSem.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BusquedasSem.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="562">
+            <state relative-caret-position="502">
               <caret line="371" column="0" lean-forward="true" selection-start-line="371" selection-start-column="0" selection-end-line="371" selection-end-column="0" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
@@ -595,7 +596,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499487357184</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Aqui estan los csv que resultantes (resultados de busqueda ordenados de mayor a menor score) y el png resultante del mutual score a partir de este archivo">
+      <created>1499487451787</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1499487451787</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView">
@@ -611,7 +619,7 @@
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22664456" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22664456" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.55417955" sideWeight="0.5030303" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -665,7 +673,8 @@
     <MESSAGE value="Agregado calculo de puntaje con PCA (falta modificar main)" />
     <MESSAGE value="Se agregaron funciones del PCA para procesar el Mutual PCA Score&#10;&#10;Se sube archivo de comparacion humana de resultados (entre abstracts)" />
     <MESSAGE value="Hice una modificación en el thoughtobeat, dentro del for lo dejé asi X_vec.append(v_abs) // Antes estaba haciendo append del v_usr y eso hacia que el score de 1 siempre&#10;&#10;Corri el PCA_test y sobre el archivo de los resultados ordenados de mayor a menor Score, corri el PCA_mutual_score" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hice una modificación en el thoughtobeat, dentro del for lo dejé asi X_vec.append(v_abs) // Antes estaba haciendo append del v_usr y eso hacia que el score de 1 siempre&#10;&#10;Corri el PCA_test y sobre el archivo de los resultados ordenados de mayor a menor Score, corri el PCA_mutual_score" />
+    <MESSAGE value="Aqui estan los csv que resultantes (resultados de busqueda ordenados de mayor a menor score) y el png resultante del mutual score a partir de este archivo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aqui estan los csv que resultantes (resultados de busqueda ordenados de mayor a menor score) y el png resultante del mutual score a partir de este archivo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -875,9 +884,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/abstracts_mutual_score.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="68" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+        <state relative-caret-position="800">
+          <caret line="42" column="44" lean-forward="true" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="44" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="502">
+          <caret line="371" column="0" lean-forward="true" selection-start-line="371" selection-start-column="0" selection-end-line="371" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -887,16 +906,6 @@
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="371" column="0" lean-forward="true" selection-start-line="371" selection-start-column="0" selection-end-line="371" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
