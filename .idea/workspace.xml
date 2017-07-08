@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2bcfa674-c23b-48e6-aee9-99220db7924e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BusquedasSem.py" afterPath="$PROJECT_DIR$/BusquedasSem.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PCA_test.py" afterPath="$PROJECT_DIR$/PCA_test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -590,7 +588,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499473853055</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Hice una modificación en el thoughtobeat, dentro del for lo dejé asi X_vec.append(v_abs) // Antes estaba haciendo append del v_usr y eso hacia que el score de 1 siempre&#10;&#10;Corri el PCA_test y sobre el archivo de los resultados ordenados de mayor a menor Score, corri el PCA_mutual_score">
+      <created>1499487357184</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1499487357184</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView">
@@ -659,7 +664,8 @@
     <MESSAGE value="catch para palabras que no están en modelo de word2vec" />
     <MESSAGE value="Agregado calculo de puntaje con PCA (falta modificar main)" />
     <MESSAGE value="Se agregaron funciones del PCA para procesar el Mutual PCA Score&#10;&#10;Se sube archivo de comparacion humana de resultados (entre abstracts)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se agregaron funciones del PCA para procesar el Mutual PCA Score&#10;&#10;Se sube archivo de comparacion humana de resultados (entre abstracts)" />
+    <MESSAGE value="Hice una modificación en el thoughtobeat, dentro del for lo dejé asi X_vec.append(v_abs) // Antes estaba haciendo append del v_usr y eso hacia que el score de 1 siempre&#10;&#10;Corri el PCA_test y sobre el archivo de los resultados ordenados de mayor a menor Score, corri el PCA_mutual_score" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hice una modificación en el thoughtobeat, dentro del for lo dejé asi X_vec.append(v_abs) // Antes estaba haciendo append del v_usr y eso hacia que el score de 1 siempre&#10;&#10;Corri el PCA_test y sobre el archivo de los resultados ordenados de mayor a menor Score, corri el PCA_mutual_score" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
