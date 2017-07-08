@@ -4,7 +4,7 @@ import pandas as pd
 
 def main():
 
-    df = pd.read_csv('./PCA_Sorted_Abstracts.csv')
+    df = pd.read_csv('./PCA_Sorted_Abstracts1.csv')
     abstracts = df['Abstract'].values
     l = df['Abstract'].size
     score = np.zeros((l, l))
