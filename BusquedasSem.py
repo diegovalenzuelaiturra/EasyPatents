@@ -367,9 +367,8 @@ def thoughtobeat(words, abstracts):
     X_vec.append(v_usr)
 
     for abstract in abstracts:
-        text = abstract
-        v_abs = Crearvectores(text, alpha)
-        X_vec.append(v_usr)
+        v_abs = Crearvectores(abstract, alpha)
+        X_vec.append(v_abs)
 
     TX_vec = Restarcomponente(X_vec)
     return TX_vec
@@ -419,7 +418,7 @@ def thoughtobeat(words, abstracts):
     """
 
 
-def Crearvectores(palabras,alpha):
+def Crearvectores(palabras, alpha):
     #Input: array de oración cuyos elementos son palabras
     #Output: vector de word2vec creado en base a artículo "Though to beat baseline for sentence embeddings"
 
@@ -449,11 +448,12 @@ def Restarcomponente(X):
 
 def PCAscore2(TX_vec):
     v_usr = TX_vec[0][:]
-    print(v_usr)
+    #print(v_usr)
     puntajes=[]
 
     for vec in TX_vec:
         puntaje = 1 - scipy.spatial.distance.cosine(v_usr, vec)
+        #print(puntaje)
         puntajes.append(puntaje)
     #print(puntajes)
     puntajes.pop(0)
