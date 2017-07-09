@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2bcfa674-c23b-48e6-aee9-99220db7924e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BusquedasSem.py" afterPath="$PROJECT_DIR$/BusquedasSem.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,8 +52,8 @@
       <file leaf-file-name="BusquedasSem.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="486" column="8" lean-forward="false" selection-start-line="486" selection-start-column="8" selection-end-line="486" selection-end-column="8" />
+            <state relative-caret-position="450">
+              <caret line="514" column="0" lean-forward="true" selection-start-line="514" selection-start-column="0" selection-end-line="514" selection-end-column="0" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -676,7 +675,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499635665342</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Agregado Latent semantic indexing">
+      <created>1499637427168</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1499637427168</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TodoView">
@@ -969,8 +975,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="486" column="8" lean-forward="false" selection-start-line="486" selection-start-column="8" selection-end-line="486" selection-end-column="8" />
+        <state relative-caret-position="450">
+          <caret line="514" column="0" lean-forward="true" selection-start-line="514" selection-start-column="0" selection-end-line="514" selection-end-column="0" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
