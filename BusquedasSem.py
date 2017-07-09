@@ -346,12 +346,19 @@ def thoughtobeat2(abstracts):
     X_vec = []
     alpha = 0.001
 
+    v_usr, vectores = Crearvectores2(abstracts[0], abstracts, alpha)
+    for v_abs in vectores:
+        X_vec.append(v_abs)
+    TX_vec = Restarcomponente(X_vec)
+    return TX_vec
+
+    if False:"""
     for abstract in abstracts:
         v_abs = Crearvectores(abstract, alpha)
         X_vec.append(v_abs)
 
     TX_vec = Restarcomponente(X_vec)
-    return TX_vec
+    return TX_vec"""
 
 
 def thoughtobeat(words, abstracts):
@@ -363,6 +370,15 @@ def thoughtobeat(words, abstracts):
     X_vec = []
     alpha = 0.001
 
+    v_usr, vectores = Crearvectores2(words, abstracts, alpha)
+    X_vec.append(v_usr)
+    for v_abs in vectores:
+        X_vec.append(v_abs)
+    TX_vec = Restarcomponente(X_vec)
+    return TX_vec
+
+
+    if False: '''
     v_usr = Crearvectores(words, alpha)
     X_vec.append(v_usr)
 
@@ -371,7 +387,7 @@ def thoughtobeat(words, abstracts):
         X_vec.append(v_abs)
 
     TX_vec = Restarcomponente(X_vec)
-    return TX_vec
+    return TX_vec'''
 
     if False: """
     
@@ -434,6 +450,41 @@ def Crearvectores(palabras, alpha):
 
     v_usr = (1 / len(palabras)) * v_usr
     return v_usr
+
+
+def Crearvectores2(words, oraciones, alpha):
+    ##Input: words es array de palabras ingresadas por usuario
+    ## oraciones es array de abstracts, cada abstract es array de palabras
+    ## alfa es parametro de though to beat
+    ##Output: v_usr = vector de words y vectores = array de vectores de abstracts
+    L=0
+    for oracion in oraciones:
+        L += len(oracion)
+
+    v_usr = np.zeros(len(model['man']))
+    for i in words:
+        try:
+            p = oraciones.count(i) / L
+            k1 = (1 / words.count(i)) * alpha / (alpha + p)
+            v_usr += k1 * model[i]
+        except:
+            pass
+            #print(" En texto de usuario no es una palabra del vocabulario ->", i)
+
+    vectores = []
+    for oracion in oraciones:
+        v = np.zeros(len(model['man']))
+        for i in oracion:
+            try:
+                p = oraciones.count(i) / L
+                k1 = (1 / oraciones.count(i)) * alpha / (alpha + p)
+                v += k1 * model[i]
+            except:
+                pass
+                #print(" En texto de abstract no es una palabra del vocabulario ->", i)
+    vectores.append(v)
+    return v_usr, vectores
+
 
 def Restarcomponente(X):
     #Función que toma una matriz cuyas filas son vectores de oraciones, se le aplica transformación de "Though to beat baseline..."
