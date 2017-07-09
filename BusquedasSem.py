@@ -437,7 +437,7 @@ def thoughtobeat(words, abstracts):
 def Crearvectores(palabras, alpha):
     #Input: array de oración cuyos elementos son palabras
     #Output: vector de word2vec creado en base a artículo "Though to beat baseline for sentence embeddings"
-
+    #OJO: CALCULO DE VECTORES ESTA MALO!!!! (formula correcta en Crearvectores2)
     v_usr = np.zeros(len(model['man']))
     for i in palabras:
         try:
@@ -464,7 +464,8 @@ def Crearvectores2(words, oraciones, alpha):
     v_usr = np.zeros(len(model['man']))
     for i in words:
         try:
-            p = oraciones.count(i) / L
+            total_i = np.sum([oraciones[x].count(i) for x in range(len(oraciones))])
+            p = total_i/L #oraciones.count(i) / L
             k1 = (1 / words.count(i)) * alpha / (alpha + p)
             v_usr += k1 * model[i]
         except:
@@ -476,8 +477,9 @@ def Crearvectores2(words, oraciones, alpha):
         v = np.zeros(len(model['man']))
         for i in oracion:
             try:
-                p = oraciones.count(i) / L
-                k1 = (1 / oraciones.count(i)) * alpha / (alpha + p)
+                total_i = np.sum([oraciones[x].count(i) for x in range(len(oraciones))])
+                p = total_i/L #oraciones.count(i) / L
+                k1 = (1 / total_i) * alpha / (alpha + p)
                 v += k1 * model[i]
             except:
                 pass
@@ -511,10 +513,30 @@ def PCAscore2(TX_vec):
     #print(puntajes)
     return puntajes
 
+def Coocurrence(abstracts):
+    X = []
+    repetidos = ()
+    for abstract in abstracts:
+        for j in abstract:
+            if j not in repetidos:
+                repetidos.append(j)
+                X.append([abstracts[x].count(j) for x in range(len(abstracts))])
+            else:
+                pass
+    return X, repetidos
 
+def LSIscore(words, abstracts):
+    dictionary = gensim.corpora.Dictionary(abstracts)
+    corpus = [dictionary.doc2bow(abstract) for abstract in abstracts]
+    tfidf = gensim.models.TfidfModel(corpus)
+    corpus_tfidf = tfidf[corpus]
+    lsi = gensim.models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=2)
+    corpus_lsi = lsi[corpus_tfidf]
 
-
-
+    vec_usr = lsi[tfidf[dictionary.doc2bow(words)]]
+    index = gensim.similarities.MatrixSimilarity(corpus_lsi)
+    scores = index[vec_usr]
+    return scores
 
 
 def createCSV(text):
