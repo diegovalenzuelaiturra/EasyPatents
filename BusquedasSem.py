@@ -484,7 +484,7 @@ def Crearvectores2(words, oraciones, alpha):
             except:
                 pass
                 #print(" En texto de abstract no es una palabra del vocabulario ->", i)
-    vectores.append(v)
+        vectores.append(v)
     return v_usr, vectores
 
 

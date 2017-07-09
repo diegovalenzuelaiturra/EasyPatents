@@ -53,8 +53,8 @@
       <file leaf-file-name="BusquedasSem.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="519" column="0" lean-forward="false" selection-start-line="519" selection-start-column="0" selection-end-line="519" selection-end-column="0" />
+            <state relative-caret-position="490">
+              <caret line="486" column="8" lean-forward="false" selection-start-line="486" selection-start-column="8" selection-end-line="486" selection-end-column="8" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -669,7 +669,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499563960340</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Agregado Latent semantic indexing">
+      <created>1499635665342</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1499635665342</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -725,7 +732,8 @@
     <MESSAGE value="Abre la matriz TX_vec.csv que contiene los vectores que representan los abstracts y aplica SVD (por ahora sin ningún propósito particular). A futuro, clusterizar." />
     <MESSAGE value="Ploteando algunas cositas (sin utilidad por ahora)" />
     <MESSAGE value="corregido calculo de frecuencia para pasar de oraciones a vectores (agregada funcion Crearvectores2 y modificadas las funciones thoughtobeat y thoughtobeat2)" />
-    <option name="LAST_COMMIT_MESSAGE" value="corregido calculo de frecuencia para pasar de oraciones a vectores (agregada funcion Crearvectores2 y modificadas las funciones thoughtobeat y thoughtobeat2)" />
+    <MESSAGE value="Agregado Latent semantic indexing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Agregado Latent semantic indexing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -961,8 +969,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BusquedasSem.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="519" column="0" lean-forward="false" selection-start-line="519" selection-start-column="0" selection-end-line="519" selection-end-column="0" />
+        <state relative-caret-position="490">
+          <caret line="486" column="8" lean-forward="false" selection-start-line="486" selection-start-column="8" selection-end-line="486" selection-end-column="8" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
