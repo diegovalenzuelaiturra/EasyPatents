@@ -1,110 +1,48 @@
 from EPmail import EPmail
-#from BusquedasEPO import*
-from BusquedasSem import*
-#import threading
+from Scores import*
+#from BusquedasSem import*
+#from Codigos import*
+from BusquedasEPO import*
 from linkTypeform import*
 from datetime import datetime
 import calendar
 import time
-
-
+import pandas as pd
 
 def main():
     ###Obtener resultados desde Typeform
     name_id, mail_id, text_id = 'textfield_D85lzVq29NwK','email_Zqrl80iApgim','textarea_BiFS9A3GtmUs'
-                                #'textfield_52850379','email_52850524','textarea_52850750'
-    #
-
-    #bus = list()
-
-    ##enaex
-    #text = 'emulsion explosiva; explosivo plástico; aceite con agua; emulsificante; robusto'
-    #data = 'client1'
-    #pn='WO' #solo patentes internacionales
-
-    ##Paper wallet
-    #text = 'metodo billetera plegable; billetera de papel;hoja rectangular sin cortes'
-    #data = 'client2'
-    #pn = None
-
-    ##Timer cronos
-    #text = 'cronometraje deportivo; sensores RFID; sensores activos; sensores ultrasonicos'
-
-    itext = "Hola! soy Ro, y respondo a lo que solicitaste usando las palabras ["
-    ftext =  """           
-Cualquier duda por favor contacta a uno de nuestros humanos
-dvalenzuela@easypatents.cl es uno de los mejores que conozco.
-            
-Que tengas un buen dia!"""
-    ferror = "Lo siento, pero tus criterios no arrojan resultados."
-
-    msubject = 'Busqueda EasyPatents'
-    mfrom = 'ribanez@easypatents.cl'
-    data = 'client'
     pn = 'WO'
 
     d = datetime.utcnow()
     timestamp1 = str(calendar.timegm(d.utctimetuple()))
-    count = 0
+    count = 500
     while (True):
+        ## Recibir respuestas de la pagina
         d = datetime.utcnow()
         timestamp2 = str(calendar.timegm(d.utctimetuple()))
         if timestamp1 == '':
             content = getFormComplete(typeform_UID='ZD0bjr', until=timestamp1)
         else:
             content = getFormComplete(typeform_UID='ZD0bjr', since=timestamp1)
+
         timestamp1 = timestamp2
-        # Hay que hacer la subrutina para responder los correos
-        content = getFormComplete(typeform_UID='ZD0bjr', offset=0, limit=5)
-        #
-        print(content)
+
         nombre, mail, respuesta = getResponses(content=content, id=name_id),\
                                   getResponses(content=content, id=mail_id), \
                                   getResponses(content=content, id=text_id)
 
-        where = 'ab'
+        ## Responder a las solicitudes
+        where = 'ab' #donde se buscara en los documentos ab=abstract
         for k in range(len(respuesta)):
-            path = data+str(count)
             words = getWordsText(respuesta[k])
             sent = sentenceProcessing(respuesta[k])
-            print(sent)
-            cql = preProcessing(where, sent, pn)
-            print(cql)
-
-            gamma = 0.01
-            searchResponse(path, cql, words, gamma)
-            epm = EPmail()
-            fname = './'+path+'-sort.csv'
-            fformat = 'resp.csv'
-            mmessage = itext + respuesta[k]+' ] '+ftext
-#            aux = epm.send_complex_message(mail[k],mfrom,msubject,mmessage,fformat,fname)
-#            print(mail[k])
-#            print(aux)
+            cqls = getCode(where, sent, pn)
+            print(cqls)
+            searchResponse(count, cqls, words)
+            #correo(count,mail[k],respuesta[k])
             count+=1
-                # epm = EPmail()
-                # mmessage = itext + respuesta[k]+' ] '+ferror+ftext
-                # aux = epm.send_simple_message(mail[k],mfrom, msubject,mmessage)
-                # print(mail[k])
-                # print(aux)
         time.sleep(60)
-
-
-def Abstract(client, number, country, kind):
-    response = abstract_helper(client, number, country, kind)
-    abstract = busquedaLang(response, idioma='en', type='xml')
-    # if abstract == None:
-    #      aux = busquedaLang(response, idioma='ol', type='xml')
-    #      #abstract = translateTextAuto(lengout='en',text=str(aux))
-    #      abstract = translateText(aux)
-    return abstract
-
-
-def abstract_helper(client, number, country, kind):
-    response = client.published_data(reference_type='publication',
-                                     input=epo_ops.models.Docdb(str(number), country, kind),
-                                     endpoint='abstract',
-                                     )
-    return response
 
 
 def HTTPstatus(status):
@@ -122,85 +60,78 @@ def HTTPstatus(status):
     return print("http_status = " + s)
 
 
-def searchResponse(data,cql,words,gamma):
-    createCSV(data)
-    a = int(200/25.0)
-    for k in range(a):
-        client = initEPO()
-        rbegin = (k)*25+1
-        rend = (k+1)*25
-        #try:
-        response = client.published_data_search(cql=cql,
-                                            range_begin=rbegin,
-                                            range_end=rend,
-                                            constituents=None)
-        #except:
-        #print("error en la respuesta epo cql incorrecta")
-        #print(getSoup(response).prettify())
-        #try:
-        country, number, kind = busquedaEPO(response, 'country', type='html'),\
-                            busquedaEPO(response, 'doc-number', type='html'),\
-                            busquedaEPO(response, 'kind', type='html')
-        #except:
-        #print("error en la respuesta epo numero de publicacion incorrecta")
-        abstracts = []
-        auxes = []
-        for i in range(len(country)):
-            abstract = Abstract(client=client,
-                                number=number[i],
-                                country=country[i],
-                                kind=kind[i])
-            aux = country[i] + number[i] + kind[i]
-            if abstract==None or len(abstract)<=1:
+def searchResponse(id,cqls,words):
+    path = 'client'+str(id)
+    createCSV(path+'.csv')
+    a = int(25/25.0)
+    Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin = [], [], [], [], [], []
+    for cql in cqls:
+        for k in range(a):
+            client = initEPO()
+            rbegin = (k)*25+1
+            rend = (k+1)*25
+            try:
+                response1 = response_helper(client,cql,rbegin,rend)
+            except:
                 pass
-            else:
-                #print(abstract)
-                #print(type(abstract))
-                abstracts.append(abstract)
-                auxes.append(aux)
-                #writeCSV(data,PCAScore(words,abstract,gamma),aux,abstract)
-        abstracts2 = []
-        for e in abstracts:
-            if len(e)>2:
-                abstracts2.append(e)
-        #print(type(abstracts))
-        #print(type(abstracts2))
-        #print(abstracts2)
-        X = thoughtobeat(words, abstracts)
-        #print(X)
-#        puntajes = PCAscore2(X)
-#        for i in range(len(puntajes)):
-#            writeCSV(data, puntajes[i], auxes[i], abstracts[i])
+            country,number,kind = findJsonPn(response1)
+            final = numberResponse(response1)
+            Abs,Pns,App,Dat,Ipc,Inv = [],[],[],[],[],[]
+            for i in range(len(country)):
+                ab, dat, ipc, app, inv = findAllEPO(client,number[i],country[i],kind[i])
+                pn = country[i] + number[i] + kind[i]
+                if ab != None:
+                    Abs.append(ab)
+                    Dat.append(dat)
+                    Ipc.append(ipc)
+                    App.append(app)
+                    Inv.append(inv)
+                    Pns.append(pn)
+            Abs_fin += Abs
+            Pns_fin += Pns
+            App_fin += App
+            Dat_fin += Dat
+            Ipc_fin += Ipc
+            Inv_fin += Inv
 
-#    path = './'+data+'.csv'
-#    name = './'+data+'-sort.csv'
-#    sortCSV(path,name)
+            if rend>=final:
+                break
+    makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin,words,path)
 
+
+
+def makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin,words,path):
+        X = thoughtobeat(words, Abs_fin)
+        pca_score = PCAscore2(X)
+        df_pn = pd.DataFrame(Pns_fin,columns=['Pn'])
+        df_pca_score = pd.DataFrame(pca_score, columns=['PCA Score'])
+        df_abs = pd.DataFrame(Abs_fin, columns=['Abstract'])
+        df_dat = pd.DataFrame(Dat_fin, columns=['Date'])
+        df_app = pd.DataFrame(App_fin, columns=['Applicant'])
+        #df_ipc = pd.DataFrame(Ipc_fin, columns=['IPC'])
+        df_inv = pd.DataFrame(Inv_fin, columns=['Inventor'])
+        df_pca_abstracts = pd.concat([df_pca_score,df_pn,df_abs,df_dat,df_app,df_inv], axis=1)
+        df = df_pca_abstracts.sort_values(['PCA Score'], ascending=False)
+        df.drop_duplicates(subset=['Pn'], inplace=True)
+        df.to_csv(path+'-sort.csv')
+        #mutualScoreAbs(df_abs,path)
+        #writeCSV(data, pca_score, Pns, abstracts)
+        #sortCSV(data+'-sort.csv',data+'.csv')
+
+
+def correo(id,mail,respuesta):
+    itext = "Estimad@, \n respondo a lo que solicito usando las palabras ["
+    ftext = """\n Cualquier duda por favor contacta a patents@easypatents.cl \n Saludos Cordiales"""
+
+    msubject = 'Vigilancia Tecnologica EasyPatents'
+    mfrom = 'ro-bot@easypatents.cl'
+
+    epm = EPmail()
+    fname = './' + 'client'+str(id)+ '-sort.csv'
+    fformat = 'resp.csv'
+    mmessage = itext + respuesta + ' ] ' + ftext
+    aux = epm.send_complex_message(mail,mfrom,msubject,mmessage,fformat,fname)
+    print(aux)
 
 if __name__ == "__main__":
     main()
-
-
-# from https://www.typeform.com/help/data-api/
-# HTTP status code summary
-    #  status
-        # 200
-            # Everything worked as expected
-        # 400
-            # Invalid date in query/
-        # 403
-            # Expired Token/Invalid Token/Token does not have access permissions/Invalid Token
-        # 404
-            # Type in URL/Invalid typeform ID
-        # 429
-            # Request limit reached
-
-# from https://pypi.python.org/pypi/python-epo-ops-client
-    # When you issue a request, the response is a requests.Response object
-        # If response.status_code != 200 then a requests.HTTPError exception will be raised
-
-    # The following custom exceptions are raised for cases when OPS quotas are exceeded,
-    # they are all in the epo_ops.exceptions module and are subclasses of requests.HTTPError,
-    # and therefore offer the same behaviors:
-        # IndividualQuotaPerHourExceeded
-        # RegisteredQuotaPerWeekExceeded
