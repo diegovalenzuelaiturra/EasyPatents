@@ -526,11 +526,14 @@ def Coocurrence(abstracts):
     return X, repetidos
 
 def LSIscore(words, abstracts):
+    #Calculo de score en base a Latent semantic index
+    #Input: words es array donde cada elemento es una palabra ingresada por el usuario
+    #       abstracts es un array donde cada elemento es un abstract. Cada abstract es un array cuyos elementos son palabras
     dictionary = gensim.corpora.Dictionary(abstracts)
     corpus = [dictionary.doc2bow(abstract) for abstract in abstracts]
     tfidf = gensim.models.TfidfModel(corpus)
     corpus_tfidf = tfidf[corpus]
-    lsi = gensim.models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=2)
+    lsi = gensim.models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=5)
     corpus_lsi = lsi[corpus_tfidf]
 
     vec_usr = lsi[tfidf[dictionary.doc2bow(words)]]

@@ -1,0 +1,45 @@
+from BusquedasSem import *
+import pandas as pd
+import seaborn as sns
+
+
+def main():
+
+    df = pd.read_csv('./client0-sort.csv')
+    abstracts = df['Abstract'].values
+
+    abstracts_aux = []
+    for abstract in abstracts:
+        text = minimizar(abstract)
+        text = deletePunt(text=text)
+        text = deleteStop(text=text, leng='english')
+        #text = nltk.tokenize.word_tokenize(text)
+        text = deleteWord('CD', text)
+        text = stemmingLemmatizer(text)
+        abstracts_aux.append(text)
+    #print(abstracts_aux)
+
+    words = getWordsText('explosive emulsion; plastic explosive; oil with water; robust')
+    #print(words)
+    #dictionary = gensim.corpora.Dictionary(abstracts_aux)
+
+    lsi_score = LSIscore(words, abstracts_aux)
+    #print(lsi_score)
+    #print(type(lsi_score))
+    #print(lsi_score[0])
+
+    scores = []
+    for i in lsi_score:
+        scores.append(i)
+
+
+    df_lsi_score = pd.DataFrame(scores, columns=['LSI Score'])
+    df_abstracts = pd.DataFrame(abstracts, columns=['Abstract'])
+    df_pca_abstracts = pd.concat([df_lsi_score, df_abstracts], axis=1)
+
+    df = df_pca_abstracts.sort_values(['LSI Score'], ascending=False)
+    df.to_csv('LSI_Sorted_Abstracts_prueba.csv')
+
+
+if __name__ == "__main__":
+    main()
