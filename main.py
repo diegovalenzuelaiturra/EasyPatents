@@ -1,18 +1,18 @@
 from EPmail import EPmail
 from Scores import*
-#from BusquedasSem import*
-#from Codigos import*
 from BusquedasEPO import*
 from linkTypeform import*
 from datetime import datetime
 import calendar
 import time
 import pandas as pd
+from Report import*
 
 def main():
     ###Obtener resultados desde Typeform
-    name_id, mail_id, text_id = 'textfield_D85lzVq29NwK','email_Zqrl80iApgim','textarea_BiFS9A3GtmUs'
-    pn = 'WO'
+    name_id, mail_id, word_id = 'textfield_D85lzVq29NwK','email_Zqrl80iApgim','textarea_BiFS9A3GtmUs'
+    text_id, title_id = 'textarea_hBxOaN7GnUlU','textfield_UwTUuvsSELOy'
+    pn = 'wo'
 
     d = datetime.utcnow()
     timestamp1 = str(calendar.timegm(d.utctimetuple()))
@@ -25,12 +25,14 @@ def main():
             content = getFormComplete(typeform_UID='ZD0bjr', until=timestamp1)
         else:
             content = getFormComplete(typeform_UID='ZD0bjr', since=timestamp1)
-
+        #print(content)
         timestamp1 = timestamp2
 
-        nombre, mail, respuesta = getResponses(content=content, id=name_id),\
+        nombre, mail, respuesta, text, project = getResponses(content=content, id=name_id),\
                                   getResponses(content=content, id=mail_id), \
-                                  getResponses(content=content, id=text_id)
+                                  getResponses(content=content, id=word_id),\
+                                  getResponses(content=content, id=text_id), \
+                                  getResponses(content=content, id=title_id)
 
         ## Responder a las solicitudes
         where = 'ab' #donde se buscara en los documentos ab=abstract
@@ -39,8 +41,8 @@ def main():
             sent = sentenceProcessing(respuesta[k])
             cqls = getCode(where, sent, pn)
             print(cqls)
-            searchResponse(count, cqls, words)
-            #correo(count,mail[k],respuesta[k])
+            searchResponse(count, cqls, nombre[k],respuesta[k],text[k],project[k])
+            correo(count,mail[k],respuesta[k])
             count+=1
         time.sleep(60)
 
@@ -60,10 +62,10 @@ def HTTPstatus(status):
     return print("http_status = " + s)
 
 
-def searchResponse(id,cqls,words):
+def searchResponse(id,cqls,nombre,respuesta,description,project):
     path = 'client'+str(id)
-    createCSV(path+'.csv')
-    a = int(25/25.0)
+    #createCSV(path)
+    a = 2 #solicito 50 patentes por cql en batches de 25
     Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin = [], [], [], [], [], []
     for cql in cqls:
         for k in range(a):
@@ -73,20 +75,16 @@ def searchResponse(id,cqls,words):
             try:
                 response1 = response_helper(client,cql,rbegin,rend)
             except:
-                pass
+                continue
             country,number,kind = findJsonPn(response1)
             final = numberResponse(response1)
             Abs,Pns,App,Dat,Ipc,Inv = [],[],[],[],[],[]
             for i in range(len(country)):
                 ab, dat, ipc, app, inv = findAllEPO(client,number[i],country[i],kind[i])
+                #print(ab) #eliminar despues del debuggin
                 pn = country[i] + number[i] + kind[i]
                 if ab != None:
-                    Abs.append(ab)
-                    Dat.append(dat)
-                    Ipc.append(ipc)
-                    App.append(app)
-                    Inv.append(inv)
-                    Pns.append(pn)
+                    Abs.append(ab),Dat.append(dat),Ipc.append(ipc),App.append(app),Inv.append(inv),Pns.append(pn)
             Abs_fin += Abs
             Pns_fin += Pns
             App_fin += App
@@ -96,25 +94,33 @@ def searchResponse(id,cqls,words):
 
             if rend>=final:
                 break
-    makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin,words,path)
+    makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin,description,path)
+    getReport(path+'-sort.csv', 'main', nombre, project, getWordsText(respuesta),
+              '1 de junio al 30 de junio')
 
 
 
-def makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin,words,path):
-        X = thoughtobeat(words, Abs_fin)
-        pca_score = PCAscore2(X)
+def makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin,description,path):
+        pca_score = ScoreTextToAbstract(description,Abs_fin)
         df_pn = pd.DataFrame(Pns_fin,columns=['Pn'])
         df_pca_score = pd.DataFrame(pca_score, columns=['PCA Score'])
         df_abs = pd.DataFrame(Abs_fin, columns=['Abstract'])
         df_dat = pd.DataFrame(Dat_fin, columns=['Date'])
         df_app = pd.DataFrame(App_fin, columns=['Applicant'])
-        #df_ipc = pd.DataFrame(Ipc_fin, columns=['IPC'])
+        df_ipc = pd.DataFrame(Ipc_fin, columns=['IPC'])
         df_inv = pd.DataFrame(Inv_fin, columns=['Inventor'])
-        df_pca_abstracts = pd.concat([df_pca_score,df_pn,df_abs,df_dat,df_app,df_inv], axis=1)
+        df_pca_abstracts = pd.concat([df_pca_score,df_pn,df_abs,df_dat,df_app,df_inv,df_ipc], axis=1)
         df = df_pca_abstracts.sort_values(['PCA Score'], ascending=False)
         df.drop_duplicates(subset=['Pn'], inplace=True)
         df.to_csv(path+'-sort.csv')
-        #mutualScoreAbs(df_abs,path)
+        try:
+            aux = len(df_abs)
+            if aux>20:
+                mutualScoreAbs(df_abs[:20], path)
+            else:
+                mutualScoreAbs(df_abs, path)
+        except:
+            print("error mutual Score Abstract")
         #writeCSV(data, pca_score, Pns, abstracts)
         #sortCSV(data+'-sort.csv',data+'.csv')
 
@@ -127,11 +133,12 @@ def correo(id,mail,respuesta):
     mfrom = 'ro-bot@easypatents.cl'
 
     epm = EPmail()
-    fname = './' + 'client'+str(id)+ '-sort.csv'
-    fformat = 'resp.csv'
+    fname = './Report/main.pdf'
+    fformat = './' + 'client'+str(id)+ '-report.pdf'
     mmessage = itext + respuesta + ' ] ' + ftext
     aux = epm.send_complex_message(mail,mfrom,msubject,mmessage,fformat,fname)
     print(aux)
+
 
 if __name__ == "__main__":
     main()

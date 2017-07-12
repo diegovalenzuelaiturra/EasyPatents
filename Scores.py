@@ -3,13 +3,12 @@ from math import*
 from Codigos import*
 import numpy as np
 from sklearn.decomposition import PCA
-import gensim, logging
 import seaborn as sns
+from GensimFun import*
 
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-model = gensim.models.KeyedVectors.load_word2vec_format('../GoogleNews-vectors-negative300.bin.gz', binary=True)
-#model = gensim.models.KeyedVectors.load_word2vec_format('../glove.6B.300d.txt', binary=False)
-
+googleNew = '../glove.6B.300d.txt'
+wiki400 = '../wiki.6B.300d.txt'
+model = loadModel(wiki400,False)
 
 def thoughtobeat(words, abstracts):
     #Basado en artículo: though to beat baseline for sentence embeddings
@@ -237,25 +236,35 @@ def mutualScoreAbs(df_abstract,path):
         for j in range(l):
             PCA_score[i][j] = aux[j]
 
-    print(PCA_score)
-
     PCA_score = pd.DataFrame(PCA_score)
-
     sns.set()
     plt = sns.heatmap(PCA_score)
-    plt.savefig(path+".png")
-    sns.plt.show()
+    fig = plt.get_figure()
+    fig.savefig(path+".png")
+    #sns.plt.show()
 
 
 def preprocessing_abstracts_PCA(abstracts):
     abstracts_aux = []
     for abstract in abstracts:
-        text = minimizar(abstract)
-        text = deletePunt(text=text)
-        text = deleteStop(text=text, leng='english')
-        #text = nltk.tokenize.word_tokenize(text)
-        text = deleteWord('CD', text)
-        text = deleteWord('DT', text)
-        text = stemmingLemmatizer(text)
+        text = preprocessingText(str(abstract))
         abstracts_aux.append(text)
     return abstracts_aux
+
+
+def ScoreTextToAbstract(text,abstracts):
+    abstracts_aux = preprocessing_abstracts_PCA(abstracts)
+    text_aux = preprocessingText(text)
+    PCA_score = PCAscore2(thoughtobeat(words=text_aux, abstracts=abstracts_aux))
+    return PCA_score
+
+
+def preprocessingText(abstract):
+    text = minimizar(abstract)
+    text = deletePunt(text=text)
+    text = deleteStop(text=text, leng='english')
+    # text = nltk.tokenize.word_tokenize(text)
+    text = deleteWord('CD', text)
+    text = deleteWord('DT', text)
+    text = stemmingLemmatizer(text)
+    return text

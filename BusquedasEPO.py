@@ -135,19 +135,24 @@ def findJsonAb(response_js):
 
 
 def findJsonIPC(response_js):
-    obj = response_js['ops:world-patent-data']['exchange-documents']['exchange-document']['bibliographic-data']['patent-classifications']
-    #print(response_js)
-
-    ipc = []
-    for i in range(len(obj)):
-        section = obj['patent-classification'][i]['section']
-        clase = obj['patent-classification'][i]['class']
-        subclase = obj['patent-classification'][i]['subclass']
-        maingroup = obj['patent-classification'][i]['main-group']
-        subgroup = obj['patent-classification'][i]['subgroup']
-        class_value = obj['patent-classification'][i]['classification-value']
-        ipc.append(section+clase+subclase+maingroup+'/'+subgroup)
-    return ipc
+    obj = response_js['ops:world-patent-data']['exchange-documents']['exchange-document']['bibliographic-data']['classifications-ipcr']['classification-ipcr']
+    #print(obj) B66F   7/    28            A I
+    try:
+        ipc = ''
+        for i in range(len(obj)):
+            aux = str(obj[i]['text'])
+            aux.replace(' ','')
+            #print(aux)
+            if i ==0:
+                ipc += aux
+            else:
+                ipc+= ';'+aux
+        return ipc
+    except:
+        aux = str(obj['text'])
+        aux.replace(' ', '')
+        #print(aux)
+        return aux
 
 
 def findJsonApplicant(response_js):
@@ -232,10 +237,16 @@ def response_helper(client,cql,rbegin,rend):
 
 def findAllEPO(client, number, country, kind):
     ## Esta funcion retorna el abstract en ingles, la fecha, el codigo ipc, el solicitante y el inventor
-    response = abstract_helper(client, number, country, kind)
+    try:
+        response = abstract_helper(client, number, country, kind)
+    except:
+        print("error en conseguir abstract")
+        return None,None,None,None,None
     aux = getSoup(response)
+    #print(aux.prettify())
     response_json = json.dumps(xmltodict.parse(str(aux)),indent=4, separators=(',', ': '))
     response_js = json.loads(response_json)
+    #print(response_js)
     try:
         ab = findJsonAb(response_js)
     except:
@@ -268,7 +279,6 @@ def findAllEPO(client, number, country, kind):
 def sentenceProcessing(text):
     c = text.split(';')
     lista = permuta(c)
-    print(len(lista))
     sen_fin = []
     for sentences in lista:
         #print(sentences)
@@ -282,7 +292,6 @@ def sentenceProcessing(text):
             aux = stemmingLemmatizer(aux)
             sen_aux.append(aux)
         sen_fin.append(sen_aux)
-    print(sen_fin)
     return sen_fin
 
 
