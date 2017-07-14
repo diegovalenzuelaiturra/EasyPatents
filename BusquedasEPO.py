@@ -70,12 +70,12 @@ def anyEPO(where="ta", list=[]):
     aux = where+' any  "'
     for i in range(len(list)):
         if i == 0:
-            aux += list[i]
+            aux += str(list[i])
         elif i>=5:
-            aux += ', '+list[i]
+            aux += ', '+str(list[i])
             break
         else:
-            aux += ', '+list[i]
+            aux += ', '+str(list[i])
     return aux+'"'
 
 
@@ -295,8 +295,12 @@ def sentenceProcessing(text):
     return sen_fin
 
 
-def getCode(where, sen_fin, pn):
+def getCode(where, respuesta, pn):
+    sen_fin = sentenceProcessing(respuesta)
     cqls = []
+    if pn != None:
+        aux1 = countryEPO(country=pn)
+
     for senEn in sen_fin:
         if pn!=None:
             cql1 = countryEPO(country=pn)
@@ -317,4 +321,10 @@ def getCode(where, sen_fin, pn):
             cqls.append(cql1+' and '+cql2)
         else:
             cqls.append(cql1)
+
+
+    ## Estas ultimas lineas son en caso de que no encuentre nada al procesar la solicitud.
+    aux = anyEPO(where,getWords(respuesta))
+    cqls.append(andEPO(aux1,aux))
+
     return cqls

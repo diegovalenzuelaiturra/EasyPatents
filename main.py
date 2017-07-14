@@ -37,13 +37,12 @@ def main():
         ## Responder a las solicitudes
         where = 'ab' #donde se buscara en los documentos ab=abstract
         for k in range(len(respuesta)):
-            words = getWordsText(respuesta[k])
-            sent = sentenceProcessing(respuesta[k])
-            cqls = getCode(where, sent, pn)
+            cqls = getCode(where, respuesta[k], pn)
             print(cqls)
             searchResponse(count, cqls, nombre[k],respuesta[k],text[k],project[k])
             correo(count,mail[k],respuesta[k])
             count+=1
+        print('sleep')
         time.sleep(60)
 
 

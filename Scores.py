@@ -7,7 +7,9 @@ import seaborn as sns
 from GensimFun import*
 
 googleNew = '../glove.6B.300d.txt'
-wiki400 = '../wiki.6B.300d.txt'
+wiki400 = '~/Documentos/glove.6B/wiki.txt'
+wiki6B = '~/Documentos/FastText/wiki.en/wiki.en' #va sin la extension el archivo #
+#model = loadModel(wiki400,False)
 model = loadModel(wiki400,False)
 
 def thoughtobeat(words, abstracts):

@@ -82,6 +82,26 @@ def getWordsText(text):
             words.append(i)
     return words
 
+
+def getWords(text):
+    sentences = text.split()
+    words = []
+    for sentence in sentences:
+        #aux = translateText(lengin='es',lengout='en', text=sentence)
+
+        # ...... Probando otro traductor ............
+        #aux = gosTranslateText(langin='es', langout='en', text=sentence)
+        # -------------------------------------------
+
+        aux = minimizar(sentence)
+        aux = deletePunt(text=aux)
+        aux = deleteStop(text=aux, leng='english')
+        aux = stemmingLemmatizer(aux)
+        for i in aux:
+            if i not in words:
+                words.append(i)
+    return words
+
 ## Funciones para el manejo de CSV
 def createCSV(text):
     name= './'+text+'.csv'
