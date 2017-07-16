@@ -254,11 +254,26 @@ def preprocessing_abstracts_PCA(abstracts):
     return abstracts_aux
 
 
-def ScoreTextToAbstract(text,abstracts):
+def ScoreTextToAbstract(text,abstracts,words,titles):
     abstracts_aux = preprocessing_abstracts_PCA(abstracts)
     text_aux = preprocessingText(text)
-    PCA_score = PCAscore2(thoughtobeat(words=text_aux, abstracts=abstracts_aux))
-    return PCA_score
+
+    titles_aux = preprocessing_abstracts_PCA(titles)
+    PCA_abstract = PCAscore2(thoughtobeat(words=text_aux, abstracts=abstracts_aux))
+    PCA_title = PCAscore2(thoughtobeat(words=words,abstracts=titles_aux))
+    return multVect(PCA_abstract,PCA_title)
+
+
+def multVect(vect1, vect2):
+    a = max(len(vect1),len(vect2))
+    vec_fin = []
+    for i in range(a):
+        if vect1[i]==None or vect2[i]==None:
+            aux = -1
+        else:
+            aux = float(vect1[i])*float(vect2[i])
+        vec_fin.append(aux)
+    return vec_fin
 
 
 def preprocessingText(abstract):

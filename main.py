@@ -6,12 +6,12 @@ from datetime import datetime
 import calendar
 import time
 import pandas as pd
-from Report import*
+from Report import getReport
 
 def main():
     ###Obtener resultados desde Typeform
-    name_id, mail_id, word_id = 'textfield_D85lzVq29NwK','email_Zqrl80iApgim','textarea_BiFS9A3GtmUs'
-    text_id, title_id = 'textarea_hBxOaN7GnUlU','textfield_UwTUuvsSELOy'
+    name_id, mail_id, word_id = 'textfield_CGua','email_SLgj','textarea_pOCT'
+    text_id, title_id = 'textarea_f0ne','textfield_xIp1'
     pn = 'wo'
 
     d = datetime.utcnow()
@@ -22,9 +22,9 @@ def main():
         d = datetime.utcnow()
         timestamp2 = str(calendar.timegm(d.utctimetuple()))
         if timestamp1 == '':
-            content = getFormComplete(typeform_UID='ZD0bjr', until=timestamp1)
+            content = getFormComplete(typeform_UID='Ea4LIG', until=timestamp1)
         else:
-            content = getFormComplete(typeform_UID='ZD0bjr', since=timestamp1)
+            content = getFormComplete(typeform_UID='Ea4LIG', since=timestamp1)
         #print(content)
         timestamp1 = timestamp2
 
@@ -37,9 +37,10 @@ def main():
         ## Responder a las solicitudes
         where = 'ab' #donde se buscara en los documentos ab=abstract
         for k in range(len(respuesta)):
+            words = getWordsText(respuesta[k])
             cqls = getCode(where, respuesta[k], pn)
             print(cqls)
-            searchResponse(count, cqls, nombre[k],respuesta[k],text[k],project[k])
+            searchResponse(count, cqls, words, nombre[k],respuesta[k], text[k], project[k])
             correo(count,mail[k],respuesta[k])
             count+=1
         print('sleep')
@@ -61,11 +62,11 @@ def HTTPstatus(status):
     return print("http_status = " + s)
 
 
-def searchResponse(id,cqls,nombre,respuesta,description,project):
-    path = 'client'+str(id)
+def searchResponse(id,cqls, words, nombre,respuesta,description,project):
+    path = './Resultados/client'+str(id)
     #createCSV(path)
     a = 2 #solicito 50 patentes por cql en batches de 25
-    Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin = [], [], [], [], [], []
+    Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin, Tit_fin = [], [], [], [], [], [], []
     for cql in cqls:
         for k in range(a):
             client = initEPO()
@@ -77,38 +78,41 @@ def searchResponse(id,cqls,nombre,respuesta,description,project):
                 continue
             country,number,kind = findJsonPn(response1)
             final = numberResponse(response1)
-            Abs,Pns,App,Dat,Ipc,Inv = [],[],[],[],[],[]
+            Abs,Pns,App,Dat,Ipc,Inv,Tit = [],[],[],[],[],[],[]
             for i in range(len(country)):
-                ab, dat, ipc, app, inv = findAllEPO(client,number[i],country[i],kind[i])
+                ab, dat, ipc, app, inv, tit = findAllEPO(client,number[i],country[i],kind[i])
                 #print(ab) #eliminar despues del debuggin
                 pn = country[i] + number[i] + kind[i]
                 if ab != None:
-                    Abs.append(ab),Dat.append(dat),Ipc.append(ipc),App.append(app),Inv.append(inv),Pns.append(pn)
+                    Abs.append(ab),Dat.append(dat),Ipc.append(ipc),App.append(app)
+                    Inv.append(inv),Pns.append(pn),Tit.append(tit)
             Abs_fin += Abs
             Pns_fin += Pns
             App_fin += App
             Dat_fin += Dat
             Ipc_fin += Ipc
             Inv_fin += Inv
+            Tit_fin += Tit
 
             if rend>=final:
                 break
-    makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin,description,path)
+    makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin, Tit_fin, description, words, path)
     getReport(path+'-sort.csv', 'main', nombre, project, getWordsText(respuesta),
-              '1 de junio al 30 de junio')
+              'hasta el 21 de julio')
 
 
 
-def makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin,description,path):
-        pca_score = ScoreTextToAbstract(description,Abs_fin)
-        df_pn = pd.DataFrame(Pns_fin,columns=['Pn'])
+def makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin, Tit_fin, description, words, path):
+        pca_score = ScoreTextToAbstract(description, Abs_fin, words, Tit_fin)
         df_pca_score = pd.DataFrame(pca_score, columns=['PCA Score'])
+        df_pn = pd.DataFrame(Pns_fin,columns=['Pn'])
+        df_tit = pd.DataFrame(Tit_fin, columns=['Title'])
         df_abs = pd.DataFrame(Abs_fin, columns=['Abstract'])
         df_dat = pd.DataFrame(Dat_fin, columns=['Date'])
         df_app = pd.DataFrame(App_fin, columns=['Applicant'])
         df_ipc = pd.DataFrame(Ipc_fin, columns=['IPC'])
         df_inv = pd.DataFrame(Inv_fin, columns=['Inventor'])
-        df_pca_abstracts = pd.concat([df_pca_score,df_pn,df_abs,df_dat,df_app,df_inv,df_ipc], axis=1)
+        df_pca_abstracts = pd.concat([df_pca_score,df_pn,df_tit, df_abs,df_dat,df_app,df_inv,df_ipc], axis=1)
         df = df_pca_abstracts.sort_values(['PCA Score'], ascending=False)
         df.drop_duplicates(subset=['Pn'], inplace=True)
         df.to_csv(path+'-sort.csv')

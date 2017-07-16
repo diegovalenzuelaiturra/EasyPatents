@@ -241,7 +241,7 @@ def findAllEPO(client, number, country, kind):
         response = abstract_helper(client, number, country, kind)
     except:
         print("error en conseguir abstract")
-        return None,None,None,None,None
+        return None,None,None,None,None,None
     aux = getSoup(response)
     #print(aux.prettify())
     response_json = json.dumps(xmltodict.parse(str(aux)),indent=4, separators=(',', ': '))
@@ -272,7 +272,12 @@ def findAllEPO(client, number, country, kind):
     except:
         inv = None
 
-    return ab,dat,ipc,app,inv
+    try:
+        tit = findJsonTitle(response_js)
+    except:
+        print("No se encontro titulo")
+        tit = None
+    return ab,dat,ipc,app,inv,tit
 
 
 ## Funciones para generar codigo
