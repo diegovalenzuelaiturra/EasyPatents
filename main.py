@@ -38,9 +38,9 @@ def main():
         where = 'ab' #donde se buscara en los documentos ab=abstract
         for k in range(len(respuesta)):
             words = getWordsText(respuesta[k])
-            cqls = getCode(where, respuesta[k], pn)
-            print(cqls)
-            searchResponse(count, cqls, words, nombre[k],respuesta[k], text[k], project[k])
+            cql = getCode2(where, respuesta[k], pn)
+            print(cql)
+            searchResponse(count, cql, words, nombre[k],respuesta[k], text[k], project[k])
             correo(count,mail[k],respuesta[k])
             count+=1
         print('sleep')
@@ -62,44 +62,45 @@ def HTTPstatus(status):
     return print("http_status = " + s)
 
 
-def searchResponse(id,cqls, words, nombre,respuesta,description,project):
+def searchResponse(id,cql, words, nombre,respuesta,description,project):
     path = './Resultados/client'+str(id)
     #createCSV(path)
-    a = 2 #solicito 50 patentes por cql en batches de 25
+    a = 24#solicito 50 patentes por cql en batches de 25
     Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin, Tit_fin = [], [], [], [], [], [], []
-    for cql in cqls:
-        for k in range(a):
-            client = initEPO()
-            rbegin = (k)*25+1
-            rend = (k+1)*25
-            try:
-                response1 = response_helper(client,cql,rbegin,rend)
-            except:
-                continue
-            country,number,kind = findJsonPn(response1)
-            final = numberResponse(response1)
-            Abs,Pns,App,Dat,Ipc,Inv,Tit = [],[],[],[],[],[],[]
-            for i in range(len(country)):
-                ab, dat, ipc, app, inv, tit = findAllEPO(client,number[i],country[i],kind[i])
-                #print(ab) #eliminar despues del debuggin
-                pn = country[i] + number[i] + kind[i]
-                if ab != None:
-                    Abs.append(ab),Dat.append(dat),Ipc.append(ipc),App.append(app)
-                    Inv.append(inv),Pns.append(pn),Tit.append(tit)
-            Abs_fin += Abs
-            Pns_fin += Pns
-            App_fin += App
-            Dat_fin += Dat
-            Ipc_fin += Ipc
-            Inv_fin += Inv
-            Tit_fin += Tit
+    #try:
+    for k in range(a):
+        client = initEPO()
+        rbegin = (k)*40+1
+        rend = (k+1)*40
+        #try:
+        response1 = response_helper(client,cql,rbegin,rend)
+        #except:
+        #    continue
+        country,number,kind = findJsonPn(response1)
+        final = numberResponse(response1)
+        Abs,Pns,App,Dat,Ipc,Inv,Tit = [],[],[],[],[],[],[]
+        for i in range(len(country)):
+            ab, dat, ipc, app, inv, tit = findAllEPO(client,number[i],country[i],kind[i])
+            #print(ab) #eliminar despues del debuggin
+            pn = country[i] + number[i] + kind[i]
+            if ab != None:
+                Abs.append(ab),Dat.append(dat),Ipc.append(ipc),App.append(app)
+                Inv.append(inv),Pns.append(pn),Tit.append(tit)
+        Abs_fin += Abs
+        Pns_fin += Pns
+        App_fin += App
+        Dat_fin += Dat
+        Ipc_fin += Ipc
+        Inv_fin += Inv
+        Tit_fin += Tit
 
-            if rend>=final:
-                break
+        if rend>=final:
+            break
     makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin, Tit_fin, description, words, path)
-    getReport(path+'-sort.csv', 'main', nombre, project, getWordsText(respuesta),
-              'hasta el 21 de julio')
-
+    getReport(path + '-sort.csv', 'main', nombre, project, getWordsText(respuesta),
+                  'hasta el 21 de julio')
+    # except:
+    #     "Error busqueda EPO"
 
 
 def makeCSV(Abs_fin, Pns_fin, App_fin, Dat_fin, Ipc_fin, Inv_fin, Tit_fin, description, words, path):
@@ -145,3 +146,9 @@ def correo(id,mail,respuesta):
 
 if __name__ == "__main__":
     main()
+    # client = initEPO()
+    # rbegin = 1
+    # rend = 41
+    # cql = 'ipc any  "A02 , B01 , C01 , D01 , E01 , H32"'
+    # response1 = response_helper(client, cql, rbegin, rend)
+    # print(response1)

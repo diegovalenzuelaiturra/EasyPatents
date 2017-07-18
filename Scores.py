@@ -1,5 +1,5 @@
 import scipy
-from math import*
+import math
 from Codigos import*
 import numpy as np
 from sklearn.decomposition import PCA
@@ -9,8 +9,9 @@ from GensimFun import*
 googleNew = '../glove.6B.300d.txt'
 wiki400 = '~/Documentos/glove.6B/wiki.txt'
 wiki6B = '~/Documentos/FastText/wiki.en/wiki.en' #va sin la extension el archivo #
-#model = loadModel(wiki400,False)
+categorias = ['A','B','C','D','E','F','G','H']
 model = loadModel(wiki400,False)
+#model = loadModel(wiki400,False)
 
 def thoughtobeat(words, abstracts):
     #Basado en artículo: though to beat baseline for sentence embeddings
@@ -164,7 +165,7 @@ def Score(words, abstract,gamma):
     return similarity*score
 
 
-def PCAScore(words, abstract,gamma):
+def PCAScore(words, abstract):
     text = minimizar(abstract)
     text = deletePunt(text=text)
     text = deleteStop(text=text, leng='english')
@@ -271,7 +272,7 @@ def multVect(vect1, vect2):
         if vect1[i]==None or vect2[i]==None:
             aux = -1
         else:
-            aux = float(vect1[i])*float(vect2[i])
+            aux = float(vect1[i])*float(vect2[i])/((float(vect1[i])**2 + float(vect2[i])**2)**0.5)
         vec_fin.append(aux)
     return vec_fin
 
@@ -285,3 +286,35 @@ def preprocessingText(abstract):
     text = deleteWord('DT', text)
     text = stemmingLemmatizer(text)
     return text
+
+
+def Top5Class(text):
+    path_gen = './ipc-aux/'
+    path_ipc = './ipc-aux/ipc.txt'
+    max_score = [-math.inf,-math.inf]
+    max_class = ['','']
+    with open(path_ipc, 'r') as f:
+        for line in f:
+            aux = line.split(';', 1)
+            score = PCAScore(text,aux[1])
+            if score>min(max_score):
+                index = max_score.index(min(max_score))
+                max_class[index] = aux[0]
+                max_score[index] = score
+
+    max_score2 = [-math.inf, -math.inf, -math.inf, -math.inf, -math.inf]
+    max_class2 = ['', '', '', '', '']
+    for id in max_class:
+        if id in categorias:
+            path_ipc = path_gen+id+'.txt'
+            with open(path_ipc, 'r') as f:
+                for line in f:
+                    aux = line.split(';', 1)
+                    score = PCAScore(text, aux[1])
+                    if score >min(max_score2):
+                        index = max_score2.index(min(max_score2))
+                        max_class2[index] = aux[0].replace(' ','')
+                        max_score2[index] = score
+        else:
+            pass
+    return max_class2

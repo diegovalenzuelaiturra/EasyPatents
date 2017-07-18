@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import epo_ops
 import xmltodict, json
 from Codigos import*
-
+from Scores import Top5Class
 
 def busquedaEPO(response, elemento='abstract', type='html'):
     fin = list()
@@ -72,10 +72,10 @@ def anyEPO(where="ta", list=[]):
         if i == 0:
             aux += str(list[i])
         elif i>=5:
-            aux += ', '+str(list[i])
+            aux += ','+str(list[i])
             break
         else:
-            aux += ', '+str(list[i])
+            aux += ','+str(list[i])
     return aux+'"'
 
 
@@ -333,3 +333,26 @@ def getCode(where, respuesta, pn):
     cqls.append(andEPO(aux1,aux))
 
     return cqls
+
+def getCode2(where,respuesta,pn):
+    aux = getWords(respuesta)
+    aux2 = anyEPO(where,aux)
+    t5 = Top5Class(aux)
+    aux4 = anyEPO('ic',t5)
+    if pn != None:
+        aux1 = countryEPO(country=pn)
+        aux3 = andEPO(aux1,aux2)
+        cql = andEPO(aux3,aux4)
+    else:
+        aux3 = aux2
+        cql = andEPO(aux3,aux4)
+    return cql
+
+
+def main():
+    text = 'ELECTRICALLY VEHICLES, ELECTRIC MOTOR, BATTERY PACK'
+    print(getCode2('ta',text,None))
+
+
+if __name__ == "__main__":
+   main()
