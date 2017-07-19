@@ -101,6 +101,10 @@ Instalar statsmodels (complementario a Pandas)
 sudo pip3 install statsmodels --upgrade
 
 
+Instalar xml2dict
+sudo pip3 install xml2dict --upgrade
+
+
 ### para descargar modelo de google en gensim descargar de
 
 https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit
