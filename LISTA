@@ -85,6 +85,14 @@ Instalar gensim
 sudo pip3 install gensim --upgrade
 
 
+Instalar Pandas
+sudo pip3 install pandas --upgrade
+
+
+Instalar Sklearn
+sudo pip3 install scikit-learn[alldeps] --upgrade
+
+
 ### para descargar modelo de google en gensim descargar de
 
 https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit
