@@ -3,7 +3,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
 from xlrd import open_workbook
-
+from six import iteritems
 
 def BuildDict(path_os,path_dict,path_list):
     list_file = open(path_list,'r')
@@ -20,7 +20,7 @@ def BuildDict(path_os,path_dict,path_list):
                         sheet.cell(row_idx, 4).value) + ' ' + str(sheet.cell(row_idx, 17).value) + ' ' + str(
                         sheet.cell(row_idx, 40).value)
                     aux = getWords(text)
-                    dictionary = corpora.Dictionary([aux])
+                    dictionary = corpora.HashDictionary([aux])
                     dictionary_exist = True
                 else:
                     text = str(sheet.cell(row_idx, 0).value) + ' ' + str(sheet.cell(row_idx, 3).value) + ' ' + str(
@@ -31,7 +31,7 @@ def BuildDict(path_os,path_dict,path_list):
 
     #once_ids = [tokenid for tokenid, docfreq in iteritems(dictionary.dfs) if docfreq <= 5]
     #dictionary.filter_tokens(once_ids)
-    dictionary.compactify()
+    #dictionary.compactify()
     dictionary.save(path_dict)
     #print(dictionary.keys())
 
@@ -56,6 +56,22 @@ def BuildCorpus(path_os,path_dict,path_corpus,path_list):
     corpora.MmCorpus.serialize(path_corpus, corpus)
 
 
+def mergeDict(dict_list, path_os):
+
+    list_file = open(dict_list, 'r')
+    i = 0
+    for line in list_file:
+        path_dict = path_os+line.replace('\n','')
+        if i ==0:
+            dictionary1 = corpora.Dictionary.load(path_dict)
+            i +=1
+        else:
+            dictionary2 = corpora.Dictionary.load(path_dict)
+            dict2_to_dict1 = dictionary1.merge_with(dictionary2)
+
+    once_ids = [tokenid for tokenid, docfreq in iteritems(dictionary1.dfs) if docfreq <= 5]
+    dictionary1.filter_tokens(once_ids)
+    dictionary1.compactify()
 
 def getWords(text):
     sentences = text.split()
@@ -109,9 +125,10 @@ def test():
     print(dictionary.token2id)
     corpus = corpora.MmCorpus(path_corpus)
     print(corpus)
-    ldamodel = models.ldamodel.LdaModel(corpus, num_topics=3, id2word=dictionary, passes=20)
-    print(ldamodel.print_topics(num_topics=3, num_words=3))
-    ldamodel.save('lda.model')
+    #ldamodel = models.ldamodel.LdaModel(corpus, num_topics=3, id2word=dictionary, passes=20)
+    #print(ldamodel.print_topics(num_topics=3, num_words=3))
+    #ldamodel.save('lda.model')
+
 
 if __name__ == "__main__":
     test()
