@@ -4,8 +4,8 @@
 
 * Construir test
 * Abrir cuentas en la EPO
-* Mandar mail √ëancupil
-* Terminar p√°gina Web
+* Mandar mail —ancupil
+* Terminar p·gina Web
 * Realizar pruebas con el test (*1)
 * Construir diccionario
 * Construir Array de Arrays
@@ -20,11 +20,11 @@
 ### Semana del 08/08 ###
 
 * Contactar a clientes
-* Congelar versi√≥n
+* Congelar versiÛn
 
 ### Comentarios ###
-(*1) Una vez aprobado el test se debe:
+##(*1) Una vez aprobado el test se debe:##
 * Iniciar actividades en el SII
 * Abrir cuenta corriente BancoEstado
-Si los resultados del test son negativos se debe:
+##Si los resultados del test son negativos se debe:##
 * Iterar y mejorar el algoritmo
