@@ -1,28 +1,30 @@
-# README #
+# COSAS POR HACER #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### Semana del 24/07 ###
 
-### What is this repository for? ###
+* Construir test
+* Abrir cuentas en la EPO
+* Mandar mail Ñancupil
+* Terminar página Web
+* Realizar pruebas con el test (*1)
+* Construir diccionario
+* Construir Array de Arrays
 
-* Busquedas de patentes por medio de analisis semantico de sentencias. Utiliza las librerias de natural lenguage processing (nltk)
-* Version 0.1
+### Semana del 31/07 ###
 
-### How do I get set up? ###
+* Implementar LSI/PCA
+* Realizar pruebas de rendimiento (comparar LSI/PCA)
+* Realizar pruebas con el test (*1)
+* Realizar pruebas con usuarios/clientes
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### Semana del 08/08 ###
 
-### Contribution guidelines ###
+* Contactar a clientes
+* Congelar versión
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+### Comentarios ###
+(*1) Una vez aprobado el test se debe:
+* Iniciar actividades en el SII
+* Abrir cuenta corriente BancoEstado
+Si los resultados del test son negativos se debe:
+* Iterar y mejorar el algoritmo
