@@ -23,8 +23,8 @@
 * Congelar versión
 
 ### Comentarios ###
-##(*1) Una vez aprobado el test se debe:##
+####(*1) Una vez aprobado el test se debe:####
 * Iniciar actividades en el SII
 * Abrir cuenta corriente BancoEstado
-##Si los resultados del test son negativos se debe:##
+####Si los resultados del test son negativos se debe:####
 * Iterar y mejorar el algoritmo
