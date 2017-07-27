@@ -2,13 +2,12 @@
 
 ### Semana del 24/07 ###
 
-* Construir test
-* Abrir cuentas en la EPO
-* Mandar mail Ñancupil
+* Construir test [en proceso]
+* Abrir cuentas en la EPO [en proceso]
 * Terminar página Web
 * Realizar pruebas con el test (*1)
-* Construir diccionario
-* Construir Array de Arrays
+* Construir diccionario [check]
+* Construir Array de Arrays [check]
 
 ### Semana del 31/07 ###
 
