@@ -1,0 +1,96 @@
+\documentclass[12pt,openany]{book} % Default font size and left-justified equations
+
+\usepackage[top=3cm,bottom=3cm,left=3.2cm,right=3.2cm,headsep=10pt,letterpaper]{geometry} % Page margins
+
+\usepackage{xcolor} % Required for specifying colors by name
+\definecolor{ocre}{RGB}{52,177,201} % Define the orange color used for highlighting throughout the book
+
+% Font Settings
+\usepackage{avant} % Use the Avantgarde font for headings
+%\usepackage{times} % Use the Times font for headings
+\usepackage{mathptmx} % Use the Adobe Times Roman as the default text font together with math symbols from the Sym­bol, Chancery and Com­puter Modern fonts
+
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage[utf8]{inputenc} % Required for including letters with accents
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault} 
+\usepackage[T1]{fontenc}
+
+% Bibliography
+\usepackage[style=alphabetic,sorting=nyt,sortcites=true,autopunct=true,babel=hyphen,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
+\addbibresource{bibliography.bib} % BibTeX bibliography file
+\defbibheading{bibempty}{}
+
+\input{structure} % Insert the commands.tex file which contains the majority of the structure behind the template
+\input{variables}
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begingroup
+\thispagestyle{empty}
+\AddToShipoutPicture*{\put(0,0){\includegraphics[scale=1.2]{cover1}}} % Image background
+\vspace*{5cm}
+\begin{flushleft}
+\par\normalfont\fontsize{35}{35}\sffamily\selectfont
+\textbf{Vigilancia}\\
+\textbf{Tecnológica}\\
+{\LARGE Reporte, Julio 2017}\par % Book title
+\vspace*{1cm}
+{\Huge Cliente: \Cliente}\par % Author name
+\end{flushleft}
+\endgroup
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\newpage
+~\vfill
+\thispagestyle{empty}
+
+\noindent \textsc{Technology forecasting report}\\
+
+\noindent \textsc{www.easypatents.cl}\\ % URL
+
+\noindent Copyright \copyright 2017 , EasyPatents Technologies all rights reserved \\
+
+\noindent \textit{\today} % Fecha en que se envia
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+\chapterimage{head1.png} % Table of contents heading image
+
+\pagestyle{empty} % No headers
+
+\tableofcontents % Print the table of contents itself
+
+%\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+
+\pagestyle{fancy} % Print headers again
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 1
+%----------------------------------------------------------------------------------------
+\chapterimage{head1.png} % Chapter heading image
+
+\chapter{Introducción}
+El presente Informe es una vigilancia de las solicitudes de patente y modelo de utilidad que se han presentado ante la WORLD INTELLECTUAL PROPERTY ORGANIZATION (WIPO) utilizando el TRATADO DE COOPERACIÓN EN MATERIA DE PATENTES (PCT) y con prioridad vigente para entrar a los siguientes países resaltados en azul. Lista completa al final del Informe con fecha de entrada en vigencia del Tratado.
+
+
+%\chapterimage{head1.png} % Chapter heading image
+
+\chapter{Metodología}
+Una vez realizado el procedimiento PCT ante la WIPO, el solicitante tiene el derecho a la solicitud de exclusividad de comercialización, distribución, importación, fabricación y uso del producto o proceso en cada uno de los países suscritos al acuerdo en un plazo de 30 meses desde la fecha de solicitud PCT o prioridad.\\
+
+A continuación se informan las solicitudes de patentes de invención y modelos de utilidad través del título, resumen, fecha de publicación, fecha de solicitud, inventores y solicitantes obtenidas en relación al producto \textsc{\Producto} asociados a las palabras clave \textsc{\Keywords} de \textsc{\Cliente} y que han sido publicados en el período correspondiente al plazo máximo de prioridad \textsc{\Periodo}.
+
+\include{resultados}
+
+\end{document}
