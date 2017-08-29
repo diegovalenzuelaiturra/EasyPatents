@@ -86,7 +86,16 @@ def generateIPC(responses):
             d[ipc_class] += 1
 
     ## Elegimos las primeras 5 categorias
-    return max(d.items(), key=operator.itemgetter(1))[0]
+    #return max(d.items(), key=operator.itemgetter(1))[0]
+    return sorted(d.items(), key=operator.itemgetter(1), reverse=True)
+
+
+def topK_IPC(sorted_d, k):
+    sorted_IPC = []
+    n = k if len(sorted_d) > k else len(sorted_d)
+    for i in range(n):
+        sorted_IPC.append(sorted_d[i][0])
+    return sorted_IPC
 
 
 def makeCSV(id, responses, description):

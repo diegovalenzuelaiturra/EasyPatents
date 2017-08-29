@@ -16,7 +16,7 @@ def main():
 
     ## Leemos base de datos
     table_name = 'patentes2'
-    db_file = '../Database/patentes2.db'
+    db_file = '../patentes2.db'
     try:
         db = database(table_name, db_file)
     except:
@@ -56,18 +56,40 @@ def main():
                                   getResponses(content=content, id=text_id), \
                                   getResponses(content=content, id=title_id)
 
+
+        print(keywords)
+
         ## Respondemos a las solicitudes
         for request_id in range(len(nombre)):
 
             ## Limpiamos el texto de puntuacion y toquenizamos
             words = getWords(keywords[request_id])
 
+
+            print(words)
+
+
             ## Buscamos en nuestra base de datos las palabras solicitadas para generar los IPC
-            responses = db.searchMULT(where, words)
-            top_ipc = generateIPC(responses)
+            responses = db.searchOR(where, words)
+
+
+            print(responses)
+
+
+            get_ipc = generateIPC(responses)
+
+
+            print(get_ipc)
+
+
+            topk = topK_IPC(get_ipc, 5)
+
+
+            print(topk)
+
 
             ## Buscamos en nuestra base de datos con los IPC generados
-            responses = db.search('ipc',top_ipc)
+            responses = db.searchMULT('ipc',topk)
             makeCSV(count, responses, description[request_id])
 
             ## Generamos el informe a enviar
@@ -78,8 +100,10 @@ def main():
             correo(count, mail[request_id], keywords[request_id])
             count += 1
 
-        print('sleep')
+        print(" I'm awake motherfuckers!!!! lml ")
+
         time.sleep(60)
+
 
 
 if __name__ == "__main__":
