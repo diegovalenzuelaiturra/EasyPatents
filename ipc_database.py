@@ -42,7 +42,7 @@ def des2key(description):
         for i in aux:
             if i not in words:
                 words.append(i)
-    return ' '.join(words)
+    return words
 
 
 def main():
