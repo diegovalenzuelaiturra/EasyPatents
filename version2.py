@@ -21,6 +21,8 @@ def main():
     table_name_ipc = 'ipc_database'
     db_file_ipc = '../Database/ipc_database.db'
 
+    db_file = '../patentes2.db'
+
     try:
         db = database(table_name, db_file)
         db_ipc = database(table_name_ipc, db_file_ipc)
@@ -61,19 +63,49 @@ def main():
                                   getResponses(content=content, id=text_id), \
                                   getResponses(content=content, id=title_id)
 
+
+        print(keywords)
+
         ## Respondemos a las solicitudes
         for request_id in range(len(nombre)):
 
             ## Limpiamos el texto de puntuacion y toquenizamos
             words = getWords(keywords[request_id])
 
+
+            print(words)
+
+
             ## Buscamos en nuestra base de datos las palabras solicitadas para generar los IPC
+
             get_ipc = generateIPC(table_name_ipc, db_ipc, words)
             topkipc = topK_IPC(get_ipc, 5)
             print(topkipc)
 
             ## Buscamos en nuestra base de datos con los IPC generados
             responses = db.searchMULT('ipc',topkipc)
+
+            responses = db.searchOR(where, words)
+
+
+            print(responses)
+
+
+            get_ipc = generateIPC(responses)
+
+
+            print(get_ipc)
+
+
+            topk = topK_IPC(get_ipc, 5)
+
+
+            print(topk)
+
+
+            ## Buscamos en nuestra base de datos con los IPC generados
+            responses = db.searchMULT('ipc',topk)
+
             makeCSV(count, responses, description[request_id])
 
             ## Generamos el informe a enviar
@@ -85,6 +117,7 @@ def main():
             count += 1
 
         print(" I'm awake motherfuckers!!!! lml ")
+
         time.sleep(60)
 
 
@@ -129,6 +162,11 @@ def test():
                   'hasta el 31 de julio')
     else:
         print('respuesta vacia, nada que reportar')
+
+
+        time.sleep(60)
+
+
 
 
 if __name__ == "__main__":
