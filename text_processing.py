@@ -77,16 +77,24 @@ def stemmingLemmatizer(text):
     return aux1
 
 
-def generateIPC(responses):
+def generateIPC(name_database, database_ipc, keywords):
+    where = 'keywords'
     d = defaultdict(int)
-    for response in responses:
-        ipc = response[3].split('|')
-        for i in ipc:
-            ipc_class = i.split('/')[0]
-            d[ipc_class] += 1
+    for word in keywords:
+        responses = database_ipc.search(name_database, where, word)
+        if responses != None:
+            for response in responses:
+                ipc = response[1]
+                d[ipc] += 1
+    return sorted(d.items(), key=operator.itemgetter(1), reverse=True)
 
-    ## Elegimos las primeras 5 categorias
-    return max(d.items(), key=operator.itemgetter(1))[0]
+
+def topK_IPC(sorted_d, k):
+    sorted_IPC = []
+    n = k if len(sorted_d) > k else len(sorted_d)
+    for i in range(n):
+        sorted_IPC.append(sorted_d[i][0])
+    return sorted_IPC
 
 
 def makeCSV(id, responses, description):

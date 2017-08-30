@@ -14,11 +14,16 @@ from Report import getReport
 
 def main():
 
-    ## Leemos base de datos
+    ## Leemos las bases de datos
     table_name = 'patentes2'
     db_file = '../Database/patentes2.db'
+
+    table_name_ipc = 'ipc_database'
+    db_file_ipc = '../Database/ipc_database.db'
+
     try:
         db = database(table_name, db_file)
+        db_ipc = database(table_name_ipc, db_file_ipc)
     except:
         print('error al abrir base de datos')
         return False
@@ -63,11 +68,12 @@ def main():
             words = getWords(keywords[request_id])
 
             ## Buscamos en nuestra base de datos las palabras solicitadas para generar los IPC
-            responses = db.searchMULT(where, words)
-            top_ipc = generateIPC(responses)
+            get_ipc = generateIPC(table_name_ipc, db_ipc, words)
+            topkipc = topK_IPC(get_ipc, 5)
+            print(topkipc)
 
             ## Buscamos en nuestra base de datos con los IPC generados
-            responses = db.search('ipc',top_ipc)
+            responses = db.searchMULT('ipc',topkipc)
             makeCSV(count, responses, description[request_id])
 
             ## Generamos el informe a enviar
@@ -78,9 +84,53 @@ def main():
             correo(count, mail[request_id], keywords[request_id])
             count += 1
 
-        print('sleep')
+        print(" I'm awake motherfuckers!!!! lml ")
         time.sleep(60)
 
 
+def test():
+    ## Leemos las bases de datos
+    table_name = 'patentes2'
+    db_file = '../Database/patentes2.db'
+
+    table_name_ipc = 'ipc_database'
+    db_file_ipc = '../Database/ipc_database.db'
+
+    try:
+        db = database(table_name, db_file)
+        db_ipc = database(table_name_ipc, db_file_ipc)
+    except:
+        print('error al abrir base de datos')
+        return False
+
+
+    keywords = 'explosive plastic booster anfo robust'
+    description = 'explosive plastic booster anfo robust'
+    nombre = 'ribanez'
+    project = 'plastic explosive'
+
+    count = 1000
+    ## Limpiamos el texto de puntuacion y toquenizamos
+    words = getWords(keywords)
+
+    ## Buscamos en nuestra base de datos las palabras solicitadas para generar los IPC
+    get_ipc = generateIPC(table_name_ipc, db_ipc, words)
+    topkipc = topK_IPC(get_ipc, 5)
+    print(topkipc)
+
+    ## Buscamos en nuestra base de datos con los IPC generados
+    responses = db.searchMULT('ipc', topkipc)
+    print(responses)
+    if responses != None:
+        makeCSV(count, responses, description)
+
+        ## Generamos el informe a enviar
+        getReport(str(count) + '_sort.csv', 'main', nombre, project, words,
+                  'hasta el 31 de julio')
+    else:
+        print('respuesta vacia, nada que reportar')
+
+
 if __name__ == "__main__":
-    main()
+    test()
+    #main()

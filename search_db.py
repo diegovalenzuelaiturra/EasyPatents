@@ -9,15 +9,23 @@ class database():
         self.conn = sqlite3.connect(self.db_file)
 
 
-    def search(self, where, query):
-        if where == 'abstract':
-            return self.conn.execute("SELECT * FROM patentes2 WHERE abstract MATCH ?",(query,))
-        elif where == 'title':
-            return self.conn.execute("SELECT * FROM patentes2 WHERE title MATCH ?", (query,))
-        elif where == 'ipc':
-            return self.conn.execute("SELECT * FROM patentes2 WHERE ipc_class MATCH ?", (query,))
-        else:
-            return None
+    def search(self, data_name, where, query):
+        if data_name == 'patentes2':
+            if where == 'abstract':
+                return self.conn.execute("SELECT * FROM patentes2 WHERE abstract MATCH ?",(query,))
+            elif where == 'title':
+                return self.conn.execute("SELECT * FROM patentes2 WHERE title MATCH ?", (query,))
+            elif where == 'ipc':
+                return self.conn.execute("SELECT * FROM patentes2 WHERE ipc_class MATCH ?", (query,))
+            else:
+                return None
+        elif data_name == 'ipc_database':
+            if where == 'keywords':
+                return self.conn.execute("SELECT * FROM ipc_database WHERE keywords MATCH ?",(query,))
+            elif where == 'ipc':
+                return self.conn.execute("SELECT * FROM ipc_database WHERE ipc_class MATCH ?", (query,))
+            else:
+                return None
 
 
     def searchAND(self, where, words):
@@ -43,7 +51,7 @@ class database():
 
 
     def searchMULT(self, where, words):
-        query = ' '.join(words)
+        query = '* '.join(words)
         if where == 'abstract':
             return self.conn.execute("SELECT * FROM patentes2 WHERE abstract MATCH ?",(query,))
         elif where == 'title':
