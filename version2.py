@@ -152,21 +152,21 @@ def test():
     print(topkipc)
 
     ## Buscamos en nuestra base de datos con los IPC generados
-    responses = db.searchMULT('ipc', topkipc)
+    responses = []
+    for ipc in topkipc:
+        resp = db.search(table_name,'ipc', ipc)
+        for r in resp:
+            responses.append(r)
     print(responses)
+
     if responses != None:
         makeCSV(count, responses, description)
 
         ## Generamos el informe a enviar
-        getReport(str(count) + '_sort.csv', 'main', nombre, project, words,
-                  'hasta el 31 de julio')
+        #getReport(str(count) + '_sort.csv', 'main', nombre, project, words,
+        #          'hasta el 31 de julio')
     else:
         print('respuesta vacia, nada que reportar')
-
-
-        time.sleep(60)
-
-
 
 
 if __name__ == "__main__":

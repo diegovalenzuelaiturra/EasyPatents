@@ -36,7 +36,7 @@ class database():
             query = query + ' AND ' + word if index != 0 else query + word
             index = index + 1
 
-        return self.search(where,query+'"')
+        return self.search(self.table, where,query+'"')
 
 
     def searchOR(self, where, words):
@@ -47,11 +47,12 @@ class database():
             query = query + ' OR ' + word if index != 0 else query + word
             index = index + 1
 
-        return self.search(where, query+'"')
+        return self.search(self.table, where, query+'"')
 
 
     def searchMULT(self, where, words):
-        query = '* '.join(words)
+        query = ' '.join(words)
+        print(query)
         if where == 'abstract':
             return self.conn.execute("SELECT * FROM patentes2 WHERE abstract MATCH ?",(query,))
         elif where == 'title':
@@ -65,24 +66,30 @@ def db_test():
 
     table_name = 'patentes2'
     db_file = '../Database/patentes2.db'
+
+    table_name_ipc = 'ipc_database'
+    db_file_ipc = '../Database/ipc_database.db'
+
+
     try:
         db = database(table_name, db_file)
+        db_ipc = database(table_name_ipc, db_file_ipc)
     except:
         print('error al abrir base de datos')
         return False
 
     try:
-        db.search('title',"'bacteria'")
+        print(db.search(db_file,'title',"'bacteria'").description)
     except:
         print('error al buscar en el titulo')
 
     try:
-        db.search('abstract',"'explosive'")
+        print(db.search(db_file,'abstract',"'explosive'").description)
     except:
         print('error al buscar en el abstract')
 
     try:
-        db.search('ipc',"'A23L3'")
+        print(db.search(db_file,'ipc',"'A23L3'").description)
     except:
         print('Error al buscar en los ipc')
 
@@ -100,11 +107,15 @@ def db_test():
     except:
         print('Error con searchOR')
 
-    try:
-        for response in db.searchMULT('abstract',words):
-            print(response)
-    except:
-        print('Error searchMULT')
+    topipc = ['F41A', 'F16B', 'E01C', 'E06B', 'B63B']
+
+    #try:
+    responses = db.searchMULT('ipc', topipc)
+    print(responses.description)
+    for response in db.searchMULT('ipc', topipc):
+        print(response)
+    #except:
+    #    print('Error searchMULT')
 
     return True
 
