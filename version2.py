@@ -1,6 +1,6 @@
 ## Librerias para operar con la base de datos
 from text_processing import *
-from search_db import *
+from search_wipo import *
 
 ## Librerias para operar con las respuestas de typeform
 from linkTypeform import*
@@ -104,7 +104,10 @@ def main():
 
 
             ## Buscamos en nuestra base de datos con los IPC generados
-            responses = db.searchMULT('ipc',topk)
+            for ipc in topkipc:
+                resp = db.search('ipc', ipc + '*')
+                for r in resp:
+                    responses.append(r)
 
             makeCSV(count, responses, description[request_id])
 
@@ -147,14 +150,15 @@ def test():
     words = getWords(keywords)
 
     ## Buscamos en nuestra base de datos las palabras solicitadas para generar los IPC
-    get_ipc = generateIPC(table_name_ipc, db_ipc, words)
+    get_ipc = generateIPC(db_ipc, words)
     topkipc = topK_IPC(get_ipc, 5)
     print(topkipc)
 
     ## Buscamos en nuestra base de datos con los IPC generados
     responses = []
+    #topipc = ['F41A', 'F16B', 'E01C', 'E06B', 'B63B']
     for ipc in topkipc:
-        resp = db.search(table_name,'ipc', ipc)
+        resp = db.search('ipc', ipc + '*')
         for r in resp:
             responses.append(r)
     print(responses)

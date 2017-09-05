@@ -9,17 +9,19 @@ class database():
         self.conn = sqlite3.connect(self.db_file)
 
 
-    def search(self, data_name, where, query):
-        if data_name == 'patentes2':
+    def search(self, where, query):
+
+        if self.table == 'patentes2':
             if where == 'abstract':
-                return self.conn.execute("SELECT * FROM patentes2 WHERE abstract MATCH ?",(query,))
+                return self.conn.execute("SELECT * FROM patentes2 WHERE abstract MATCH ?", (query,))
             elif where == 'title':
                 return self.conn.execute("SELECT * FROM patentes2 WHERE title MATCH ?", (query,))
             elif where == 'ipc':
                 return self.conn.execute("SELECT * FROM patentes2 WHERE ipc_class MATCH ?", (query,))
             else:
                 return None
-        elif data_name == 'ipc_database':
+
+        elif self.table == 'ipc_database':
             if where == 'keywords':
                 return self.conn.execute("SELECT * FROM ipc_database WHERE keywords MATCH ?",(query,))
             elif where == 'ipc':
@@ -47,12 +49,11 @@ class database():
             query = query + ' OR ' + word if index != 0 else query + word
             index = index + 1
 
-        return self.search(self.table, where, query+'"')
+        return self.search(where, query+'"')
 
 
     def searchMULT(self, where, words):
-        query = ' '.join(words)
-        print(query)
+        query = '"'+' '.join(words)+'"'
         if where == 'abstract':
             return self.conn.execute("SELECT * FROM patentes2 WHERE abstract MATCH ?",(query,))
         elif where == 'title':
@@ -62,47 +63,48 @@ class database():
         else:
             return None
 
+
 def db_test():
 
-    table_name = 'patentes2'
-    db_file = '../Database/patentes2.db'
+    table_name_wipo = 'patentes2'
+    db_file_wipo = '../Database/patentes_3.db'
 
     table_name_ipc = 'ipc_database'
     db_file_ipc = '../Database/ipc_database.db'
 
 
     try:
-        db = database(table_name, db_file)
-        db_ipc = database(table_name_ipc, db_file_ipc)
+        db_wipo = database(table_name_wipo, db_file_wipo)
     except:
         print('error al abrir base de datos')
         return False
 
     try:
-        print(db.search(db_file,'title',"'bacteria'").description)
+        responses = db_wipo.search('title',"'car'")
+        print(responses.description)
     except:
         print('error al buscar en el titulo')
 
     try:
-        print(db.search(db_file,'abstract',"'explosive'").description)
+        db_wipo.search('abstract',"'explosive'")
     except:
         print('error al buscar en el abstract')
 
     try:
-        print(db.search(db_file,'ipc',"'A23L3'").description)
+        db_wipo.search('ipc',"'A23L3'")
     except:
         print('Error al buscar en los ipc')
 
     words = ['explosive', 'plastic']
 
     try:
-        for response in db.searchAND('abstract', words):
+        for response in db_wipo.searchAND('abstract', words):
             print(response)
     except:
         print('Error con searchAND')
 
     try:
-        for response in db.searchOR('abstract', words):
+        for response in db_wipo.searchOR('abstract', words):
             print(response)
     except:
         print('Error con searchOR')
@@ -110,14 +112,16 @@ def db_test():
     topipc = ['F41A', 'F16B', 'E01C', 'E06B', 'B63B']
 
     #try:
-    responses = db.searchMULT('ipc', topipc)
-    print(responses.description)
-    for response in db.searchMULT('ipc', topipc):
-        print(response)
+    for ipc in topipc:
+        responses = db_wipo.search('ipc', ipc)
+        for response in responses:
+            print(response)
+    responses = db_wipo.searchMULT('ipc', topipc)
     #except:
     #    print('Error searchMULT')
 
-    return True
+
+    #return True
 
 
 if __name__ == "__main__":

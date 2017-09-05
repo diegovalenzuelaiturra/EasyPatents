@@ -23,24 +23,24 @@ def makevector(palabras):
 
 
 def createDBfts():
-    conn = sqlite3.connect('../Database/patentes2.db')
+    conn = sqlite3.connect('../Database/patentes3.db')
     conn.execute(
-        "CREATE VIRTUAL TABLE patentes2 USING fts4(index, publication_number, publication_date, ipc_class, applicant, inventor, abstract, title, vector, tokenize=porter)")
+        "CREATE VIRTUAL TABLE patentes3 USING fts4(index, publication_number, publication_date, ipc_class, applicant, inventor, abstract, title, vector, tokenize=porter)")
     conn.close()
     print('la tabla fue creada con exito')
 
 
 def addDB(index, publication_number, publication_date, ipc_class, applicant, inventor, abstract, title, vector):
-    conn = sqlite3.connect('../Database/patentes2.db')
-    conn.execute('''INSERT INTO patentes VALUES (?,?,?,?,?,?,?,?,?)''',
+    conn = sqlite3.connect('../Database/patentes3.db')
+    conn.execute('''INSERT INTO patentes3 VALUES (?,?,?,?,?,?,?,?,?)''',
                  (index, publication_number, publication_date, ipc_class, applicant, inventor, abstract, title, vector))
     conn.commit()
     conn.close()
 
 
 def addDBfts(index, publication_number, publication_date, ipc_class, applicant, inventor, abstract, title, vector):
-    conn = sqlite3.connect('../Database/patentes2.db')
-    conn.execute('INSERT INTO patentes2 VALUES (?,?,?,?,?,?,?,?,?)',
+    conn = sqlite3.connect('../Database/patentes3.db')
+    conn.execute('INSERT INTO patentes3 VALUES (?,?,?,?,?,?,?,?,?)',
                  (index, publication_number, publication_date, ipc_class, applicant, inventor, abstract, title, vector))
     conn.commit()
     conn.close()

@@ -77,12 +77,12 @@ def stemmingLemmatizer(text):
     return aux1
 
 
-def generateIPC(name_database, database_ipc, keywords):
+def generateIPC(database_ipc, keywords):
     where = 'keywords'
     d = defaultdict(int)
 
     for word in keywords:
-        responses = database_ipc.search(name_database, where, word)
+        responses = database_ipc.search(where, word)
         if responses != None:
             for response in responses:
                 ipc = response[1]
