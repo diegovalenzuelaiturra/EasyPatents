@@ -2,8 +2,12 @@ import json
 import urllib.request
 
 
-def getFormComplete(typeform_UID = 'BdzCUz',
-                    apikey = 'a4b5f45414ebad1defbb80651a961ef09e364e82',
+typeform_UID = ''
+apikey = ''
+
+
+def getFormComplete(typeform_UID = typeform_UID,
+                    apikey = apikey,
                     since=None,     #since tiempo unix desde cuando quiero los resultados del formulario
                     until=None,     #until tiempo unix hasta cuando quiero los resultados del formulario
                     offset=None,    #offset entrega resultados desde el numero indicado en offset
