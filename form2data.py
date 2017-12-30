@@ -5,8 +5,10 @@ import urllib.request
 def main():
 
 
+    # Insrtar Keys cuenta Typeform ( www.typeform.com )
     usr = ""
     key = ""
+    
 
     url = "https://api.typeform.com/v1/form/" + usr + "?" + "key=" + key
     url_specs = "&" + "completed=true" + "&" + "order_by[]=date_submit,desc" # + "&" + "limit=10"
