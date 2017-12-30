@@ -8,7 +8,13 @@ import time
 import pandas as pd
 from Report import getReport
 
+
 def main():
+
+    
+    typeform_UID = ''
+    
+    
     ###Obtener resultados desde Typeform
     name_id, mail_id, word_id = 'textfield_CGua','email_SLgj','textarea_pOCT'
     text_id, title_id = 'textarea_f0ne','textfield_xIp1'
@@ -22,9 +28,9 @@ def main():
         d = datetime.utcnow()
         timestamp2 = str(calendar.timegm(d.utctimetuple()))
         if timestamp1 == '':
-            content = getFormComplete(typeform_UID='Ea4LIG', until=timestamp1)
+            content = getFormComplete(typeform_UID=typeform_UID, until=timestamp1)
         else:
-            content = getFormComplete(typeform_UID='Ea4LIG', since=timestamp1)
+            content = getFormComplete(typeform_UID=typeform_UID, since=timestamp1)
         #print(content)
         timestamp1 = timestamp2
 
