@@ -2,8 +2,15 @@ import requests
 
 
 class EPmail:
-    def __init__(self, apiurl='https://api.mailgun.net/v3/mail.easypatents.cl/messages',
-                 apikey='key-a4953915dffa936b1e83070c0de3c3ef'):
+
+
+    # Insertar apiurl y apikey de MailGun (www.mailgun.com)
+    apiurl=''
+    apikey=''
+    
+    
+    def __init__(self, apiurl=apiurl,
+                 apikey=apykey):
         self.apiurl = apiurl
         self.apikey = apikey
 
