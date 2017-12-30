@@ -17,12 +17,12 @@ def main():
     print(response)
 
 
-    # apiurl = 'https://api.mailgun.net/v3/mail.easypatents.cl/messages'
-    # apikey = 'key-a4953915dffa936b1e83070c0de3c3ef'
+    # apiurl = ''
+    # apikey = ''
     #
     # mtext = 'Hola! soy Ro, y te adjunto mi auxiliar 12'
     # msubject = 'Auxiliar 12'
-    # mfrom = 'ribanez@easypatents.cl'
+    # mfrom = ''
     # mto = '@gmail.com'
     #
     # #archivos adjuntos
@@ -55,8 +55,8 @@ def main():
 
     #print(similaridad("dog","frump"))
 
-    #consumer_key = 'a66G2Ox2G6JYLlp9VTQnZ6Dqb7GGtmdn'
-    #consumer_secret_key = '6EAoLMWT7gHZBGqy'
+    #consumer_key = ''
+    #consumer_secret_key = ''
     #client = initEPO()
     #client = epo_ops.Client(key=consumer_key, secret=consumer_secret_key)  # Instantiate client
     #
