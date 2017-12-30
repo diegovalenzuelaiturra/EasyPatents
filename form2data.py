@@ -1,15 +1,12 @@
 import json
 import urllib.request
 
-# https://easypatents.typeform.com/to/BdzCUz
-# a4b5f45414ebad1defbb80651a961ef09e364e82
-
 
 def main():
 
 
-    usr = "BdzCUz"
-    key = "a4b5f45414ebad1defbb80651a961ef09e364e82"
+    usr = ""
+    key = ""
 
     url = "https://api.typeform.com/v1/form/" + usr + "?" + "key=" + key
     url_specs = "&" + "completed=true" + "&" + "order_by[]=date_submit,desc" # + "&" + "limit=10"
