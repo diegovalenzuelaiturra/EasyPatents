@@ -29,7 +29,8 @@ def main():
 
     ##Timer cronos
     #text = 'cronometraje deportivo; sensores RFID; sensores activos; sensores ultrasonicos'
-
+    
+    ## Deberíamos editar este mail
     itext = "Hola! soy Ro, y respondo a lo que solicitaste usando las palabras ["
     ftext =  """           
 Cualquier duda por favor contacta a uno de nuestros humanos
