@@ -1,0 +1,14 @@
+name: YAPF Code Formatter
+
+on: [push]
+
+jobs:
+  Formatter:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: diegovalenzuelaiturra/yapf-action@master
+    - name: yapf formatter action
+      run: diegovalenzuelaiturra/yapf-action@master
