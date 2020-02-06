@@ -7,14 +7,12 @@ on:
 
 jobs:
   yapf_formatter:
-    
-    name: Formatter
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v2
 
     - name: Formatter
-    - uses: diegovalenzuelaiturra/yapf-action/action@master
+    - uses: diegovalenzuelaiturra/yapf-action@master
       with:
         args: . --diff --in-place
