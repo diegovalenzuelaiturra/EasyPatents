@@ -22,4 +22,4 @@ jobs:
       #   https://github.com/diegovalenzuelaiturra/yapf-action
       uses: diegovalenzuelaiturra/yapf-action@master
       with:
-        args: . --diff --in-place
+        args: . --diff
