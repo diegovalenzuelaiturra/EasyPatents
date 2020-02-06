@@ -22,4 +22,4 @@ jobs:
       #   https://github.com/diegovalenzuelaiturra/yapf-action
       uses: diegovalenzuelaiturra/yapf-action@master
       with:
-        args: . --in-place --recursive
+        args: . --verbose --recursive
