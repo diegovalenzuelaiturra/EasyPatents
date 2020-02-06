@@ -15,6 +15,6 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Formatter
-    - uses: diegovalenzuelaiturra/yapf-action@master
+    - uses: diegovalenzuelaiturra/yapf-action/action@master
       with:
         args: . --diff --in-place
