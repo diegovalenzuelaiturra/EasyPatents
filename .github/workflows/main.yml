@@ -4,11 +4,12 @@ on: [push]
 
 jobs:
   Formatter:
+    
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
       
-    - name: yapf formatter action
+    - name: Formatter
     - uses: diegovalenzuelaiturra/yapf-action@master
