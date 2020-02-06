@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 
 
-
 def main():
 
     df = pd.read_csv('./client0-sort.csv')
