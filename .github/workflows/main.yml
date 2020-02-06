@@ -1,15 +1,20 @@
 name: YAPF Code Formatter
 
-on: [push]
+on:
+  push:
+    paths:
+    - '**.py'
 
 jobs:
-  Formatter:
+  yapf_formatter:
     
-
+    name: Formatter
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-      
+
     - name: Formatter
     - uses: diegovalenzuelaiturra/yapf-action@master
+      with:
+        args: . --diff --in-place
