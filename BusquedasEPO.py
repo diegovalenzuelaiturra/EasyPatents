@@ -6,11 +6,13 @@ import epo_ops
 consumer_key = ''
 consumer_secret_key = ''
 
-def initEPO(consumer_key = consumer_key,
-                consumer_secret_key = consumer_secret_key):
+
+
+
+
+def initEPO(consumer_key = consumer_key, consumer_secret_key = consumer_secret_key):
     return epo_ops.Client(key=consumer_key, secret=consumer_secret_key)
-    
-    
+     
 def busquedaEPO(response, elemento='abstract', type='html'):
     fin = list()
     if type=='html':
