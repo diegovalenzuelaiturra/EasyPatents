@@ -10,7 +10,7 @@ jobs:
   build:
     
     # Job name is "yapf formatter"
-    name: "YAPF Formatter"
+    name: "YAPF Formatter :) "
     
     # This job runs on Linux
     runs-on: ubuntu-latest
