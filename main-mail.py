@@ -1,7 +1,7 @@
 from EPmail import EPmail
-from BusquedasEPO import*
-from BusquedasSem import*
-from linkTypeform import*
+from BusquedasEPO import *
+from BusquedasSem import *
+from linkTypeform import *
 
 
 def main():
@@ -11,11 +11,10 @@ def main():
     name_id = 'textfield_52850379'
     mail_id = 'email_52850524'
     text_id = 'textarea_52850750'
-    content = getFormComplete(offset=5,limit=5)
+    content = getFormComplete(offset=5, limit=5)
 
-    response = getResponses(content=content,id=mail_id)
+    response = getResponses(content=content, id=mail_id)
     print(response)
-
 
     # apiurl = ''
     # apikey = ''
@@ -32,7 +31,6 @@ def main():
     #aux = epm.send_simple_message(mto, mfrom, msubject, mtext)
     #aux = epm.send_complex_message(mto,mfrom,msubject,mtext,fformat,fname)
     #print(aux)
-
 
     #text = "son barcos de papel creados a partir de vibraciones de las hojas. Los barcos de papel tienen la resistencia del acero."
     #input('ingresa el texto, loco! ')
@@ -85,7 +83,6 @@ def main():
     # kind = busquedaEPO(response, 'kind',type='html')
     #import epo_opsanonymous_client = epo_ops.Client()  # Instantiate a default client
 
-
     # for i in range(len(country)):
     #     response = client.published_data(  # Retrieve bibliography data
     #         reference_type='publication',  # publication, application, priority
@@ -101,8 +98,6 @@ def main():
     #     else:
     #       print(aux[1])
 
-
-
     #     text = response.text
     #     soup = BeautifulSoup(text, 'xml')
     #     aux2 = soup.find_all('abstract')
@@ -111,6 +106,7 @@ def main():
     #         print(i.p.string)
     #     print(response.text)
     #     print(busquedaEPO(BeautifulSoup(response.text,'html.parser'),'abstract'))
+
 
 if __name__ == "__main__":
     main()

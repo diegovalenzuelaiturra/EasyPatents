@@ -16,7 +16,8 @@ def main():
 
     for i in range(l):
         #PCA_score[i][:] = PCAscore2(thoughtobeat(words=abstracts_aux[i], abstracts=abstracts_aux))
-        aux = PCAscore2(thoughtobeat(words=abstracts_aux[i], abstracts=abstracts_aux))
+        aux = PCAscore2(
+            thoughtobeat(words=abstracts_aux[i], abstracts=abstracts_aux))
         for j in range(l):
             PCA_score[i][j] = aux[j]
 
@@ -43,9 +44,6 @@ def preprocessing_abstracts_PCA(abstracts):
     return abstracts_aux
 
 
-
-
-
 def simpleScore(abstract_i, abstract_j, gamma):
 
     freq = list()
@@ -58,10 +56,10 @@ def simpleScore(abstract_i, abstract_j, gamma):
 
     for i in abstract_i:
         for j in abstract_j:
-            freq_i = abstract_j.count(i)/l_j
-            freq_j = abstract_i.count(j)/l_i
-            freq.append(freq_i+freq_j)
-            freq_acum += freq_i+freq_j
+            freq_i = abstract_j.count(i) / l_j
+            freq_j = abstract_i.count(j) / l_i
+            freq.append(freq_i + freq_j)
+            freq_acum += freq_i + freq_j
 
     maximo = np.amax(freq)
     for n in freq:
@@ -69,7 +67,8 @@ def simpleScore(abstract_i, abstract_j, gamma):
             score = -math.inf
             return score
         else:
-            aux = np.log(gamma+((n/maximo)**(3/4))/(freq_acum**(3/4)))
+            aux = np.log(gamma + ((n / maximo)**(3 / 4)) /
+                         (freq_acum**(3 / 4)))
             score += aux
     return score
 

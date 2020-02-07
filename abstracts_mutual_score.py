@@ -2,6 +2,7 @@ from BusquedasSem import *
 import seaborn as sns
 import pandas as pd
 
+
 def main():
 
     df = pd.read_csv('./PCA_Sorted_Abstracts1.csv')
@@ -13,7 +14,8 @@ def main():
 
     for i in range(l):
         for j in range(l):
-            score[i][j] = 1 - scipy.spatial.distance.cosine(TX_vec[i][:], TX_vec[j][:])
+            score[i][j] = 1 - scipy.spatial.distance.cosine(
+                TX_vec[i][:], TX_vec[j][:])
 
     # eventualmente comentar el plot, y plotear abriendo el csv en/con otro script
     sns.set()
@@ -30,7 +32,7 @@ def main():
 
 
 def sigmoid(x):
-    return 1/(1 + np.exp(-x))
+    return 1 / (1 + np.exp(-x))
 
 
 def simpleScore(abstract_i, abstract_j, gamma):
@@ -45,10 +47,10 @@ def simpleScore(abstract_i, abstract_j, gamma):
 
     for i in abstract_i:
         for j in abstract_j:
-            freq_i = abstract_j.count(i)/l_j
-            freq_j = abstract_i.count(j)/l_i
-            freq.append(freq_i+freq_j)
-            freq_acum += freq_i+freq_j
+            freq_i = abstract_j.count(i) / l_j
+            freq_j = abstract_i.count(j) / l_i
+            freq.append(freq_i + freq_j)
+            freq_acum += freq_i + freq_j
 
     maximo = np.amax(freq)
     for n in freq:
@@ -56,7 +58,8 @@ def simpleScore(abstract_i, abstract_j, gamma):
             score = -math.inf
             return score
         else:
-            aux = np.log(gamma+((n/maximo)**(3/4))/(freq_acum**(3/4)))
+            aux = np.log(gamma + ((n / maximo)**(3 / 4)) /
+                         (freq_acum**(3 / 4)))
             score += aux
     return score
 

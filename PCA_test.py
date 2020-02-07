@@ -8,7 +8,7 @@ def main():
     df = pd.read_csv('./client0-sort.csv')
     abstracts = df['Abstract'].values
 
-#    abstracts_aux = abstracts
+    #    abstracts_aux = abstracts
 
     abstracts_aux = []
     for abstract in abstracts:
@@ -21,7 +21,8 @@ def main():
         abstracts_aux.append(text)
     print(abstracts_aux[0])
 
-    words = getWordsText('explosive emulsion; plastic explosive; oil with water; robust')
+    words = getWordsText(
+        'explosive emulsion; plastic explosive; oil with water; robust')
 
     X = thoughtobeat(words=words, abstracts=abstracts_aux)
     pca_score = PCAscore2(X)

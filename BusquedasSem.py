@@ -16,30 +16,34 @@ import scipy
 import gensim, logging
 from sklearn.decomposition import PCA
 
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
+                    level=logging.INFO)
+model = gensim.models.KeyedVectors.load_word2vec_format(
+    '../GoogleNews-vectors-negative300.bin.gz', binary=True)
 
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-model = gensim.models.KeyedVectors.load_word2vec_format('../GoogleNews-vectors-negative300.bin.gz', binary=True)
 
-
-def gosTranslateText(langin,langout, text):
+def gosTranslateText(langin, langout, text):
     #try:
-        translator = Translator()
-        aux = translator.translate(text, dest=langout)#, src=langin)
-        return aux.text
-    #except:
-    #    print("Error en la traducción")
+    translator = Translator()
+    aux = translator.translate(text, dest=langout)  #, src=langin)
+    return aux.text
 
-def translateText(lengin,lengout, text):
+#except:
+#    print("Error en la traducción")
+
+
+def translateText(lengin, lengout, text):
     try:
         return Translator(from_lang=lengin, to_lang=lengout).translate(text)
     except:
         print("Error en la traducción")
 
+
 def translateTextAuto(lengout, text):
     return Translator(from_lang='auto', to_lang=lengout).translate(text)
 
 
-def translateWord(lengin,lengout,text):
+def translateWord(lengin, lengout, text):
     aux = []
     for i in text:
         aux.append(Translator(from_lang=lengin, to_lang=lengout).translate(i))
@@ -71,7 +75,7 @@ def stemmingPorter(text):
     return aux1
 
 
-def stemmingSnowball(leng,text):
+def stemmingSnowball(leng, text):
     ps = SnowballStemmer(leng)
     aux1 = text
     for i in range(len(text)):
@@ -89,15 +93,15 @@ def stemmingLemmatizer(text):
     for i in range(len(text)):
         aux2 = ps.lemmatize(aux1[i])
         if aux2 != aux1[i]:
-        #    aux1[i] = aux2 + '*'
+            #    aux1[i] = aux2 + '*'
             aux1[i] = aux2
         else:
             aux1[i] = aux2
     return aux1
 
 
-def collocationFinder(nmin,nmax,words):
-    rango = range(nmin,nmax)
+def collocationFinder(nmin, nmax, words):
+    rango = range(nmin, nmax)
     lista = list()
     for i in rango:
         n_vent = i
@@ -106,33 +110,33 @@ def collocationFinder(nmin,nmax,words):
         bigram_measures = nltk.collocations.BigramAssocMeasures()
         aux = finder1.score_ngrams(bigram_measures.pmi)
         for j in aux:
-            if abs(j[1]) > 0.5: #valor minimo correlacion
+            if abs(j[1]) > 0.5:  #valor minimo correlacion
                 lista.append(j[0][0] + ' $w' + str(n_vent) + ' ' + j[0][1])
 
     return lista
 
 
-def deleteWord(type,words):
+def deleteWord(type, words):
     aux = list()
     sent = pos_tag(words)
     for i in sent:
-        if i[1]==type:
+        if i[1] == type:
             pass
         else:
             aux.append(i[0])
     return aux
 
 
-def getType(type,word):
+def getType(type, word):
     sent = pos_tag(word)
-    if sent[1]==type:
+    if sent[1] == type:
         return True
     else:
         return False
 
 
 def minimizar(text):
-    return  text.lower()
+    return text.lower()
 
 
 def get_synonymous(word):
@@ -152,14 +156,14 @@ def get_antonyms(word):
     return antonyms
 
 
-def similaridad(word1,word2):
+def similaridad(word1, word2):
     w1 = wordnet.synsets(word1)[0]
     w2 = wordnet.synsets(word2)[0]
     return w1.wup_similarity(w2)
 
 
 def sentenceProcessing(text):
-    sentences = text.split(';',1)
+    sentences = text.split(';', 1)
     print(sentences)
     senEn = []
     for sentence in sentences:
@@ -196,52 +200,51 @@ def getWordsText(text):
     return words
 
 
-
 def preProcessing(where, senEn, pn):
-    if pn!=None:
+    if pn != None:
         cql1 = countryEPO(country=pn)
         cql2 = ''
     for i in range(len(senEn)):
         if i == 0:
-            aux = allEPO(where,senEn[i])
-            if pn==None:
+            aux = allEPO(where, senEn[i])
+            if pn == None:
                 cql1 = aux
             else:
-                cql1 = andEPO(cql1,aux)
+                cql1 = andEPO(cql1, aux)
         elif i == 1:
-            cql2 = anyEPO(where,senEn[i])
+            cql2 = anyEPO(where, senEn[i])
         else:
-            aux = anyEPO(where,senEn[i])
-            cql2 = andEPO(cql2,aux)
-    if len(senEn)>1:
-        return cql1+' and '+cql2
+            aux = anyEPO(where, senEn[i])
+            cql2 = andEPO(cql2, aux)
+    if len(senEn) > 1:
+        return cql1 + ' and ' + cql2
     else:
         return cql1
 
 
-def getConcordance(words,abstract):
+def getConcordance(words, abstract):
     text = nltk.tokenize.word_tokenize(str(abstract))
     freq = 0
     for i in range(len(words)):
-        freq += (text.count(words[i])*100.0)/len(text)
+        freq += (text.count(words[i]) * 100.0) / len(text)
     return freq
 
 
-def getConcordancev2(words,abstract):
+def getConcordancev2(words, abstract):
     text = nltk.tokenize.word_tokenize(str(abstract))
     freq = 0
     for i in words:
         for j in text:
-            freq += similaridad(stemmingLemmatizer(i),stemmingLemmatizer(j))
+            freq += similaridad(stemmingLemmatizer(i), stemmingLemmatizer(j))
     return freq
 
 
-def Score(words, abstract,gamma):
+def Score(words, abstract, gamma):
     text = minimizar(abstract)
     text = deletePunt(text=text)
     text = deleteStop(text=text, leng='english')
     #text = nltk.tokenize.word_tokenize(text)
-    text = deleteWord('CD',text)
+    text = deleteWord('CD', text)
     text = stemmingLemmatizer(text)
 
     #######################################################
@@ -249,22 +252,26 @@ def Score(words, abstract,gamma):
     ######################################################
     words = list(set(words))
     text = list(set(text))
-    v_usr =  np.zeros(len(model[words[1]]))
+    v_usr = np.zeros(len(model[words[1]]))
     for i in words:
         try:
             v_usr += model[i]
         except:
-            print("%s -> en texto de usuario no es una palabra del vocabulario",i)
+            print(
+                "%s -> en texto de usuario no es una palabra del vocabulario",
+                i)
 
-    v_usr = (1/len(words))*v_usr
+    v_usr = (1 / len(words)) * v_usr
 
     v_abs = np.zeros(len(model[words[1]]))
     for i in text:
         try:
             v_abs += model[i]
         except:
-            print("%s -> en texto de abstract no es una palabra del vocabulario", i)
-    v_abs = (1 / len(words))*v_abs
+            print(
+                "%s -> en texto de abstract no es una palabra del vocabulario",
+                i)
+    v_abs = (1 / len(words)) * v_abs
 
     similarity = 1 - scipy.spatial.distance.cosine(v_usr, v_abs)
 
@@ -279,24 +286,24 @@ def Score(words, abstract,gamma):
         freq_acum += freq_i
         #print(freq_acum)
     for n in freq:
-        if freq_acum==0:
+        if freq_acum == 0:
             score = -math.inf
             score = 1
-            return similarity*score
+            return similarity * score
         else:
-            aux = np.log(gamma+(n**(3/4))/(freq_acum**(3/4)))
+            aux = np.log(gamma + (n**(3 / 4)) / (freq_acum**(3 / 4)))
             score += aux
 
     score = 1
-    return similarity*score
+    return similarity * score
 
 
-def PCAScore(words, abstract,gamma):
+def PCAScore(words, abstract, gamma):
     text = minimizar(abstract)
     text = deletePunt(text=text)
     text = deleteStop(text=text, leng='english')
     #text = nltk.tokenize.word_tokenize(text)
-    text = deleteWord('CD',text)
+    text = deleteWord('CD', text)
     text = stemmingLemmatizer(text)
 
     #######################################################
@@ -304,28 +311,28 @@ def PCAScore(words, abstract,gamma):
     ######################################################
 
     alpha = 0.001
-    v_usr =  np.zeros(len(model[words[1]]))
+    v_usr = np.zeros(len(model[words[1]]))
     for i in words:
         try:
-            p = words.count(i)/len(words)
-            k1 = (1/words.count(i))*alpha / (alpha + p)
-            v_usr += k1*model[i]
+            p = words.count(i) / len(words)
+            k1 = (1 / words.count(i)) * alpha / (alpha + p)
+            v_usr += k1 * model[i]
         except:
-            print(" En texto de usuario no es una palabra del vocabulario ->",i)
+            print(" En texto de usuario no es una palabra del vocabulario ->",
+                  i)
 
-    v_usr = (1/len(words))*v_usr
+    v_usr = (1 / len(words)) * v_usr
 
     v_abs = np.zeros(len(model[words[1]]))
     for i in text:
         try:
-            p = text.count(i)/len(text)
+            p = text.count(i) / len(text)
             k2 = (1 / text.count(i)) * alpha / (alpha + p)
-            v_abs += k2*model[i]
+            v_abs += k2 * model[i]
         except:
-            print(" En texto de abstract no es una palabra del vocabulario ->", i)
-    v_abs = (1 / len(words))*v_abs
-
-
+            print(" En texto de abstract no es una palabra del vocabulario ->",
+                  i)
+    v_abs = (1 / len(words)) * v_abs
 
     similarity = 1 - scipy.spatial.distance.cosine(v_usr, v_abs)
     return similarity
@@ -457,15 +464,16 @@ def Crearvectores2(words, oraciones, alpha):
     ## oraciones es array de abstracts, cada abstract es array de palabras
     ## alfa es parametro de though to beat
     ##Output: v_usr = vector de words y vectores = array de vectores de abstracts
-    L=0
+    L = 0
     for oracion in oraciones:
         L += len(oracion)
 
     v_usr = np.zeros(len(model['man']))
     for i in words:
         try:
-            total_i = np.sum([oraciones[x].count(i) for x in range(len(oraciones))])
-            p = total_i/L #oraciones.count(i) / L
+            total_i = np.sum(
+                [oraciones[x].count(i) for x in range(len(oraciones))])
+            p = total_i / L  #oraciones.count(i) / L
             k1 = (1 / words.count(i)) * alpha / (alpha + p)
             v_usr += k1 * model[i]
         except:
@@ -477,8 +485,9 @@ def Crearvectores2(words, oraciones, alpha):
         v = np.zeros(len(model['man']))
         for i in oracion:
             try:
-                total_i = np.sum([oraciones[x].count(i) for x in range(len(oraciones))])
-                p = total_i/L #oraciones.count(i) / L
+                total_i = np.sum(
+                    [oraciones[x].count(i) for x in range(len(oraciones))])
+                p = total_i / L  #oraciones.count(i) / L
                 k1 = (1 / total_i) * alpha / (alpha + p)
                 v += k1 * model[i]
             except:
@@ -502,7 +511,7 @@ def Restarcomponente(X):
 def PCAscore2(TX_vec):
     v_usr = TX_vec[0][:]
     #print(v_usr)
-    puntajes=[]
+    puntajes = []
 
     for vec in TX_vec:
         puntaje = 1 - scipy.spatial.distance.cosine(v_usr, vec)
@@ -513,6 +522,7 @@ def PCAscore2(TX_vec):
     #print(puntajes)
     return puntajes
 
+
 def Coocurrence(abstracts):
     X = []
     repetidos = ()
@@ -520,10 +530,12 @@ def Coocurrence(abstracts):
         for j in abstract:
             if j not in repetidos:
                 repetidos.append(j)
-                X.append([abstracts[x].count(j) for x in range(len(abstracts))])
+                X.append(
+                    [abstracts[x].count(j) for x in range(len(abstracts))])
             else:
                 pass
     return X, repetidos
+
 
 def LSIscore(words, abstracts):
     #Calculo de score en base a Latent semantic index
@@ -533,7 +545,9 @@ def LSIscore(words, abstracts):
     corpus = [dictionary.doc2bow(abstract) for abstract in abstracts]
     tfidf = gensim.models.TfidfModel(corpus)
     corpus_tfidf = tfidf[corpus]
-    lsi = gensim.models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=5)
+    lsi = gensim.models.LsiModel(corpus_tfidf,
+                                 id2word=dictionary,
+                                 num_topics=5)
     corpus_lsi = lsi[corpus_tfidf]
 
     vec_usr = lsi[tfidf[dictionary.doc2bow(words)]]
@@ -543,22 +557,24 @@ def LSIscore(words, abstracts):
 
 
 def createCSV(text):
-    name= './'+text+'.csv'
+    name = './' + text + '.csv'
     outfile = open(name, 'w')
     #writer = csv.writer(outfile)
     #writer.writerow(["Frequency", "Pnumber", "Abstract"])
 
 
-def writeCSV(text,freq,number,abstract):
-    name= './'+text+'.csv'
+def writeCSV(text, freq, number, abstract):
+    name = './' + text + '.csv'
     outfile = open(name, 'a')
     writer = csv.writer(outfile)
-    writer.writerow([str(freq),number,abstract])
+    writer.writerow([str(freq), number, abstract])
 
 
-def sortCSV(path,name):
-    df = pd.read_csv(path, names=["Frequency", "Pnumber", "Abstract"],dtype={'Frequency':'float64'})
+def sortCSV(path, name):
+    df = pd.read_csv(path,
+                     names=["Frequency", "Pnumber", "Abstract"],
+                     dtype={'Frequency': 'float64'})
     #df["Frequency"].convert_objects(convert_numeric=True)
-    df = df.sort_values(["Frequency"],ascending=False)
+    df = df.sort_values(["Frequency"], ascending=False)
     df.to_csv(name)
     #print(df.head())

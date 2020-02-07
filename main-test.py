@@ -32,15 +32,14 @@ def main():
                             busquedaEPO(response, 'kind', type='html')
     for i in range(len(country)):
         title = Title(client=client,
-                            number=number[i],
-                            country=country[i],
-                            kind=kind[i])
+                      number=number[i],
+                      country=country[i],
+                      kind=kind[i])
         aux = country[i] + number[i] + kind[i]
         if title == None:
             pass
         else:
             writeCSV(data, getConcordancev2(words, title), aux, title)
-
 
 
 def Abstract(client, number, country, kind):
@@ -54,19 +53,22 @@ def Abstract(client, number, country, kind):
 
 
 def abstract_helper(client, number, country, kind):
-    response = client.published_data(reference_type='publication',
-                                     input=epo_ops.models.Docdb(str(number), country, kind),
-                                     endpoint='abstract',
-                                     )
+    response = client.published_data(
+        reference_type='publication',
+        input=epo_ops.models.Docdb(str(number), country, kind),
+        endpoint='abstract',
+    )
     return response
 
 
 def title_helper(client, number, country, kind):
-    response = client.published_data(reference_type='publication',
-                                     input=epo_ops.models.Docdb(str(number), country, kind),
-                                     endpoint='title',
-                                     )
+    response = client.published_data(
+        reference_type='publication',
+        input=epo_ops.models.Docdb(str(number), country, kind),
+        endpoint='title',
+    )
     return response
+
 
 def Title(client, number, country, kind):
     response = title_helper(client, number, country, kind)
@@ -113,7 +115,8 @@ def searchResponse(data, cql, words):
             if abstract == None:
                 pass
             else:
-                writeCSV(data, getConcordancev2(words, abstract), aux, abstract)
+                writeCSV(data, getConcordancev2(words, abstract), aux,
+                         abstract)
 
     path = './' + data + '.csv'
     name = './' + data + '-sort.csv'
