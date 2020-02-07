@@ -67,6 +67,10 @@ def allEPO(where="ta", list=[]):
     return aux+'"'
 
 
+
+
+
+
 def anyEPO(where="ta", list=[]):
     #Criterio de busqueda, todos los documentos que contengas alguna de las palabras de list en where
     ## ej. where="ta" list=["green", "energy"] busca todos los documentos que contengas green o energy en sus titulos o abstract.
