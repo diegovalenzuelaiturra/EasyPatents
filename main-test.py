@@ -8,9 +8,6 @@ import calendar
 import time
 
 
-
-
-
 def main():
     count = 0
     data = './client.csv'
