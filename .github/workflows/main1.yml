@@ -22,7 +22,7 @@ jobs:
       #   https://github.com/diegovalenzuelaiturra/yapf-action
       uses: diegovalenzuelaiturra/yapf-action@master
       with:
-        args: . --verbose --recursive
+        args: . --verbose --recursive --in-place
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Commit files
