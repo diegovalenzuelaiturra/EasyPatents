@@ -1,4 +1,4 @@
-name: YAPF Code Formatter
+name: YAPF Code Formatter :)
 
 # This workflow is triggered on pushes to the repository.
 on:
@@ -10,7 +10,7 @@ jobs:
   build:
     
     # Job name is "yapf formatter"
-    name: "YAPF Formatter :) "
+    name: "YAPF Formatter"
     
     # This job runs on Linux
     runs-on: ubuntu-latest
