@@ -28,6 +28,7 @@ def gosTranslateText(langin, langout, text):
     aux = translator.translate(text, dest=langout)  #, src=langin)
     return aux.text
 
+
 #except:
 #    print("Error en la traducción")
 
