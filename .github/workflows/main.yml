@@ -16,30 +16,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-      - uses: actions/checkout@v2
+    - name: Checkout
+    - uses: actions/checkout@v2
       
-      - uses: ./ # Uses an action in the root directory
+    - uses: ./ # Uses an action in the root directory
       
-      - name: "Formatter Action"
-        # This step uses diegovalenzuelaiturra's yapf-action:
-          #   https://github.com/diegovalenzuelaiturra/yapf-action
-        uses: diegovalenzuelaiturra/yapf-action@master
-        with:
-          args: . --verbose --recursive
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: "Formatter Action"
+      # This step uses diegovalenzuelaiturra's yapf-action:
+      #   https://github.com/diegovalenzuelaiturra/yapf-action
+      uses: diegovalenzuelaiturra/yapf-action@master
+      with:
+        args: . --verbose --recursive
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit files
-        run: |
-          echo ${{ github.ref }}
-          git add .
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "Automated Formatter Push" -a | exit 0
+    - name: Commit files
+      run: |
+        echo ${{ github.ref }}
+        git add .
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Automated Formatter Push" -a | exit 0
         
-      - name: Push changes
-        if: github.ref == 'refs/heads/master'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push changes
+      if: github.ref == 'refs/heads/master'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
   
