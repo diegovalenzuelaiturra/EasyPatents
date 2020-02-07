@@ -1,11 +1,21 @@
 name: YAPF Code Formatter :)
 
-# This workflow is triggered on pushes to the repository.
+# This workflow is triggered on pushes or pull requests
+# to the master branch.
 on:
-  push:
+  
+  push: 
     paths:
-    - '**.py'
-
+      - '**.py'
+    branches:
+      - master
+    
+  pull_request:
+    paths:
+      - '**.py'  
+    branches:
+      - master
+      
 jobs:
   build:
     
