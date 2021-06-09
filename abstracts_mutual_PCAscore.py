@@ -46,7 +46,7 @@ def preprocessing_abstracts_PCA(abstracts):
 
 def simpleScore(abstract_i, abstract_j, gamma):
 
-    freq = list()
+    freq = []
     freq_acum = 0
     score = 1
 

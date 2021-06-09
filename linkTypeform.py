@@ -35,7 +35,7 @@ def getFormComplete(
 def getResponseList(content, name_id, mail_id, text_id):
     obj = json.loads(content)
     showing = obj['stats']['responses']['showing']
-    aux = list()
+    aux = []
     for i in range(showing):
         aux2 = ['', '', '']
         aux2[0] = obj['responses'][i]['answers'][name_id]
@@ -48,7 +48,7 @@ def getResponseList(content, name_id, mail_id, text_id):
 def getResponses(content, id):
     obj = json.loads(content)
     showing = obj['stats']['responses']['showing']
-    aux = list()
+    aux = []
     for i in range(showing):
         aux2 = obj['responses'][i]['answers'][id]
         aux.append(aux2)

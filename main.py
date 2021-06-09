@@ -46,7 +46,7 @@ Que tengas un buen dia!"""
     d = datetime.utcnow()
     timestamp1 = str(calendar.timegm(d.utctimetuple()))
     count = 0
-    while (True):
+    while True:
         d = datetime.utcnow()
         timestamp2 = str(calendar.timegm(d.utctimetuple()))
         if timestamp1 == '':
@@ -63,6 +63,8 @@ Que tengas un buen dia!"""
                                   getResponses(content=content, id=text_id)
 
         where = 'ab'
+        gamma = 0.01
+        fformat = 'resp.csv'
         for k in range(len(respuesta)):
             path = data + str(count)
             words = getWordsText(respuesta[k])
@@ -71,54 +73,50 @@ Que tengas un buen dia!"""
             cql = preProcessing(where, sent, pn)
             print(cql)
 
-            gamma = 0.01
             searchResponse(path, cql, words, gamma)
             epm = EPmail()
             fname = './' + path + '-sort.csv'
-            fformat = 'resp.csv'
             mmessage = itext + respuesta[k] + ' ] ' + ftext
             #            aux = epm.send_complex_message(mail[k],mfrom,msubject,mmessage,fformat,fname)
             #            print(mail[k])
             #            print(aux)
             count += 1
-            # epm = EPmail()
-            # mmessage = itext + respuesta[k]+' ] '+ferror+ftext
-            # aux = epm.send_simple_message(mail[k],mfrom, msubject,mmessage)
-            # print(mail[k])
-            # print(aux)
+                    # epm = EPmail()
+                    # mmessage = itext + respuesta[k]+' ] '+ferror+ftext
+                    # aux = epm.send_simple_message(mail[k],mfrom, msubject,mmessage)
+                    # print(mail[k])
+                    # print(aux)
         time.sleep(60)
 
 
 def Abstract(client, number, country, kind):
     response = abstract_helper(client, number, country, kind)
-    abstract = busquedaLang(response, idioma='en', type='xml')
     # if abstract == None:
     #      aux = busquedaLang(response, idioma='ol', type='xml')
     #      #abstract = translateTextAuto(lengout='en',text=str(aux))
     #      abstract = translateText(aux)
-    return abstract
+    return busquedaLang(response, idioma='en', type='xml')
 
 
 def abstract_helper(client, number, country, kind):
-    response = client.published_data(
+    return client.published_data(
         reference_type='publication',
         input=epo_ops.models.Docdb(str(number), country, kind),
         endpoint='abstract',
     )
-    return response
 
 
 def HTTPstatus(status):
     s = ""
     if status == 200:
         s = "Everything worked as expected"
-    if status == 400:
+    elif status == 400:
         s = "Invalid date in query/"
-    if status == 403:
+    elif status == 403:
         s = "Expired Token/Invalid Token/Token does not have access permissions/Invalid Token"
-    if status == 404:
+    elif status == 404:
         s = "Type in URL/Invalid typeform ID"
-    if status == 429:
+    elif status == 429:
         s = "Request limit reached"
     return print("http_status = " + s)
 
@@ -152,18 +150,13 @@ def searchResponse(data, cql, words, gamma):
                                 country=country[i],
                                 kind=kind[i])
             aux = country[i] + number[i] + kind[i]
-            if abstract == None or len(abstract) <= 1:
-                pass
-            else:
+            if abstract != None and len(abstract) > 1:
                 #print(abstract)
                 #print(type(abstract))
                 abstracts.append(abstract)
                 auxes.append(aux)
                 #writeCSV(data,PCAScore(words,abstract,gamma),aux,abstract)
-        abstracts2 = []
-        for e in abstracts:
-            if len(e) > 2:
-                abstracts2.append(e)
+        abstracts2 = [e for e in abstracts if len(e) > 2]
         #print(type(abstracts))
         #print(type(abstracts2))
         #print(abstracts2)

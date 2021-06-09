@@ -36,57 +36,51 @@ def main():
                       country=country[i],
                       kind=kind[i])
         aux = country[i] + number[i] + kind[i]
-        if title == None:
-            pass
-        else:
+        if title != None:
             writeCSV(data, getConcordancev2(words, title), aux, title)
 
 
 def Abstract(client, number, country, kind):
     response = abstract_helper(client, number, country, kind)
-    abstract = busquedaLang(response, idioma='en', type='xml')
     # if abstract == None:
     #      aux = busquedaLang(response, idioma='ol', type='xml')
     #      #abstract = translateTextAuto(lengout='en',text=str(aux))
     #      abstract = translateText(aux)
-    return abstract
+    return busquedaLang(response, idioma='en', type='xml')
 
 
 def abstract_helper(client, number, country, kind):
-    response = client.published_data(
+    return client.published_data(
         reference_type='publication',
         input=epo_ops.models.Docdb(str(number), country, kind),
         endpoint='abstract',
     )
-    return response
 
 
 def title_helper(client, number, country, kind):
-    response = client.published_data(
+    return client.published_data(
         reference_type='publication',
         input=epo_ops.models.Docdb(str(number), country, kind),
         endpoint='title',
     )
-    return response
 
 
 def Title(client, number, country, kind):
     response = title_helper(client, number, country, kind)
-    title = busquedaLang(response, idioma='en', type='xml')
-    return title
+    return busquedaLang(response, idioma='en', type='xml')
 
 
 def HTTPstatus(status):
     s = ""
     if status == 200:
         s = "Everything worked as expected"
-    if status == 400:
+    elif status == 400:
         s = "Invalid date in query/"
-    if status == 403:
+    elif status == 403:
         s = "Expired Token/Invalid Token/Token does not have access permissions/Invalid Token"
-    if status == 404:
+    elif status == 404:
         s = "Type in URL/Invalid typeform ID"
-    if status == 429:
+    elif status == 429:
         s = "Request limit reached"
     return print("http_status = " + s)
 
@@ -112,9 +106,7 @@ def searchResponse(data, cql, words):
                                 country=country[i],
                                 kind=kind[i])
             aux = country[i] + number[i] + kind[i]
-            if abstract == None:
-                pass
-            else:
+            if abstract != None:
                 writeCSV(data, getConcordancev2(words, abstract), aux,
                          abstract)
 
