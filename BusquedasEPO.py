@@ -12,21 +12,18 @@ def initEPO(consumer_key=consumer_key,
 
 
 def busquedaEPO(response, elemento='abstract', type='html'):
-    fin = list()
+    fin = []
     if type == 'html':
         soup = getSoup(response, 'html.parser')
         aux = soup.find_all(elemento)
         for i in aux:
             fin.append(i.string)
-        return fin
     elif type == 'xml':
         soup = getSoup(response, 'xml')
         aux = soup.find_all(elemento)
         for i in aux:
             fin.append(i.p.string)
-        return fin
-    else:
-        return fin
+    return fin
 
 
 def busquedaLang(response, idioma='en', type='xml'):
@@ -40,10 +37,7 @@ def busquedaLang(response, idioma='en', type='xml'):
 
 
 def publicNumber(country, number):
-    aux = list()
-    for i in range(len(country)):
-        aux.append(str(country[i]) + str(number[i]))
-    return aux
+    return [str(country[i]) + str(number[i]) for i in range(len(country))]
 
 
 def getSoup(response, type='html.parser'):

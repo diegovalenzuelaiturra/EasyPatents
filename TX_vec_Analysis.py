@@ -16,14 +16,12 @@ def main():
     TX_vec = [df.values[i][1:] for i in range(df.shape[0])]
 
     f = open('TX_vec.tsv', 'w')
-    for i in range(len(TX_vec)):
+    for item in TX_vec:
         for j in range(len(TX_vec[1])):
-            f.write(str(TX_vec[i][j]) + '\t')
+            f.write(str(item[j]) + '\t')
         f.write('\n')
-
 #   SVD
 #   https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.svd.html
-
 #   full_matrices: bool, optional
 #   If True (default), u and v have the shapes (M, M) and (N, N), respectively.
 #   Otherwise, the shapes are (M, K) and (K, N), respectively, where K = min(M, N).

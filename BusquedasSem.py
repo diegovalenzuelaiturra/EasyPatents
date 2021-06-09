@@ -45,10 +45,10 @@ def translateTextAuto(lengout, text):
 
 
 def translateWord(lengin, lengout, text):
-    aux = []
-    for i in text:
-        aux.append(Translator(from_lang=lengin, to_lang=lengout).translate(i))
-    return aux
+    return [
+        Translator(from_lang=lengin, to_lang=lengout).translate(i)
+        for i in text
+    ]
 
 
 def deletePunt(text):
@@ -69,10 +69,7 @@ def stemmingPorter(text):
     aux1 = text
     for i in range(len(text)):
         aux2 = ps.stem(aux1[i])
-        if aux2 != aux1[i]:
-            aux1[i] = aux2 + '*'
-        else:
-            aux1[i] = aux2
+        aux1[i] = aux2 + '*' if aux2 != aux1[i] else aux2
     return aux1
 
 
@@ -81,10 +78,7 @@ def stemmingSnowball(leng, text):
     aux1 = text
     for i in range(len(text)):
         aux2 = ps.stem(aux1[i])
-        if aux2 != aux1[i]:
-            aux1[i] = aux2 + '*'
-        else:
-            aux1[i] = aux2
+        aux1[i] = aux2 + '*' if aux2 != aux1[i] else aux2
     return aux1
 
 
@@ -93,17 +87,14 @@ def stemmingLemmatizer(text):
     aux1 = text
     for i in range(len(text)):
         aux2 = ps.lemmatize(aux1[i])
-        if aux2 != aux1[i]:
-            #    aux1[i] = aux2 + '*'
-            aux1[i] = aux2
-        else:
-            aux1[i] = aux2
+        #    aux1[i] = aux2 + '*'
+        aux1[i] = aux2
     return aux1
 
 
 def collocationFinder(nmin, nmax, words):
     rango = range(nmin, nmax)
-    lista = list()
+    lista = []
     for i in rango:
         n_vent = i
         finder1 = BigramCollocationFinder.from_words(words, window_size=n_vent)
@@ -118,22 +109,13 @@ def collocationFinder(nmin, nmax, words):
 
 
 def deleteWord(type, words):
-    aux = list()
     sent = pos_tag(words)
-    for i in sent:
-        if i[1] == type:
-            pass
-        else:
-            aux.append(i[0])
-    return aux
+    return [i[0] for i in sent if i[1] != type]
 
 
 def getType(type, word):
     sent = pos_tag(word)
-    if sent[1] == type:
-        return True
-    else:
-        return False
+    return sent[1] == type
 
 
 def minimizar(text):
@@ -208,10 +190,7 @@ def preProcessing(where, senEn, pn):
     for i in range(len(senEn)):
         if i == 0:
             aux = allEPO(where, senEn[i])
-            if pn == None:
-                cql1 = aux
-            else:
-                cql1 = andEPO(cql1, aux)
+            cql1 = aux if pn is None else andEPO(cql1, aux)
         elif i == 1:
             cql2 = anyEPO(where, senEn[i])
         else:
@@ -225,10 +204,9 @@ def preProcessing(where, senEn, pn):
 
 def getConcordance(words, abstract):
     text = nltk.tokenize.word_tokenize(str(abstract))
-    freq = 0
-    for i in range(len(words)):
-        freq += (text.count(words[i]) * 100.0) / len(text)
-    return freq
+    return sum(
+        (text.count(words[i]) * 100.0) / len(text) for i in range(len(words))
+    )
 
 
 def getConcordancev2(words, abstract):
@@ -278,14 +256,14 @@ def Score(words, abstract, gamma):
 
     ##################################
 
-    freq = list()
+    freq = []
     freq_acum = 0
     score = 1
-    for i in range(len(words)):
-        freq_i = text.count(words[i])
+    for word in words:
+        freq_i = text.count(word)
         freq.append(freq_i)
         freq_acum += freq_i
-        #print(freq_acum)
+            #print(freq_acum)
     for n in freq:
         if freq_acum == 0:
             score = -math.inf
@@ -335,8 +313,7 @@ def PCAScore(words, abstract, gamma):
                   i)
     v_abs = (1 / len(words)) * v_abs
 
-    similarity = 1 - scipy.spatial.distance.cosine(v_usr, v_abs)
-    return similarity
+    return 1 - scipy.spatial.distance.cosine(v_usr, v_abs)
     ##################################
 
 
@@ -347,26 +324,15 @@ def doPCA(X):
 
 
 def thoughtobeat2(abstracts):
+    alpha = 0.001
+
+    v_usr, vectores = Crearvectores2(abstracts[0], abstracts, alpha)
     #Basado en artículo: though to beat baseline for sentence embeddings
     #Input: Abstracts debe ser un array donde cada elemento es un abstract. Cada abstract debe ser un array de palabras del abstract
     #Output: matriz que contiene vectores de abstracts sin la componente principal
 
-    X_vec = []
-    alpha = 0.001
-
-    v_usr, vectores = Crearvectores2(abstracts[0], abstracts, alpha)
-    for v_abs in vectores:
-        X_vec.append(v_abs)
-    TX_vec = Restarcomponente(X_vec)
-    return TX_vec
-
-    if False:"""
-    for abstract in abstracts:
-        v_abs = Crearvectores(abstract, alpha)
-        X_vec.append(v_abs)
-
-    TX_vec = Restarcomponente(X_vec)
-    return TX_vec"""
+    X_vec = [v_abs for v_abs in vectores]
+    return Restarcomponente(X_vec)
 
 
 def thoughtobeat(words, abstracts):
@@ -382,64 +348,7 @@ def thoughtobeat(words, abstracts):
     X_vec.append(v_usr)
     for v_abs in vectores:
         X_vec.append(v_abs)
-    TX_vec = Restarcomponente(X_vec)
-    return TX_vec
-
-
-    if False: '''
-    v_usr = Crearvectores(words, alpha)
-    X_vec.append(v_usr)
-
-    for abstract in abstracts:
-        v_abs = Crearvectores(abstract, alpha)
-        X_vec.append(v_abs)
-
-    TX_vec = Restarcomponente(X_vec)
-    return TX_vec'''
-
-    if False: """
-    
-    v_usr = np.zeros(len(model[words[1]]))
-    for i in words:
-        try:
-            p = words.count(i) / len(words)
-            k1 = (1 / words.count(i)) * alpha / (alpha + p)
-            v_usr += k1 * model[i]
-        except:
-            pass
-#            print(" En texto de usuario no es una palabra del vocabulario ->", i)
-
-    v_usr = (1 / len(words)) * v_usr
-    X_vec.append(v_usr)
-    print(X_vec)
-    for abstract in abstracts:
-#        text = minimizar(abstract)
-#        text = deletePunt(text=text)
-#        text = deleteStop(text=text, leng='english')
-        # text = nltk.tokenize.word_tokenize(text)
-#        text = deleteWord('CD', text)
-#        text = stemmingLemmatizer(text)
-
-        text = abstract
-        v_abs = np.zeros(len(model[words[1]]))
-        for i in text:
-            try:
-                p = text.count(i) / len(text)
-                k2 = (1 / text.count(i)) * alpha / (alpha + p)
-                v_abs += k2 * model[i]
-            except:
-                pass
-#                print(" En texto de abstract no es una palabra del vocabulario ->", i)
-
-        v_abs = (1 / len(words)) * v_abs
-        X_vec.append(v_abs)
-
-    pca = doPCA(X_vec)
-    TX_vec = []
-    for vec in X_vec:
-        TX_vec.append(vec-pca.components_[0]*np.dot(vec, pca.components_[0]))
-    return TX_vec
-    """
+    return Restarcomponente(X_vec)
 
 
 def Crearvectores(palabras, alpha):
@@ -465,10 +374,7 @@ def Crearvectores2(words, oraciones, alpha):
     ## oraciones es array de abstracts, cada abstract es array de palabras
     ## alfa es parametro de though to beat
     ##Output: v_usr = vector de words y vectores = array de vectores de abstracts
-    L = 0
-    for oracion in oraciones:
-        L += len(oracion)
-
+    L = sum(len(oracion) for oracion in oraciones)
     v_usr = np.zeros(len(model['man']))
     for i in words:
         try:
@@ -503,10 +409,9 @@ def Restarcomponente(X):
     #Input: Array cuyos elementos son arrays.
     #Output: Matriz a la que se le ha aplicado transformación
     pca = doPCA(X)
-    TX = []
-    for vec in X:
-        TX.append(vec - pca.components_[0] * np.dot(vec, pca.components_[0]))
-    return TX
+    return [
+        vec - pca.components_[0] * np.dot(vec, pca.components_[0]) for vec in X
+    ]
 
 
 def PCAscore2(TX_vec):
@@ -533,8 +438,6 @@ def Coocurrence(abstracts):
                 repetidos.append(j)
                 X.append(
                     [abstracts[x].count(j) for x in range(len(abstracts))])
-            else:
-                pass
     return X, repetidos
 
 
@@ -553,8 +456,7 @@ def LSIscore(words, abstracts):
 
     vec_usr = lsi[tfidf[dictionary.doc2bow(words)]]
     index = gensim.similarities.MatrixSimilarity(corpus_lsi)
-    scores = index[vec_usr]
-    return scores
+    return index[vec_usr]
 
 
 def createCSV(text):
