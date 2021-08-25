@@ -72,7 +72,7 @@ sessioninstaller==0.0.0
 simplegeneric==0.8.1
 six==1.10.0
 system-service==0.3
-tensorflow-gpu==1.1.0
+tensorflow-gpu==2.5.1
 terminado==0.6
 testpath==0.3.1
 tornado==4.2.1
